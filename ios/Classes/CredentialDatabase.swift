@@ -22,7 +22,7 @@ class CredentialDatabase: NSObject, FlutterPlugin {
         CredentialDatabase.registrar = registrar
         CredentialDatabase.credentialStore = URLCredentialStorage.shared
         
-        CredentialDatabase.channel = FlutterMethodChannel(name: "com.pichillilorenzo/flutter_inappwebview_credential_database", binaryMessenger: registrar.messenger())
+        CredentialDatabase.channel = FlutterMethodChannel(name: "com.pichillilorenzo/flutter_inappwebview_v2_credential_database", binaryMessenger: registrar.messenger())
         registrar.addMethodCallDelegate(self, channel: CredentialDatabase.channel!)
     }
 

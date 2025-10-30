@@ -42,7 +42,7 @@ public class SwiftFlutterPlugin: NSObject, FlutterPlugin {
         super.init()
         
         self.registrar = registrar
-        registrar.register(FlutterWebViewFactory(registrar: registrar) as FlutterPlatformViewFactory, withId: "com.pichillilorenzo/flutter_inappwebview")
+        registrar.register(FlutterWebViewFactory(registrar: registrar) as FlutterPlatformViewFactory, withId: "com.pichillilorenzo/flutter_inappwebview_v2")
         
         platformUtil = PlatformUtil(registrar: registrar)
         inAppBrowserManager = InAppBrowserManager(registrar: registrar)

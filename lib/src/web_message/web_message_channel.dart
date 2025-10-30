@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 import '../types.dart';
-import '../in_app_webview/in_app_webview_controller.dart';
+import '../in_app_webview_v2/in_app_webview_controller.dart';
 
 ///The representation of the [HTML5 message channels](https://html.spec.whatwg.org/multipage/web-messaging.html#message-channels).
 class WebMessageChannel {
@@ -18,7 +18,7 @@ class WebMessageChannel {
   WebMessageChannel(
       {required this.id, required this.port1, required this.port2}) {
     this._channel = MethodChannel(
-        'com.pichillilorenzo/flutter_inappwebview_web_message_channel_$id');
+        'com.pichillilorenzo/flutter_inappwebview_v2_web_message_channel_$id');
     this._channel.setMethodCallHandler(handleMethod);
   }
 

@@ -7,7 +7,7 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_inappwebview_v2/flutter_inappwebview.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:path_provider/path_provider.dart';
@@ -91,13 +91,13 @@ void main() {
     AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
   }
 
-  group('InAppWebView', () {
+  group('InAppWebViewV2', () {
     testWidgets('initialUrlRequest', (WidgetTester tester) async {
       final Completer controllerCompleter = Completer<InAppWebViewController>();
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://github.com/flutter')),
@@ -120,7 +120,7 @@ void main() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://github.com/flutter')),
@@ -161,7 +161,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest: URLRequest(url: Uri.parse('about:blank')),
               onWebViewCreated: (controller) {
@@ -197,7 +197,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest: URLRequest(url: Uri.parse('about:blank')),
               onWebViewCreated: (controller) {
@@ -233,7 +233,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest: URLRequest(url: Uri.parse('about:blank')),
               onWebViewCreated: (controller) {
@@ -287,7 +287,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest: URLRequest(url: Uri.parse('about:blank')),
               onWebViewCreated: (controller) {
@@ -329,7 +329,7 @@ void main() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://github.com/flutter')),
@@ -364,7 +364,7 @@ void main() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://github.com/flutter')),
@@ -450,7 +450,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest:
                   URLRequest(url: Uri.parse('file://${fileHtml.path}')),
@@ -469,7 +469,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest:
                   URLRequest(url: Uri.parse('file://${fileHtml.path}')),
@@ -497,7 +497,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               onWebViewCreated: (controller) {
                 controller.loadUrl(
@@ -519,7 +519,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               onWebViewCreated: (controller) {
                 controller.loadUrl(
@@ -551,7 +551,7 @@ void main() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialFile:
                 "test_assets/in_app_webview_javascript_handler_test.html",
@@ -631,7 +631,7 @@ void main() {
       final Completer controllerCompleter = Completer<InAppWebViewController>();
       final GlobalKey key = GlobalKey();
 
-      final InAppWebView webView = InAppWebView(
+      final InAppWebViewV2 webView = InAppWebViewV2(
         key: key,
         initialUrlRequest: URLRequest(
             url: Uri.parse(
@@ -700,7 +700,7 @@ void main() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             initialUrlRequest: URLRequest(url: Uri.parse('about:blank')),
             initialOptions: InAppWebViewGroupOptions(
                 crossPlatform: InAppWebViewOptions(
@@ -777,7 +777,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest: URLRequest(
                   url: Uri.parse(
@@ -809,7 +809,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest: URLRequest(
                   url: Uri.parse(
@@ -845,7 +845,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest: URLRequest(
                   url: Uri.parse(
@@ -884,7 +884,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest: URLRequest(
                   url: Uri.parse(
@@ -922,7 +922,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest: URLRequest(
                   url: Uri.parse(
@@ -997,7 +997,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest: URLRequest(
                   url: Uri.parse(
@@ -1034,7 +1034,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest: URLRequest(
                   url: Uri.parse(
@@ -1084,7 +1084,7 @@ void main() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             initialUrlRequest: URLRequest(
                 url: Uri.parse(
                     'data:text/html;charset=utf-8;base64,$getTitleTestBase64')),
@@ -1143,7 +1143,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               initialUrlRequest: URLRequest(
                   url: Uri.parse(
                       'data:text/html;charset=utf-8;base64,$scrollTestPageBase64')),
@@ -1218,7 +1218,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               initialUrlRequest: URLRequest(
                   url: Uri.parse(
                       'data:text/html;charset=utf-8;base64,$scrollTestPageBase64')),
@@ -1277,7 +1277,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest: URLRequest(url: Uri.parse(pageEncoded)),
               onWebViewCreated: (controller) {
@@ -1323,7 +1323,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest: URLRequest(url: Uri.parse(pageEncoded)),
               onWebViewCreated: (controller) {
@@ -1384,7 +1384,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest: URLRequest(url: Uri.parse(pageEncoded)),
               onWebViewCreated: (controller) {
@@ -1436,7 +1436,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest: URLRequest(url: Uri.parse(pageEncoded)),
               onWebViewCreated: (controller) {
@@ -1481,7 +1481,7 @@ void main() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://www.notawebsite..com')),
@@ -1513,7 +1513,7 @@ void main() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest: URLRequest(
                 url: Uri.parse(
@@ -1541,7 +1541,7 @@ void main() {
           child: SizedBox(
             width: 400,
             height: 300,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest:
                   URLRequest(url: Uri.parse('https://github.com/flutter')),
@@ -1569,7 +1569,7 @@ void main() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             onWebViewCreated: (controller) {
               controllerCompleter.complete(controller);
@@ -1609,7 +1609,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest:
                   URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -1687,7 +1687,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest: URLRequest(
                   url: Uri.parse(
@@ -1736,7 +1736,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialData: InAppWebViewInitialData(data: """
 <!doctype html>
@@ -1823,7 +1823,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialData: InAppWebViewInitialData(data: """
 <!doctype html>
@@ -1916,7 +1916,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialData: InAppWebViewInitialData(data: """
 <!doctype html>
@@ -2005,7 +2005,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialData: InAppWebViewInitialData(data: """
 <!doctype html>
@@ -2100,7 +2100,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialData: InAppWebViewInitialData(data: """
 <!doctype html>
@@ -2180,7 +2180,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialData: InAppWebViewInitialData(data: """
 <!doctype html>
@@ -2266,7 +2266,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialData: InAppWebViewInitialData(data: """
 <!doctype html>
@@ -2348,7 +2348,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialData: InAppWebViewInitialData(data: """
 <!doctype html>
@@ -2431,7 +2431,7 @@ void main() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://flutter.dev/')),
@@ -2479,7 +2479,7 @@ void main() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest: URLRequest(
                 url:
@@ -2535,7 +2535,7 @@ void main() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest: URLRequest(
                 url:
@@ -2576,7 +2576,7 @@ void main() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialFile:
                 "test_assets/in_app_webview_on_console_message_test.html",
@@ -2604,7 +2604,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialFile:
                   "test_assets/in_app_webview_on_create_window_test.html",
@@ -2639,7 +2639,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialFile:
                   "test_assets/in_app_webview_on_create_window_test.html",
@@ -2672,7 +2672,7 @@ void main() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               windowId: windowId,
               initialOptions: InAppWebViewGroupOptions(
@@ -2709,7 +2709,7 @@ void main() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialFile: "test_assets/in_app_webview_initial_file_test.html",
             initialOptions: InAppWebViewGroupOptions(
@@ -2742,7 +2742,7 @@ void main() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialData: InAppWebViewInitialData(data: """
 <!doctype html>
@@ -2792,7 +2792,7 @@ void main() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialFile: "test_assets/in_app_webview_on_js_dialog_test.html",
             initialOptions: InAppWebViewGroupOptions(
@@ -2854,7 +2854,7 @@ void main() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://google.com/404')),
@@ -2880,7 +2880,7 @@ void main() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialFile:
                 "test_assets/in_app_webview_on_load_resource_custom_scheme_test.html",
@@ -2932,7 +2932,7 @@ void main() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
               key: GlobalKey(),
               initialFile:
                   "test_assets/in_app_webview_on_load_resource_test.html",
@@ -2966,7 +2966,7 @@ void main() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse("https://flutter.dev/")),
@@ -3019,7 +3019,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://github.com/flutter')),
@@ -3043,7 +3043,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest: URLRequest(
                 url: Uri.parse('chrome://safe-browsing/match?type=malware')),
@@ -3082,7 +3082,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://github.com/flutter')),
@@ -3117,7 +3117,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest: URLRequest(
                 url: Uri.parse(
@@ -3156,7 +3156,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://github.com/flutter')),
@@ -3178,7 +3178,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://github.com/flutter')),
@@ -3200,7 +3200,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://github.com/flutter')),
@@ -3225,7 +3225,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://github.com/flutter')),
@@ -3251,7 +3251,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://github.com/flutter')),
@@ -3288,7 +3288,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://github.com/flutter')),
@@ -3326,7 +3326,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://permission.site/')),
@@ -3370,7 +3370,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialData: InAppWebViewInitialData(data: """
 <!doctype html>
@@ -3421,7 +3421,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://github.com/flutter')),
@@ -3451,7 +3451,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialData: InAppWebViewInitialData(data: """
 <!doctype html>
@@ -3491,7 +3491,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://github.com/flutter')),
@@ -3538,7 +3538,7 @@ setTimeout(function() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest:
                   URLRequest(url: Uri.parse('https://github.com/flutter')),
@@ -3574,7 +3574,7 @@ setTimeout(function() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest:
                   URLRequest(url: Uri.parse('https://github.com/flutter')),
@@ -3608,7 +3608,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -3669,7 +3669,7 @@ setTimeout(function() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest: URLRequest(
                   url: Uri.parse(
@@ -3710,7 +3710,7 @@ setTimeout(function() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest: URLRequest(url: Uri.parse('about:blank')),
               onWebViewCreated: (controller) {
@@ -3758,7 +3758,7 @@ setTimeout(function() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest: URLRequest(url: Uri.parse('about:blank')),
               onWebViewCreated: (controller) {
@@ -3802,7 +3802,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest: URLRequest(url: Uri.parse('about:blank')),
             onWebViewCreated: (controller) {
@@ -3855,7 +3855,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest: URLRequest(url: Uri.parse('about:blank')),
             onWebViewCreated: (controller) {
@@ -3893,7 +3893,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://github.com/flutter')),
@@ -3927,7 +3927,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://flutter.dev/')),
@@ -4017,7 +4017,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -4046,7 +4046,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -4075,7 +4075,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -4106,7 +4106,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -4141,7 +4141,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -4181,7 +4181,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest: URLRequest(url: Uri.parse('about:blank')),
             onWebViewCreated: (controller) {
@@ -4241,7 +4241,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest: URLRequest(url: Uri.parse('about:blank')),
             onWebViewCreated: (controller) {
@@ -4272,7 +4272,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest: URLRequest(url: Uri.parse('about:blank')),
             onWebViewCreated: (controller) {
@@ -4310,7 +4310,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest: URLRequest(url: Uri.parse('about:blank')),
             onWebViewCreated: (controller) {
@@ -4345,7 +4345,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest: URLRequest(url: Uri.parse('about:blank')),
             onWebViewCreated: (controller) {
@@ -4380,7 +4380,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -4414,7 +4414,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -4441,7 +4441,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest: URLRequest(url: Uri.parse('about:blank')),
             onWebViewCreated: (controller) {
@@ -4472,7 +4472,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest: URLRequest(url: Uri.parse('about:blank')),
             onWebViewCreated: (controller) {
@@ -4513,7 +4513,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -4541,7 +4541,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -4571,7 +4571,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -4600,7 +4600,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -4630,7 +4630,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -4658,7 +4658,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -4686,7 +4686,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -4714,7 +4714,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -4743,7 +4743,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest: URLRequest(url: Uri.parse('https://github.com')),
             onWebViewCreated: (controller) {
@@ -4770,7 +4770,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -4805,7 +4805,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -4863,7 +4863,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://github.com/flutter')),
@@ -4911,7 +4911,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -4960,7 +4960,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://github.com/flutter')),
@@ -4988,7 +4988,7 @@ setTimeout(function() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialData: InAppWebViewInitialData(data: """
 <!DOCTYPE html>
@@ -5057,7 +5057,7 @@ setTimeout(function() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               onWebViewCreated: (controller) async {
                 await controller.addWebMessageListener(WebMessageListener(
@@ -5111,7 +5111,7 @@ setTimeout(function() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest:
                   URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -5139,7 +5139,7 @@ setTimeout(function() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest:
                   URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -5169,7 +5169,7 @@ setTimeout(function() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest:
                   URLRequest(url: Uri.parse('https://github.com/flutter')),
@@ -5198,7 +5198,7 @@ setTimeout(function() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest:
                   URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -5228,7 +5228,7 @@ setTimeout(function() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest:
                   URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -5259,7 +5259,7 @@ setTimeout(function() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest:
                   URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -5333,7 +5333,7 @@ setTimeout(function() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest:
                   URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -5361,7 +5361,7 @@ setTimeout(function() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest:
                   URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -5394,7 +5394,7 @@ setTimeout(function() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialUrlRequest:
                   URLRequest(url: Uri.parse('https://flutter.dev')),
@@ -5422,7 +5422,7 @@ setTimeout(function() {
         await tester.pumpWidget(
           Directionality(
             textDirection: TextDirection.ltr,
-            child: InAppWebView(
+            child: InAppWebViewV2(
               key: GlobalKey(),
               initialData: InAppWebViewInitialData(data: """
 <!DOCTYPE html>
@@ -5496,7 +5496,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest: URLRequest(
                 url: Uri.parse(
@@ -5526,7 +5526,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest: URLRequest(
                 url: Uri.parse(
@@ -5552,7 +5552,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest:
                 URLRequest(url: Uri.parse('https://flutter.dev/')),
@@ -5596,7 +5596,7 @@ setTimeout(function() {
       final Completer controllerCompleter = Completer<InAppWebViewController>();
       final Completer<void> pageLoaded = Completer<void>();
 
-      var headlessWebView = new HeadlessInAppWebView(
+      var headlessWebView = new HeadlessInAppWebViewV2(
         initialUrlRequest:
             URLRequest(url: Uri.parse("https://github.com/flutter")),
         onWebViewCreated: (controller) {
@@ -5626,7 +5626,7 @@ setTimeout(function() {
       final Completer controllerCompleter = Completer<InAppWebViewController>();
       final Completer<void> pageLoaded = Completer<void>();
 
-      var headlessWebView = new HeadlessInAppWebView(
+      var headlessWebView = new HeadlessInAppWebViewV2(
           initialUrlRequest:
               URLRequest(url: Uri.parse("https://github.com/flutter")),
           onWebViewCreated: (controller) {
@@ -5660,7 +5660,7 @@ setTimeout(function() {
     test('set and get custom size', () async {
       final Completer controllerCompleter = Completer<InAppWebViewController>();
 
-      var headlessWebView = new HeadlessInAppWebView(
+      var headlessWebView = new HeadlessInAppWebViewV2(
         initialUrlRequest:
             URLRequest(url: Uri.parse("https://github.com/flutter")),
         initialSize: Size(600, 800),
@@ -5690,7 +5690,7 @@ setTimeout(function() {
       final Completer controllerCompleter = Completer<InAppWebViewController>();
       final Completer<void> pageLoaded = Completer<void>();
 
-      var headlessWebView = new HeadlessInAppWebView(
+      var headlessWebView = new HeadlessInAppWebViewV2(
         initialUrlRequest:
             URLRequest(url: Uri.parse("https://github.com/flutter")),
         initialOptions: InAppWebViewGroupOptions(
@@ -6004,7 +6004,7 @@ setTimeout(function() {
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
-          child: InAppWebView(
+          child: InAppWebViewV2(
             key: GlobalKey(),
             initialUrlRequest: URLRequest(
                 url: Uri.parse('http://localhost:8080/test_assets/index.html')),

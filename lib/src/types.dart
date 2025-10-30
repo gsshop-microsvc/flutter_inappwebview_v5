@@ -8,8 +8,8 @@ import 'package:flutter/foundation.dart';
 import 'x509_certificate/x509_certificate.dart';
 import 'x509_certificate/asn1_distinguished_names.dart';
 
-import 'in_app_webview/webview.dart';
-import 'in_app_webview/in_app_webview_controller.dart';
+import 'in_app_webview_v2/webview.dart';
+import 'in_app_webview_v2/in_app_webview_controller.dart';
 import 'http_auth_credentials_database.dart';
 import 'cookie_manager.dart';
 import 'web_storage/web_storage.dart';

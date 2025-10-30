@@ -1,4 +1,4 @@
-import '../../in_app_webview/android/in_app_webview_options.dart';
+import '../../in_app_webview_v2/android/in_app_webview_options.dart';
 
 import '../in_app_browser_options.dart';
 import '../in_app_browser.dart';

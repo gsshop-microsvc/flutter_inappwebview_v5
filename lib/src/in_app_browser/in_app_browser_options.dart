@@ -4,13 +4,13 @@ import 'package:flutter/foundation.dart';
 
 import '../util.dart';
 
-import '../in_app_webview/in_app_webview_options.dart';
+import '../in_app_webview_v2/in_app_webview_options.dart';
 
 import 'android/in_app_browser_options.dart';
-import '../in_app_webview/android/in_app_webview_options.dart';
+import '../in_app_webview_v2/android/in_app_webview_options.dart';
 
 import 'ios/in_app_browser_options.dart';
-import '../in_app_webview/ios/in_app_webview_options.dart';
+import '../in_app_webview_v2/ios/in_app_webview_options.dart';
 
 class BrowserOptions {
   Map<String, dynamic> toMap() {

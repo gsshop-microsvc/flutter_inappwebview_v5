@@ -1,4 +1,4 @@
-export 'in_app_webview/main.dart';
+export 'in_app_webview_v2/main.dart';
 export 'in_app_browser/main.dart';
 export 'chrome_safari_browser/main.dart';
 export 'android/main.dart';

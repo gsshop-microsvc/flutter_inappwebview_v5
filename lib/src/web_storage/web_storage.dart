@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import '../in_app_webview/in_app_webview_controller.dart';
+import '../in_app_webview_v2/in_app_webview_controller.dart';
 import '../types.dart';
 
 ///Class that provides access to the JavaScript [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API): `window.sessionStorage` and `window.localStorage`.

@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import '../../in_app_webview/ios/in_app_webview_options.dart';
+import '../../in_app_webview_v2/ios/in_app_webview_options.dart';
 
 import '../in_app_browser_options.dart';
 import '../in_app_browser.dart';

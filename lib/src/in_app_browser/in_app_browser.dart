@@ -9,8 +9,8 @@ import '../util.dart';
 import '../context_menu.dart';
 import '../types.dart';
 
-import '../in_app_webview/in_app_webview_controller.dart';
-import '../in_app_webview/in_app_webview_options.dart';
+import '../in_app_webview_v2/in_app_webview_controller.dart';
+import '../in_app_webview_v2/in_app_webview_options.dart';
 
 import 'in_app_browser_options.dart';
 

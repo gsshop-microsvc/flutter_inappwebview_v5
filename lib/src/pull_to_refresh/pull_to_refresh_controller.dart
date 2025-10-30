@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../in_app_webview/webview.dart';
+import '../in_app_webview_v2/webview.dart';
 import '../in_app_browser/in_app_browser.dart';
 import '../util.dart';
 import '../types.dart';
-import '../in_app_webview/android/in_app_webview_options.dart';
+import '../in_app_webview_v2/android/in_app_webview_options.dart';
 import 'pull_to_refresh_options.dart';
 
 ///A standard controller that can initiate the refreshing of a scroll view’s contents.
@@ -134,7 +134,7 @@ class PullToRefreshController {
 
   void initMethodChannel(dynamic id) {
     this._channel = MethodChannel(
-        'com.pichillilorenzo/flutter_inappwebview_pull_to_refresh_$id');
+        'com.pichillilorenzo/flutter_inappwebview_v2_pull_to_refresh_$id');
     this._channel?.setMethodCallHandler(handleMethod);
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import '../in_app_webview/in_app_webview_controller.dart';
+import '../in_app_webview_v2/in_app_webview_controller.dart';
 import '../types.dart';
 
 ///This listener receives messages sent on the JavaScript object which was injected by [InAppWebViewController.addWebMessageListener].
@@ -35,7 +35,7 @@ class WebMessageListener {
     assert(!this.allowedOriginRules.contains(""),
         "allowedOriginRules cannot contain empty strings");
     this._channel = MethodChannel(
-        'com.pichillilorenzo/flutter_inappwebview_web_message_listener_$jsObjectName');
+        'com.pichillilorenzo/flutter_inappwebview_v2_web_message_listener_$jsObjectName');
     this._channel.setMethodCallHandler(handleMethod);
   }
 

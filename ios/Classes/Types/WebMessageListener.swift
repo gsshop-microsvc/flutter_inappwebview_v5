@@ -19,7 +19,7 @@ public class WebMessageListener : FlutterMethodCallDelegate {
         self.jsObjectName = jsObjectName
         self.allowedOriginRules = allowedOriginRules
         super.init()
-        self.channel = FlutterMethodChannel(name: "com.pichillilorenzo/flutter_inappwebview_web_message_listener_" + self.jsObjectName,
+        self.channel = FlutterMethodChannel(name: "com.pichillilorenzo/flutter_inappwebview_v2_web_message_listener_" + self.jsObjectName,
                                        binaryMessenger: SwiftFlutterPlugin.instance!.registrar!.messenger())
         self.channel?.setMethodCallHandler(self.handle)
     }

@@ -3,9 +3,9 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
-import 'in_app_webview/in_app_webview_controller.dart';
-import 'in_app_webview/in_app_webview_options.dart';
-import 'in_app_webview/headless_in_app_webview.dart';
+import 'in_app_webview_v2/in_app_webview_controller.dart';
+import 'in_app_webview_v2/in_app_webview_options.dart';
+import 'in_app_webview_v2/headless_in_app_webview.dart';
 import 'platform_util.dart';
 
 import 'types.dart';
@@ -20,7 +20,7 @@ import 'types.dart';
 class CookieManager {
   static CookieManager? _instance;
   static const MethodChannel _channel = const MethodChannel(
-      'com.pichillilorenzo/flutter_inappwebview_cookiemanager');
+      'com.pichillilorenzo/flutter_inappwebview_v2_cookiemanager');
 
   CookieManager._();
 

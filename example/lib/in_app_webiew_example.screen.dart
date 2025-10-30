@@ -4,7 +4,7 @@ import 'dart:io';
 // import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_inappwebview_v2/flutter_inappwebview.dart';
 // import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -114,7 +114,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
           Expanded(
             child: Stack(
               children: [
-                InAppWebView(
+                InAppWebViewV2(
                   key: webViewKey,
                   // contextMenu: contextMenu,
                   initialUrlRequest:

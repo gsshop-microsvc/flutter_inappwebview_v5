@@ -1,4 +1,4 @@
-import 'in_app_webview/webview.dart';
+import 'in_app_webview_v2/webview.dart';
 import 'types.dart';
 
 ///Class that represents the WebView context menu. It used by [WebView.contextMenu].

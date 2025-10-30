@@ -6,7 +6,7 @@ import '../../types.dart';
 import '../chrome_safari_browser_options.dart';
 import '../chrome_safari_browser.dart';
 
-import '../../in_app_webview/ios/in_app_webview_options.dart';
+import '../../in_app_webview_v2/ios/in_app_webview_options.dart';
 
 ///This class represents all the iOS-only [ChromeSafariBrowser] options available.
 class IOSSafariOptions implements ChromeSafariBrowserOptions, IosOptions {

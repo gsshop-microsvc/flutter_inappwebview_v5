@@ -6,7 +6,7 @@ import '../../types.dart';
 import '../chrome_safari_browser_options.dart';
 import '../chrome_safari_browser.dart';
 
-import '../../in_app_webview/android/in_app_webview_options.dart';
+import '../../in_app_webview_v2/android/in_app_webview_options.dart';
 
 ///This class represents all the Android-only [ChromeSafariBrowser] options available.
 class AndroidChromeCustomTabsOptions
