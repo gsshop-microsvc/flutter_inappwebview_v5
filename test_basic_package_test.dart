@@ -17,7 +17,7 @@ void main() {
 
     test('CookieManager 클래스가 import되는지 확인', () {
       // CookieManager가 제대로 import 되었는지 확인
-      expect(() => CookieManager.instance(), returnsNormally);
+      expect(() => CookieManagerV2.instance(), returnsNormally);
     });
 
     test('기본 InAppWebViewSettings 생성 테스트', () {

@@ -45,7 +45,7 @@ final _JAVASCRIPT_HANDLER_FORBIDDEN_NAMES = UnmodifiableListView<String>([
 ///
 ///If you are using the [InAppWebView] widget, an [InAppWebViewController] instance can be obtained by setting the [InAppWebView.onWebViewCreated]
 ///callback. Instead, if you are using an [InAppBrowser] instance, you can get it through the [InAppBrowser.webViewController] attribute.
-class InAppWebViewController {
+class InAppWebViewControllerV2 {
   WebView? _webview;
   late MethodChannel _channel;
   static MethodChannel _staticChannel = IN_APP_WEBVIEW_STATIC_CHANNEL;
@@ -69,7 +69,7 @@ class InAppWebViewController {
   ///Provides access to the JavaScript [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API): `window.sessionStorage` and `window.localStorage`.
   late WebStorage webStorage;
 
-  InAppWebViewController(dynamic id, WebView webview) {
+  InAppWebViewControllerV2(dynamic id, WebView webview) {
     this._id = id;
     this._channel =
         MethodChannel('com.pichillilorenzo/flutter_inappwebview_v2_$id');
@@ -80,7 +80,7 @@ class InAppWebViewController {
     this._init();
   }
 
-  InAppWebViewController.fromInAppBrowser(
+  InAppWebViewControllerV2.fromInAppBrowser(
       MethodChannel channel,
       InAppBrowser inAppBrowser,
       UnmodifiableListView<UserScript>? initialUserScripts) {
