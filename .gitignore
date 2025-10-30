@@ -28,5 +28,6 @@
 .packages
 build/
 .fvm/
+.fvmrc
 
 flutter_driver_tests.log
