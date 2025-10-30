@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import com.pichillilorenzo.flutter_inappwebview_v2.InAppWebViewFlutterPlugin;
+import com.pichillilorenzo.flutter_inappwebview_v2.InAppWebViewFlutterPluginV2;
 import com.pichillilorenzo.flutter_inappwebview_v2.types.URLCredential;
 import com.pichillilorenzo.flutter_inappwebview_v2.types.URLProtectionSpace;
 
@@ -27,9 +27,9 @@ public class CredentialDatabaseHandler implements MethodChannel.MethodCallHandle
   public MethodChannel channel;
   public static CredentialDatabase credentialDatabase;
   @Nullable
-  public InAppWebViewFlutterPlugin plugin;
+  public InAppWebViewFlutterPluginV2 plugin;
 
-  public CredentialDatabaseHandler(final InAppWebViewFlutterPlugin plugin) {
+  public CredentialDatabaseHandler(final InAppWebViewFlutterPluginV2 plugin) {
     this.plugin = plugin;
     channel = new MethodChannel(plugin.messenger, "com.pichillilorenzo/flutter_inappwebview_v2_credential_database");
     channel.setMethodCallHandler(this);

@@ -20,9 +20,9 @@ public class MyWebStorage implements MethodChannel.MethodCallHandler {
   public MethodChannel channel;
   public static WebStorage webStorageManager;
   @Nullable
-  public InAppWebViewFlutterPlugin plugin;
+  public InAppWebViewFlutterPluginV2 plugin;
 
-  public MyWebStorage(final InAppWebViewFlutterPlugin plugin) {
+  public MyWebStorage(final InAppWebViewFlutterPluginV2 plugin) {
     this.plugin = plugin;
     channel = new MethodChannel(plugin.messenger, "com.pichillilorenzo/flutter_inappwebview_v2_webstoragemanager");
     channel.setMethodCallHandler(this);

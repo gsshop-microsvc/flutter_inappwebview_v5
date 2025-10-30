@@ -26,9 +26,9 @@ public class InAppWebViewStatic implements MethodChannel.MethodCallHandler {
   protected static final String LOG_TAG = "InAppWebViewStatic";
   public MethodChannel channel;
   @Nullable
-  public InAppWebViewFlutterPlugin plugin;
+  public InAppWebViewFlutterPluginV2 plugin;
 
-  public InAppWebViewStatic(final InAppWebViewFlutterPlugin plugin) {
+  public InAppWebViewStatic(final InAppWebViewFlutterPluginV2 plugin) {
     this.plugin = plugin;
     channel = new MethodChannel(plugin.messenger, "com.pichillilorenzo/flutter_inappwebview_v2_static");
     channel.setMethodCallHandler(this);

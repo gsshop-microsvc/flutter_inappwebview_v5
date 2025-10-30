@@ -21,7 +21,7 @@ import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.platform.PlatformViewRegistry;
 import io.flutter.view.FlutterView;
 
-public class InAppWebViewFlutterPlugin implements FlutterPlugin, ActivityAware {
+public class InAppWebViewFlutterPluginV2 implements FlutterPlugin, ActivityAware {
 
   protected static final String LOG_TAG = "InAppWebViewFlutterPL";
 
@@ -50,11 +50,11 @@ public class InAppWebViewFlutterPlugin implements FlutterPlugin, ActivityAware {
   @SuppressWarnings("deprecation")
   public FlutterView flutterView;
 
-  public InAppWebViewFlutterPlugin() {}
+  public InAppWebViewFlutterPluginV2() {}
 
   @SuppressWarnings("deprecation")
   public static void registerWith(PluginRegistry.Registrar registrar) {
-    final InAppWebViewFlutterPlugin instance = new InAppWebViewFlutterPlugin();
+    final InAppWebViewFlutterPluginV2 instance = new InAppWebViewFlutterPluginV2();
     instance.registrar = registrar;
     instance.onAttachedToEngine(
             registrar.context(), registrar.messenger(), registrar.activity(), registrar.platformViewRegistry(), registrar.view());

@@ -13,9 +13,9 @@ public class WebViewFeatureManager implements MethodChannel.MethodCallHandler {
 
   public MethodChannel channel;
   @Nullable
-  public InAppWebViewFlutterPlugin plugin;
+  public InAppWebViewFlutterPluginV2 plugin;
 
-  public WebViewFeatureManager(final InAppWebViewFlutterPlugin plugin) {
+  public WebViewFeatureManager(final InAppWebViewFlutterPluginV2 plugin) {
     this.plugin = plugin;
     channel = new MethodChannel(plugin.messenger, "com.pichillilorenzo/flutter_inappwebview_v2_android_webviewfeature");
     channel.setMethodCallHandler(this);

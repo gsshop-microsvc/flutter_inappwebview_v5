@@ -18,7 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.webkit.WebViewCompat;
 import androidx.webkit.WebViewFeature;
 
-import com.pichillilorenzo.flutter_inappwebview_v2.InAppWebViewFlutterPlugin;
+import com.pichillilorenzo.flutter_inappwebview_v2.InAppWebViewFlutterPluginV2;
 import com.pichillilorenzo.flutter_inappwebview_v2.InAppWebViewMethodHandler;
 import com.pichillilorenzo.flutter_inappwebview_v2.plugin_scripts_js.JavaScriptBridgeJS;
 import com.pichillilorenzo.flutter_inappwebview_v2.pull_to_refresh.PullToRefreshLayout;
@@ -55,7 +55,7 @@ public class FlutterWebView implements PlatformWebView {
     public PullToRefreshLayout pullToRefreshLayout;
 
 
-    public FlutterWebView(final InAppWebViewFlutterPlugin plugin, final Context context, Object id,
+    public FlutterWebView(final InAppWebViewFlutterPluginV2 plugin, final Context context, Object id,
                           HashMap<String, Object> params) {
         DisplayListenerProxy displayListenerProxy = new DisplayListenerProxy();
         DisplayManager displayManager = (DisplayManager) context.getSystemService(Context.DISPLAY_SERVICE);

@@ -30,9 +30,9 @@ public class ServiceWorkerManager implements MethodChannel.MethodCallHandler {
   @Nullable
   public static ServiceWorkerControllerCompat serviceWorkerController;
   @Nullable
-  public InAppWebViewFlutterPlugin plugin;
+  public InAppWebViewFlutterPluginV2 plugin;
 
-  public ServiceWorkerManager(final InAppWebViewFlutterPlugin plugin) {
+  public ServiceWorkerManager(final InAppWebViewFlutterPluginV2 plugin) {
     this.plugin = plugin;
     channel = new MethodChannel(plugin.messenger, "com.pichillilorenzo/flutter_inappwebview_v2_android_serviceworkercontroller");
     channel.setMethodCallHandler(this);

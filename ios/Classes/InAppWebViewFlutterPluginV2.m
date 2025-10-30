@@ -15,7 +15,7 @@
  under the License.
  */
 
-#import "InAppWebViewFlutterPlugin.h"
+#import "InAppWebViewFlutterPluginV2.h"
 #if __has_include(<flutter_inappwebview/flutter_inappwebview-Swift.h>)
 #import <flutter_inappwebview/flutter_inappwebview-Swift.h>
 #else
@@ -25,7 +25,7 @@
 #import "flutter_inappwebview-Swift.h"
 #endif
 
-@implementation InAppWebViewFlutterPlugin : NSObject
+@implementation InAppWebViewFlutterPluginV2 : NSObject
 + (void)registerWithRegistrar:(NSObject<FlutterPluginRegistrar>*)registrar {
     [SwiftFlutterPlugin registerWithRegistrar:registrar];
 }

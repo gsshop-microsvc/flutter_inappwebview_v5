@@ -25,7 +25,7 @@ import android.content.Context;
 
 import androidx.annotation.Nullable;
 
-import com.pichillilorenzo.flutter_inappwebview_v2.InAppWebViewFlutterPlugin;
+import com.pichillilorenzo.flutter_inappwebview_v2.InAppWebViewFlutterPluginV2;
 import com.pichillilorenzo.flutter_inappwebview_v2.in_app_webview.FlutterWebView;
 
 import java.util.Collection;
@@ -43,9 +43,9 @@ public class HeadlessInAppWebViewManager implements MethodChannel.MethodCallHand
   public MethodChannel channel;
   public static final Map<String, HeadlessInAppWebView> webViews = new HashMap<>();
   @Nullable
-  public InAppWebViewFlutterPlugin plugin;
+  public InAppWebViewFlutterPluginV2 plugin;
 
-  public HeadlessInAppWebViewManager(final InAppWebViewFlutterPlugin plugin) {
+  public HeadlessInAppWebViewManager(final InAppWebViewFlutterPluginV2 plugin) {
     this.plugin = plugin;
     channel = new MethodChannel(plugin.messenger, "com.pichillilorenzo/flutter_headless_inappwebview");
     channel.setMethodCallHandler(this);

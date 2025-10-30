@@ -18,9 +18,9 @@ public class PlatformUtil implements MethodChannel.MethodCallHandler {
   protected static final String LOG_TAG = "PlatformUtil";
   public MethodChannel channel;
   @Nullable
-  public InAppWebViewFlutterPlugin plugin;
+  public InAppWebViewFlutterPluginV2 plugin;
 
-  public PlatformUtil(final InAppWebViewFlutterPlugin plugin) {
+  public PlatformUtil(final InAppWebViewFlutterPluginV2 plugin) {
     this.plugin = plugin;
     channel = new MethodChannel(plugin.messenger, "com.pichillilorenzo/flutter_inappwebview_v2_platformutil");
     channel.setMethodCallHandler(this);

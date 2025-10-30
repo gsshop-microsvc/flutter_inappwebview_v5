@@ -26,9 +26,9 @@ public class MyCookieManager implements MethodChannel.MethodCallHandler {
   public MethodChannel channel;
   public static CookieManager cookieManager;
   @Nullable
-  public InAppWebViewFlutterPlugin plugin;
+  public InAppWebViewFlutterPluginV2 plugin;
 
-  public MyCookieManager(final InAppWebViewFlutterPlugin plugin) {
+  public MyCookieManager(final InAppWebViewFlutterPluginV2 plugin) {
     this.plugin = plugin;
     channel = new MethodChannel(plugin.messenger, "com.pichillilorenzo/flutter_inappwebview_v2_cookiemanager");
     channel.setMethodCallHandler(this);

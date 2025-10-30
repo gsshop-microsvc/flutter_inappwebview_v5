@@ -43,7 +43,7 @@ import androidx.core.content.FileProvider;
 import com.pichillilorenzo.flutter_inappwebview_v2.types.CreateWindowAction;
 import com.pichillilorenzo.flutter_inappwebview_v2.in_app_browser.ActivityResultListener;
 import com.pichillilorenzo.flutter_inappwebview_v2.in_app_browser.InAppBrowserDelegate;
-import com.pichillilorenzo.flutter_inappwebview_v2.InAppWebViewFlutterPlugin;
+import com.pichillilorenzo.flutter_inappwebview_v2.InAppWebViewFlutterPluginV2;
 import com.pichillilorenzo.flutter_inappwebview_v2.types.URLRequest;
 
 import java.io.ByteArrayOutputStream;
@@ -99,9 +99,9 @@ public class InAppWebViewChromeClient extends WebChromeClient implements PluginR
   private int mOriginalOrientation;
   private int mOriginalSystemUiVisibility;
   @Nullable
-  public InAppWebViewFlutterPlugin plugin;
+  public InAppWebViewFlutterPluginV2 plugin;
 
-  public InAppWebViewChromeClient(final InAppWebViewFlutterPlugin plugin, MethodChannel channel, InAppBrowserDelegate inAppBrowserDelegate) {
+  public InAppWebViewChromeClient(final InAppWebViewFlutterPluginV2 plugin, MethodChannel channel, InAppBrowserDelegate inAppBrowserDelegate) {
     super();
     this.plugin = plugin;
     this.channel = channel;
@@ -801,7 +801,7 @@ public class InAppWebViewChromeClient extends WebChromeClient implements PluginR
 
   @Override
   public boolean onActivityResult(int requestCode, int resultCode, Intent data) {
-    if (InAppWebViewFlutterPlugin.filePathCallback == null && InAppWebViewFlutterPlugin.filePathCallbackLegacy == null) {
+    if (InAppWebViewFlutterPluginV2.filePathCallback == null && InAppWebViewFlutterPluginV2.filePathCallbackLegacy == null) {
       return true;
     }
 
@@ -815,8 +815,8 @@ public class InAppWebViewChromeClient extends WebChromeClient implements PluginR
           results = getSelectedFiles(data, resultCode);
         }
 
-        if (InAppWebViewFlutterPlugin.filePathCallback != null) {
-          InAppWebViewFlutterPlugin.filePathCallback.onReceiveValue(results);
+        if (InAppWebViewFlutterPluginV2.filePathCallback != null) {
+          InAppWebViewFlutterPluginV2.filePathCallback.onReceiveValue(results);
         }
         break;
 
@@ -826,12 +826,12 @@ public class InAppWebViewChromeClient extends WebChromeClient implements PluginR
           result = data != null ? data.getData() : getCapturedMediaFile();
         }
 
-        InAppWebViewFlutterPlugin.filePathCallbackLegacy.onReceiveValue(result);
+        InAppWebViewFlutterPluginV2.filePathCallbackLegacy.onReceiveValue(result);
         break;
     }
 
-    InAppWebViewFlutterPlugin.filePathCallback = null;
-    InAppWebViewFlutterPlugin.filePathCallbackLegacy = null;
+    InAppWebViewFlutterPluginV2.filePathCallback = null;
+    InAppWebViewFlutterPluginV2.filePathCallbackLegacy = null;
     imageOutputFileUri = null;
     videoOutputFileUri = null;
 
@@ -898,7 +898,7 @@ public class InAppWebViewChromeClient extends WebChromeClient implements PluginR
   }
 
   public void startPickerIntent(ValueCallback<Uri> filePathCallback, String acceptType, @Nullable String capture) {
-    InAppWebViewFlutterPlugin.filePathCallbackLegacy = filePathCallback;
+    InAppWebViewFlutterPluginV2.filePathCallbackLegacy = filePathCallback;
 
     boolean images = acceptsImages(acceptType);
     boolean video = acceptsVideo(acceptType);
@@ -942,7 +942,7 @@ public class InAppWebViewChromeClient extends WebChromeClient implements PluginR
   @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
   public boolean startPickerIntent(final ValueCallback<Uri[]> callback, final String[] acceptTypes,
                                    final boolean allowMultiple, final boolean captureEnabled) {
-    InAppWebViewFlutterPlugin.filePathCallback = callback;
+    InAppWebViewFlutterPluginV2.filePathCallback = callback;
 
     boolean images = acceptsImages(acceptTypes);
     boolean video = acceptsVideo(acceptTypes);

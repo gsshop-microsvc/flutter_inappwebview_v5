@@ -8,7 +8,7 @@ import android.webkit.ValueCallback;
 import android.webkit.WebMessage;
 import android.webkit.WebView;
 
-import com.pichillilorenzo.flutter_inappwebview_v2.InAppWebViewFlutterPlugin;
+import com.pichillilorenzo.flutter_inappwebview_v2.InAppWebViewFlutterPluginV2;
 import com.pichillilorenzo.flutter_inappwebview_v2.in_app_browser.InAppBrowserDelegate;
 import com.pichillilorenzo.flutter_inappwebview_v2.in_app_webview.InAppWebViewOptions;
 
@@ -89,8 +89,8 @@ public interface InAppWebViewInterface {
   void getZoomScale(ValueCallback<Float> callback);
   Map<String, Object> getContextMenu();
   void setContextMenu(Map<String, Object> contextMenu);
-  InAppWebViewFlutterPlugin getPlugin();
-  void setPlugin(InAppWebViewFlutterPlugin plugin);
+  InAppWebViewFlutterPluginV2 getPlugin();
+  void setPlugin(InAppWebViewFlutterPluginV2 plugin);
   InAppBrowserDelegate getInAppBrowserDelegate();
   void setInAppBrowserDelegate(InAppBrowserDelegate inAppBrowserDelegate);
   UserContentController getUserContentController();

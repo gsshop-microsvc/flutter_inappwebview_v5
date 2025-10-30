@@ -35,7 +35,7 @@ import android.webkit.MimeTypeMap;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.pichillilorenzo.flutter_inappwebview_v2.InAppWebViewFlutterPlugin;
+import com.pichillilorenzo.flutter_inappwebview_v2.InAppWebViewFlutterPluginV2;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -56,11 +56,11 @@ public class InAppBrowserManager implements MethodChannel.MethodCallHandler {
   protected static final String LOG_TAG = "InAppBrowserManager";
   public MethodChannel channel;
   @Nullable
-  public InAppWebViewFlutterPlugin plugin;
+  public InAppWebViewFlutterPluginV2 plugin;
   public String id;
   public static final Map<String, InAppBrowserManager> shared = new HashMap<>();
 
-  public InAppBrowserManager(final InAppWebViewFlutterPlugin plugin) {
+  public InAppBrowserManager(final InAppWebViewFlutterPluginV2 plugin) {
     this.id = UUID.randomUUID().toString();
     this.plugin = plugin;
     channel = new MethodChannel(plugin.messenger, "com.pichillilorenzo/flutter_inappbrowser");

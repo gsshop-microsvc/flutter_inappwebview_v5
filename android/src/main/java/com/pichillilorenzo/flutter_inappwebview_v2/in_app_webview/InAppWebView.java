@@ -53,7 +53,7 @@ import androidx.annotation.RequiresApi;
 import androidx.webkit.WebViewCompat;
 import androidx.webkit.WebViewFeature;
 
-import com.pichillilorenzo.flutter_inappwebview_v2.InAppWebViewFlutterPlugin;
+import com.pichillilorenzo.flutter_inappwebview_v2.InAppWebViewFlutterPluginV2;
 import com.pichillilorenzo.flutter_inappwebview_v2.JavaScriptBridgeInterface;
 import com.pichillilorenzo.flutter_inappwebview_v2.R;
 import com.pichillilorenzo.flutter_inappwebview_v2.Util;
@@ -106,7 +106,7 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   static final String LOG_TAG = "InAppWebView";
 
   @Nullable
-  public InAppWebViewFlutterPlugin plugin;
+  public InAppWebViewFlutterPluginV2 plugin;
   @Nullable
   public InAppBrowserDelegate inAppBrowserDelegate;
   public MethodChannel channel;
@@ -159,7 +159,7 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
     super(context, attrs, defaultStyle);
   }
 
-  public InAppWebView(Context context, InAppWebViewFlutterPlugin plugin,
+  public InAppWebView(Context context, InAppWebViewFlutterPluginV2 plugin,
                       MethodChannel channel, Object id,
                       @Nullable Integer windowId, InAppWebViewOptions options,
                       @Nullable Map<String, Object> contextMenu, View containerView,
@@ -1731,11 +1731,11 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   }
 
   @Nullable
-  public InAppWebViewFlutterPlugin getPlugin() {
+  public InAppWebViewFlutterPluginV2 getPlugin() {
     return plugin;
   }
 
-  public void setPlugin(@Nullable InAppWebViewFlutterPlugin plugin) {
+  public void setPlugin(@Nullable InAppWebViewFlutterPluginV2 plugin) {
     this.plugin = plugin;
   }
 

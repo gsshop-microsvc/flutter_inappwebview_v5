@@ -66,7 +66,7 @@ public class Util {
 
   private Util() {}
 
-  public static String getUrlAsset(InAppWebViewFlutterPlugin plugin, String assetFilePath) throws IOException {
+  public static String getUrlAsset(InAppWebViewFlutterPluginV2 plugin, String assetFilePath) throws IOException {
     String key = (plugin.registrar != null) ? plugin.registrar.lookupKeyForAsset(assetFilePath) : plugin.flutterAssets.getAssetFilePathByName(assetFilePath);
     InputStream is = null;
     IOException e = null;
@@ -91,7 +91,7 @@ public class Util {
     return ANDROID_ASSET_URL + key;
   }
 
-  public static InputStream getFileAsset(InAppWebViewFlutterPlugin plugin, String assetFilePath) throws IOException {
+  public static InputStream getFileAsset(InAppWebViewFlutterPluginV2 plugin, String assetFilePath) throws IOException {
     String key = (plugin.registrar != null) ? plugin.registrar.lookupKeyForAsset(assetFilePath) : plugin.flutterAssets.getAssetFilePathByName(assetFilePath);
     AssetManager mg = plugin.applicationContext.getResources().getAssets();
     return mg.open(key);
@@ -145,7 +145,7 @@ public class Util {
     }
   }
 
-  public static PrivateKeyAndCertificates loadPrivateKeyAndCertificate(InAppWebViewFlutterPlugin plugin, String certificatePath, String certificatePassword, String keyStoreType) {
+  public static PrivateKeyAndCertificates loadPrivateKeyAndCertificate(InAppWebViewFlutterPluginV2 plugin, String certificatePath, String certificatePassword, String keyStoreType) {
 
     PrivateKeyAndCertificates privateKeyAndCertificates = null;
     InputStream certificateFileStream = null;

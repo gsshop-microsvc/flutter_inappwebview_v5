@@ -7,7 +7,7 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.pichillilorenzo.flutter_inappwebview_v2.InAppWebViewFlutterPlugin;
+import com.pichillilorenzo.flutter_inappwebview_v2.InAppWebViewFlutterPluginV2;
 import com.pichillilorenzo.flutter_inappwebview_v2.Util;
 import com.pichillilorenzo.flutter_inappwebview_v2.in_app_webview.FlutterWebView;
 import com.pichillilorenzo.flutter_inappwebview_v2.types.Size2D;
@@ -27,9 +27,9 @@ public class HeadlessInAppWebView implements MethodChannel.MethodCallHandler {
   @Nullable
   public FlutterWebView flutterWebView;
   @Nullable
-  public InAppWebViewFlutterPlugin plugin;
+  public InAppWebViewFlutterPluginV2 plugin;
 
-  public HeadlessInAppWebView(@NonNull final InAppWebViewFlutterPlugin plugin, @NonNull String id, @NonNull FlutterWebView flutterWebView) {
+  public HeadlessInAppWebView(@NonNull final InAppWebViewFlutterPluginV2 plugin, @NonNull String id, @NonNull FlutterWebView flutterWebView) {
     this.id = id;
     this.plugin = plugin;
     this.flutterWebView = flutterWebView;

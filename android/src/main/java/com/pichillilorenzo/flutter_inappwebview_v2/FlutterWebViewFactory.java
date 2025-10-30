@@ -13,9 +13,9 @@ import io.flutter.plugin.platform.PlatformView;
 import io.flutter.plugin.platform.PlatformViewFactory;
 
 public class FlutterWebViewFactory extends PlatformViewFactory {
-  private final InAppWebViewFlutterPlugin plugin;
+  private final InAppWebViewFlutterPluginV2 plugin;
 
-  public FlutterWebViewFactory(final InAppWebViewFlutterPlugin plugin) {
+  public FlutterWebViewFactory(final InAppWebViewFlutterPluginV2 plugin) {
     super(StandardMessageCodec.INSTANCE);
     this.plugin = plugin;
   }

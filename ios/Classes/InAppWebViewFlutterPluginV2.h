@@ -17,7 +17,7 @@
 
 #import <Flutter/Flutter.h>
 
-@interface InAppWebViewFlutterPlugin : NSObject<FlutterPlugin>
+@interface InAppWebViewFlutterPluginV2 : NSObject<FlutterPlugin>
 + (void)registerWithRegistrar:(nonnull NSObject<FlutterPluginRegistrar> *)registrar;
 
 @end

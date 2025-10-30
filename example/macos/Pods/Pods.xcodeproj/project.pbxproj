@@ -66,7 +66,7 @@
 		551F5FCA752D06891CF7BFB8ECA136A8 /* InAppBrowserWindowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD75164F97ABBF24D1DA816322E7CA1 /* InAppBrowserWindowType.swift */; };
 		5974AB4940BA058B6B2FBEEB3435B31E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1430F003D39D9906881A6AC724B7931 /* Cocoa.framework */; };
 		5AF8CB464D0E4257E26F986F80E41943 /* CustomUIPrintPageRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 139972191F807F4D755A7FA25CE3F562 /* CustomUIPrintPageRenderer.swift */; };
-		609091BF463A16F72F75805D941B85F5 /* InAppWebViewFlutterPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3098E2048013DB16C83004BE8A51A7D1 /* InAppWebViewFlutterPlugin.swift */; };
+		609091BF463A16F72F75805D941B85F5 /* InAppWebViewFlutterPluginV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3098E2048013DB16C83004BE8A51A7D1 /* InAppWebViewFlutterPluginV2.swift */; };
 		630B0D2A0B59DC125BA1B7E0BC545F42 /* PluginScriptsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22C011ED5204C30A8F7AC4F068893C47 /* PluginScriptsUtil.swift */; };
 		642AC1FA053B6E7E6659572BC6F5285C /* URLCredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD923CF2935DA8D905DC54A29845EF90 /* URLCredential.swift */; };
 		652926A8E7E570294626C6E24D97C4BC /* PluginScript.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBDDE7CA7C6F5D9943A35A7F78836333 /* PluginScript.swift */; };
@@ -266,7 +266,7 @@
 		2E08485D349E8316EE32C4B00E4B90A7 /* FindElementsAtPointJS.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FindElementsAtPointJS.swift; path = ../../../../../../../../../../macos/Classes/PluginScriptsJS/FindElementsAtPointJS.swift; sourceTree = "<group>"; };
 		2F3494F9B328853B51E7D9191BDB57B6 /* WKUserContentController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WKUserContentController.swift; path = ../../../../../../../../../../macos/Classes/Types/WKUserContentController.swift; sourceTree = "<group>"; };
 		2F7C058E3154E16A94BBA2FC5122FDAF /* WebAuthenticationSessionManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WebAuthenticationSessionManager.swift; path = ../../../../../../../../../../macos/Classes/WebAuthenticationSession/WebAuthenticationSessionManager.swift; sourceTree = "<group>"; };
-		3098E2048013DB16C83004BE8A51A7D1 /* InAppWebViewFlutterPlugin.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = InAppWebViewFlutterPlugin.swift; path = ../../../../../../../../../macos/Classes/InAppWebViewFlutterPlugin.swift; sourceTree = "<group>"; };
+		3098E2048013DB16C83004BE8A51A7D1 /* InAppWebViewFlutterPluginV2.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = InAppWebViewFlutterPluginV2.swift; path = ../../../../../../../../../macos/Classes/InAppWebViewFlutterPluginV2.swift; sourceTree = "<group>"; };
 		317C26B9A7CEDD34ADE8F37FAAB7AC20 /* Pods-Runner-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Runner-frameworks.sh"; sourceTree = "<group>"; };
 		35B210C6FE56CE2E9EAEB176AE80FBDA /* PlatformUtil.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PlatformUtil.swift; path = ../../../../../../../../../macos/Classes/PlatformUtil.swift; sourceTree = "<group>"; };
 		35E0419FAF328748486390368F1EC4BD /* WebMessage.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WebMessage.swift; path = ../../../../../../../../../../macos/Classes/Types/WebMessage.swift; sourceTree = "<group>"; };
@@ -1035,7 +1035,7 @@
 			isa = PBXGroup;
 			children = (
 				F228DFA5231EEEA2D6FFA33D6537B90E /* CredentialDatabase.swift */,
-				3098E2048013DB16C83004BE8A51A7D1 /* InAppWebViewFlutterPlugin.swift */,
+				3098E2048013DB16C83004BE8A51A7D1 /* InAppWebViewFlutterPluginV2.swift */,
 				B13D8FDD9A33C5F68712EF85491282AE /* InAppWebViewStatic.swift */,
 				78B883B13B477D9FBA2516C5736353DC /* ISettings.swift */,
 				7FF30CE41FA7E6AE4807A84F593B0A13 /* LeakAvoider.swift */,
@@ -1577,7 +1577,7 @@
 				7718C9A9870C556990AB8C56E659C539 /* InAppBrowserWindow.swift in Sources */,
 				551F5FCA752D06891CF7BFB8ECA136A8 /* InAppBrowserWindowType.swift in Sources */,
 				83FB1FDA447C3B7DBFDC2994B200C2F9 /* InAppWebView.swift in Sources */,
-				609091BF463A16F72F75805D941B85F5 /* InAppWebViewFlutterPlugin.swift in Sources */,
+				609091BF463A16F72F75805D941B85F5 /* InAppWebViewFlutterPluginV2.swift in Sources */,
 				8CCB60434395E3CC6A1BEC753AC42000 /* InAppWebViewSettings.swift in Sources */,
 				4F36077C15CCB0F06B186DFD9D17ADAD /* InAppWebViewStatic.swift in Sources */,
 				9AE4F401DF39A1C89A3552D10E143F41 /* InterceptAjaxRequestJS.swift in Sources */,
