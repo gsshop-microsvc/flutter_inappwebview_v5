@@ -47,7 +47,7 @@ public class HeadlessInAppWebViewManager implements MethodChannel.MethodCallHand
 
   public HeadlessInAppWebViewManager(final InAppWebViewFlutterPlugin plugin) {
     this.plugin = plugin;
-    channel = new MethodChannel(plugin.messenger, "com.pichillilorenzo/flutter_headless_inappwebview_v2");
+    channel = new MethodChannel(plugin.messenger, "com.microsvc/flutter_headless_inappwebview_v2");
     channel.setMethodCallHandler(this);
   }
 

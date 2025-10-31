@@ -134,7 +134,7 @@ class PullToRefreshController {
 
   void initMethodChannel(dynamic id) {
     this._channel = MethodChannel(
-        'com.pichillilorenzo/flutter_inappwebview_v2_pull_to_refresh_$id');
+        'com.microsvc/flutter_inappwebview_v2_pull_to_refresh_$id');
     this._channel?.setMethodCallHandler(handleMethod);
   }
 }

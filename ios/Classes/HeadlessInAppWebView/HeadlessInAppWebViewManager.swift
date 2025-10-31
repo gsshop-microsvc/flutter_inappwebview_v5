@@ -25,7 +25,7 @@ public class HeadlessInAppWebViewManager: NSObject, FlutterPlugin {
     init(registrar: FlutterPluginRegistrar) {
         super.init()
         HeadlessInAppWebViewManager.registrar = registrar
-        HeadlessInAppWebViewManager.channel = FlutterMethodChannel(name: "com.pichillilorenzo/flutter_headless_inappwebview_v2", binaryMessenger: registrar.messenger())
+        HeadlessInAppWebViewManager.channel = FlutterMethodChannel(name: "com.microsvc/flutter_headless_inappwebview_v2", binaryMessenger: registrar.messenger())
         registrar.addMethodCallDelegate(self, channel: HeadlessInAppWebViewManager.channel!)
     }
     

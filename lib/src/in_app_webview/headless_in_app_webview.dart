@@ -24,8 +24,8 @@ class HeadlessInAppWebView implements WebView {
   bool _started = false;
   bool _running = false;
 
-  static const MethodChannel _sharedChannel = const MethodChannel(
-      'com.pichillilorenzo/flutter_headless_inappwebview_v2');
+  static const MethodChannel _sharedChannel =
+      const MethodChannel('com.microsvc/flutter_headless_inappwebview_v2');
   late MethodChannel _channel;
 
   ///WebView Controller that can be used to access the [InAppWebViewControllerV2] API.
@@ -110,8 +110,8 @@ class HeadlessInAppWebView implements WebView {
       this.iosShouldAllowDeprecatedTLS}) {
     id = IdGenerator.generate();
     webViewController = new InAppWebViewControllerV2(id, this);
-    this._channel = MethodChannel(
-        'com.pichillilorenzo/flutter_headless_inappwebview_v2_$id');
+    this._channel =
+        MethodChannel('com.microsvc/flutter_headless_inappwebview_v2_$id');
     this._channel.setMethodCallHandler(handleMethod);
   }
 

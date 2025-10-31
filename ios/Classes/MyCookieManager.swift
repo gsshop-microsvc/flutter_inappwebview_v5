@@ -24,7 +24,7 @@ class MyCookieManager: NSObject, FlutterPlugin {
         MyCookieManager.registrar = registrar
         MyCookieManager.httpCookieStore = WKWebsiteDataStore.default().httpCookieStore
         
-        MyCookieManager.channel = FlutterMethodChannel(name: "com.pichillilorenzo/flutter_inappwebview_v2_cookiemanager", binaryMessenger: registrar.messenger())
+        MyCookieManager.channel = FlutterMethodChannel(name: "com.microsvc/flutter_inappwebview_v2_cookiemanager", binaryMessenger: registrar.messenger())
         registrar.addMethodCallDelegate(self, channel: MyCookieManager.channel!)
     }
     

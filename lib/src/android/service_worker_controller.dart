@@ -11,7 +11,7 @@ import '../types.dart';
 class AndroidServiceWorkerController {
   static AndroidServiceWorkerController? _instance;
   static const MethodChannel _channel = const MethodChannel(
-      'com.pichillilorenzo/flutter_inappwebview_v2_android_serviceworkercontroller');
+      'com.microsvc/flutter_inappwebview_v2_android_serviceworkercontroller');
 
   AndroidServiceWorkerController._();
 

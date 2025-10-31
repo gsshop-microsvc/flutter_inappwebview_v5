@@ -410,7 +410,7 @@ class _InAppWebViewV2State extends State<InAppWebViewV2> {
     );
 
     _channel = MethodChannel(
-        'com.pichillilorenzo/flutter_inappwebview_v2_sub_${_persistedId}');
+        'com.microsvc/flutter_inappwebview_v2_sub_${_persistedId}');
   }
 
   @override
@@ -439,7 +439,7 @@ class _InAppWebViewV2State extends State<InAppWebViewV2> {
             // log('[keykat] valueListenableBuilder: $_persistedId $state');
             return PlatformViewLink(
               key: ValueKey('${_persistedId}_$state'),
-              viewType: 'com.pichillilorenzo/flutter_inappwebview',
+              viewType: 'com.microsvc/flutter_inappwebview',
               surfaceFactory: (
                 BuildContext context,
                 PlatformViewController controller,
@@ -461,7 +461,7 @@ class _InAppWebViewV2State extends State<InAppWebViewV2> {
           });
     } else if (defaultTargetPlatform == TargetPlatform.iOS) {
       return UiKitView(
-        viewType: 'com.pichillilorenzo/flutter_inappwebview',
+        viewType: 'com.microsvc/flutter_inappwebview',
         onPlatformViewCreated: _onPlatformViewCreated,
         gestureRecognizers: widget.gestureRecognizers,
         creationParams: <String, dynamic>{
@@ -490,7 +490,7 @@ class _InAppWebViewV2State extends State<InAppWebViewV2> {
   ) {
     return PlatformViewsService.initExpensiveAndroidView(
       id: params.id,
-      viewType: 'com.pichillilorenzo/flutter_inappwebview',
+      viewType: 'com.microsvc/flutter_inappwebview',
       layoutDirection: Directionality.maybeOf(context) ?? TextDirection.rtl,
       creationParams: <String, dynamic>{
         'initialUrlRequest': widget.initialUrlRequest?.toMap(),
@@ -520,7 +520,7 @@ class _InAppWebViewV2State extends State<InAppWebViewV2> {
   ) {
     return PlatformViewsService.initSurfaceAndroidView(
       id: params.id,
-      viewType: 'com.pichillilorenzo/flutter_inappwebview',
+      viewType: 'com.microsvc/flutter_inappwebview',
       layoutDirection: Directionality.maybeOf(context) ?? TextDirection.rtl,
       creationParams: <String, dynamic>{
         'initialUrlRequest': widget.initialUrlRequest?.toMap(),

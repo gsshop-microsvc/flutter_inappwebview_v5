@@ -91,15 +91,15 @@ public class FlutterWebView implements PlatformWebView {
         
 
             
-        MethodChannel channel = new MethodChannel(plugin.messenger, "com.pichillilorenzo/flutter_inappwebview_v2_" + persistedId);
-        MethodChannel subChannel = new MethodChannel(plugin.messenger, "com.pichillilorenzo/flutter_inappwebview_v2_sub_" + persistedId);
+        MethodChannel channel = new MethodChannel(plugin.messenger, "com.microsvc/flutter_inappwebview_v2_" + persistedId);
+        MethodChannel subChannel = new MethodChannel(plugin.messenger, "com.microsvc/flutter_inappwebview_v2_sub_" + persistedId);
         webView = new InAppWebView(context, plugin, channel, persistedId, windowId, options, contextMenu, options.useHybridComposition ? null : plugin.flutterView, userScripts);
         displayListenerProxy.onPostWebViewInitialization(displayManager);
 
         if (options.useHybridComposition) { 
             // set MATCH_PARENT layout params to the WebView, otherwise it won't take all the available space!
             webView.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            MethodChannel pullToRefreshLayoutChannel = new MethodChannel(plugin.messenger, "com.pichillilorenzo/flutter_inappwebview_v2_pull_to_refresh_" + persistedId);
+            MethodChannel pullToRefreshLayoutChannel = new MethodChannel(plugin.messenger, "com.microsvc/flutter_inappwebview_v2_pull_to_refresh_" + persistedId);
             PullToRefreshOptions pullToRefreshOptions = new PullToRefreshOptions();
             pullToRefreshOptions.parse(pullToRefreshInitialOptions);
             pullToRefreshLayout = new PullToRefreshLayout(context, pullToRefreshLayoutChannel, pullToRefreshOptions);

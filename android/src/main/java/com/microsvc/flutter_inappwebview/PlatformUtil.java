@@ -22,7 +22,7 @@ public class PlatformUtil implements MethodChannel.MethodCallHandler {
 
   public PlatformUtil(final InAppWebViewFlutterPlugin plugin) {
     this.plugin = plugin;
-    channel = new MethodChannel(plugin.messenger, "com.pichillilorenzo/flutter_inappwebview_v2_platformutil");
+    channel = new MethodChannel(plugin.messenger, "com.microsvc/flutter_inappwebview_v2_platformutil");
     channel.setMethodCallHandler(this);
   }
 

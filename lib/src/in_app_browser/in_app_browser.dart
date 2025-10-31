@@ -56,7 +56,7 @@ class InAppBrowser {
   bool _isOpened = false;
   late MethodChannel _channel;
   static const MethodChannel _sharedChannel =
-      const MethodChannel('com.pichillilorenzo/flutter_inappbrowser');
+      const MethodChannel('com.microsvc/flutter_inappbrowser');
 
   /// WebView Controller that can be used to access the [InAppWebViewControllerV2] API.
   late final InAppWebViewControllerV2 webViewController;
@@ -74,8 +74,7 @@ class InAppBrowser {
       this.initialUserScripts,
       this.implementation = WebViewImplementation.NATIVE}) {
     id = IdGenerator.generate();
-    this._channel =
-        MethodChannel('com.pichillilorenzo/flutter_inappbrowser_v2_$id');
+    this._channel = MethodChannel('com.microsvc/flutter_inappbrowser_v2_$id');
     this._channel.setMethodCallHandler(handleMethod);
     _isOpened = false;
     webViewController = new InAppWebViewControllerV2.fromInAppBrowser(

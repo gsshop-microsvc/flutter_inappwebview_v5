@@ -31,7 +31,7 @@ public class CredentialDatabaseHandler implements MethodChannel.MethodCallHandle
 
   public CredentialDatabaseHandler(final InAppWebViewFlutterPlugin plugin) {
     this.plugin = plugin;
-    channel = new MethodChannel(plugin.messenger, "com.pichillilorenzo/flutter_inappwebview_v2_credential_database");
+    channel = new MethodChannel(plugin.messenger, "com.microsvc/flutter_inappwebview_v2_credential_database");
     channel.setMethodCallHandler(this);
     credentialDatabase = CredentialDatabase.getInstance(plugin.applicationContext);
   }

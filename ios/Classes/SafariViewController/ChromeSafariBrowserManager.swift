@@ -23,7 +23,7 @@ public class ChromeSafariBrowserManager: NSObject, FlutterPlugin {
     init(registrar: FlutterPluginRegistrar) {
         super.init()
         ChromeSafariBrowserManager.registrar = registrar
-        ChromeSafariBrowserManager.channel = FlutterMethodChannel(name: "com.pichillilorenzo/flutter_chromesafaribrowser_v2", binaryMessenger: registrar.messenger())
+        ChromeSafariBrowserManager.channel = FlutterMethodChannel(name: "com.microsvc/flutter_chromesafaribrowser_v2", binaryMessenger: registrar.messenger())
         registrar.addMethodCallDelegate(self, channel: ChromeSafariBrowserManager.channel!)
     }
     

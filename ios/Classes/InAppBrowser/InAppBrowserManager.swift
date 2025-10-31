@@ -28,7 +28,7 @@ public class InAppBrowserManager: NSObject, FlutterPlugin {
     init(registrar: FlutterPluginRegistrar) {
         super.init()
         InAppBrowserManager.registrar = registrar
-        InAppBrowserManager.channel = FlutterMethodChannel(name: "com.pichillilorenzo/flutter_inappbrowser", binaryMessenger: registrar.messenger())
+        InAppBrowserManager.channel = FlutterMethodChannel(name: "com.microsvc/flutter_inappbrowser", binaryMessenger: registrar.messenger())
         registrar.addMethodCallDelegate(self, channel: InAppBrowserManager.channel!)
     }
     

@@ -23,7 +23,7 @@ public class FlutterWebViewController: NSObject, FlutterPlatformView {
         self.registrar = registrar
         self.viewId = viewId
         
-        channel = FlutterMethodChannel(name: "com.pichillilorenzo/flutter_inappwebview_v2_" + String(describing: viewId),
+        channel = FlutterMethodChannel(name: "com.microsvc/flutter_inappwebview_v2_" + String(describing: viewId),
                                        binaryMessenger: registrar.messenger())
         
         myView = UIView(frame: frame)
@@ -63,7 +63,7 @@ public class FlutterWebViewController: NSObject, FlutterPlatformView {
         methodCallDelegate = InAppWebViewMethodHandler(webView: webView!)
         channel!.setMethodCallHandler(LeakAvoider(delegate: methodCallDelegate!).handle)
         
-        let pullToRefreshLayoutChannel = FlutterMethodChannel(name: "com.pichillilorenzo/flutter_inappwebview_v2_pull_to_refresh_" + String(describing: viewId),
+        let pullToRefreshLayoutChannel = FlutterMethodChannel(name: "com.microsvc/flutter_inappwebview_v2_pull_to_refresh_" + String(describing: viewId),
                                                               binaryMessenger: registrar.messenger())
         let pullToRefreshOptions = PullToRefreshOptions()
         let _ = pullToRefreshOptions.parse(options: pullToRefreshInitialOptions)

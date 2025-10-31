@@ -26,7 +26,7 @@ public class SafariViewController: SFSafariViewController, FlutterPlugin, SFSafa
     }
     
     public func prepareMethodChannel() {
-        channel = FlutterMethodChannel(name: "com.pichillilorenzo/flutter_chromesafaribrowser_v2_" + id, binaryMessenger: SwiftFlutterPlugin.instance!.registrar!.messenger())
+        channel = FlutterMethodChannel(name: "com.microsvc/flutter_chromesafaribrowser_v2_" + id, binaryMessenger: SwiftFlutterPlugin.instance!.registrar!.messenger())
         SwiftFlutterPlugin.instance!.registrar!.addMethodCallDelegate(self, channel: channel!)
     }
     
@@ -186,7 +186,7 @@ class CustomUIActivity : UIActivity {
             return
         }
         
-        let channel = FlutterMethodChannel(name: "com.pichillilorenzo/flutter_chromesafaribrowser_v2_" + viewId,
+        let channel = FlutterMethodChannel(name: "com.microsvc/flutter_chromesafaribrowser_v2_" + viewId,
                                            binaryMessenger: registrar.messenger())
         
         let arguments: [String: Any?] = [

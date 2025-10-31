@@ -30,7 +30,7 @@ public class InAppWebViewStatic implements MethodChannel.MethodCallHandler {
 
   public InAppWebViewStatic(final InAppWebViewFlutterPlugin plugin) {
     this.plugin = plugin;
-    channel = new MethodChannel(plugin.messenger, "com.pichillilorenzo/flutter_inappwebview_v2_static");
+    channel = new MethodChannel(plugin.messenger, "com.microsvc/flutter_inappwebview_v2_static");
     channel.setMethodCallHandler(this);
   }
 

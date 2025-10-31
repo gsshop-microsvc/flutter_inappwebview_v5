@@ -24,7 +24,7 @@ class MyWebStorageManager: NSObject, FlutterPlugin {
         MyWebStorageManager.registrar = registrar
         MyWebStorageManager.websiteDataStore = WKWebsiteDataStore.default()
         
-        MyWebStorageManager.channel = FlutterMethodChannel(name: "com.pichillilorenzo/flutter_inappwebview_v2_webstoragemanager", binaryMessenger: registrar.messenger())
+        MyWebStorageManager.channel = FlutterMethodChannel(name: "com.microsvc/flutter_inappwebview_v2_webstoragemanager", binaryMessenger: registrar.messenger())
         registrar.addMethodCallDelegate(self, channel: MyWebStorageManager.channel!)
     }
     

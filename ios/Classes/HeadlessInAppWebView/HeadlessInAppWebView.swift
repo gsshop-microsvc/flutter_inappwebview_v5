@@ -16,7 +16,7 @@ public class HeadlessInAppWebView : FlutterMethodCallDelegate {
         self.id = id
         super.init()
         self.flutterWebView = flutterWebView
-        self.channel = FlutterMethodChannel(name: "com.pichillilorenzo/flutter_headless_inappwebview_v2_" + id,
+        self.channel = FlutterMethodChannel(name: "com.microsvc/flutter_headless_inappwebview_v2_" + id,
                                        binaryMessenger: SwiftFlutterPlugin.instance!.registrar!.messenger())
         self.channel?.setMethodCallHandler(self.handle)
     }

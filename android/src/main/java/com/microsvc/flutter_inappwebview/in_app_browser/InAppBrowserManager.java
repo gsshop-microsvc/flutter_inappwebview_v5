@@ -63,7 +63,7 @@ public class InAppBrowserManager implements MethodChannel.MethodCallHandler {
   public InAppBrowserManager(final InAppWebViewFlutterPlugin plugin) {
     this.id = UUID.randomUUID().toString();
     this.plugin = plugin;
-    channel = new MethodChannel(plugin.messenger, "com.pichillilorenzo/flutter_inappbrowser");
+    channel = new MethodChannel(plugin.messenger, "com.microsvc/flutter_inappbrowser");
     channel.setMethodCallHandler(this);
     shared.put(this.id, this);
   }

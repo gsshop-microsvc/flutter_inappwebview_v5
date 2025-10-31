@@ -19,8 +19,8 @@ import 'types.dart';
 ///See https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#restrict_access_to_cookies for JavaScript restrictions.
 class CookieManagerV2 {
   static CookieManagerV2? _instance;
-  static const MethodChannel _channel = const MethodChannel(
-      'com.pichillilorenzo/flutter_inappwebview_v2_cookiemanager');
+  static const MethodChannel _channel =
+      const MethodChannel('com.microsvc/flutter_inappwebview_v2_cookiemanager');
 
   CookieManagerV2._();
 

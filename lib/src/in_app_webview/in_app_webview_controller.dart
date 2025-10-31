@@ -71,8 +71,7 @@ class InAppWebViewControllerV2 {
 
   InAppWebViewControllerV2(dynamic id, WebView webview) {
     this._id = id;
-    this._channel =
-        MethodChannel('com.pichillilorenzo/flutter_inappwebview_v2_$id');
+    this._channel = MethodChannel('com.microsvc/flutter_inappwebview_v2_$id');
     this._channel.setMethodCallHandler(handleMethod);
     this._webview = webview;
     this._userScripts =

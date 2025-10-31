@@ -41,7 +41,7 @@ public class WebMessageListener implements MethodChannel.MethodCallHandler {
     this.webView = webView;
     this.jsObjectName = jsObjectName;
     this.allowedOriginRules = allowedOriginRules;
-    this.channel = new MethodChannel(messenger, "com.pichillilorenzo/flutter_inappwebview_v2_web_message_listener_" + this.jsObjectName);
+    this.channel = new MethodChannel(messenger, "com.microsvc/flutter_inappwebview_v2_web_message_listener_" + this.jsObjectName);
     this.channel.setMethodCallHandler(this);
     if (this.webView instanceof InAppWebView) {
       final WebMessageListener self = this;

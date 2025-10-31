@@ -47,12 +47,12 @@ class ChromeSafariBrowser {
   bool _isOpened = false;
   late MethodChannel _channel;
   static const MethodChannel _sharedChannel =
-      const MethodChannel('com.pichillilorenzo/flutter_chromesafaribrowser_v2');
+      const MethodChannel('com.microsvc/flutter_chromesafaribrowser_v2');
 
   ChromeSafariBrowser() {
     id = IdGenerator.generate();
     this._channel =
-        MethodChannel('com.pichillilorenzo/flutter_chromesafaribrowser_v2_$id');
+        MethodChannel('com.microsvc/flutter_chromesafaribrowser_v2_$id');
     this._channel.setMethodCallHandler(handleMethod);
     _isOpened = false;
   }
