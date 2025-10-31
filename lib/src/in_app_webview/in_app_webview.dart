@@ -439,7 +439,7 @@ class _InAppWebViewV2State extends State<InAppWebViewV2> {
             // log('[keykat] valueListenableBuilder: $_persistedId $state');
             return PlatformViewLink(
               key: ValueKey('${_persistedId}_$state'),
-              viewType: 'com.microsvc/flutter_inappwebview',
+              viewType: 'com.microsvc/flutter_inappwebview_v2',
               surfaceFactory: (
                 BuildContext context,
                 PlatformViewController controller,
@@ -490,7 +490,7 @@ class _InAppWebViewV2State extends State<InAppWebViewV2> {
   ) {
     return PlatformViewsService.initExpensiveAndroidView(
       id: params.id,
-      viewType: 'com.microsvc/flutter_inappwebview',
+      viewType: 'com.microsvc/flutter_inappwebview_v2',
       layoutDirection: Directionality.maybeOf(context) ?? TextDirection.rtl,
       creationParams: <String, dynamic>{
         'initialUrlRequest': widget.initialUrlRequest?.toMap(),
@@ -520,7 +520,7 @@ class _InAppWebViewV2State extends State<InAppWebViewV2> {
   ) {
     return PlatformViewsService.initSurfaceAndroidView(
       id: params.id,
-      viewType: 'com.microsvc/flutter_inappwebview',
+      viewType: 'com.microsvc/flutter_inappwebview_v2',
       layoutDirection: Directionality.maybeOf(context) ?? TextDirection.rtl,
       creationParams: <String, dynamic>{
         'initialUrlRequest': widget.initialUrlRequest?.toMap(),
