@@ -16,7 +16,7 @@ public class WebMessageChannel : FlutterMethodCallDelegate {
     public init(id: String) {
         self.id = id
         super.init()
-        self.channel = FlutterMethodChannel(name: "com.pichillilorenzo/flutter_inappwebview_web_message_channel_" + id,
+        self.channel = FlutterMethodChannel(name: "com.pichillilorenzo/flutter_inappwebview_v2_web_message_channel_" + id,
                                        binaryMessenger: SwiftFlutterPlugin.instance!.registrar!.messenger())
         self.channel?.setMethodCallHandler(self.handle)
         self.ports = [

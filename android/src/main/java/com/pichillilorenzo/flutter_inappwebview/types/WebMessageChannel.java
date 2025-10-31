@@ -32,7 +32,7 @@ public class WebMessageChannel implements MethodChannel.MethodCallHandler {
 
   public WebMessageChannel(@NonNull String id, @NonNull InAppWebViewInterface webView) {
     this.id = id;
-    this.channel = new MethodChannel(webView.getPlugin().messenger, "com.pichillilorenzo/flutter_inappwebview_web_message_channel_" + id);
+    this.channel = new MethodChannel(webView.getPlugin().messenger, "com.pichillilorenzo/flutter_inappwebview_v2_web_message_channel_" + id);
     this.channel.setMethodCallHandler(this);
     if (webView instanceof InAppWebView) {
       this.compatPorts = new ArrayList<>(Arrays.asList(WebViewCompat.createWebMessageChannel((InAppWebView) webView)));

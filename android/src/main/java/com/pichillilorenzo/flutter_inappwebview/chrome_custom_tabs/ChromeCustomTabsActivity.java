@@ -64,7 +64,7 @@ public class ChromeCustomTabsActivity extends Activity implements MethodChannel.
     manager = ChromeSafariBrowserManager.shared.get(managerId);
     if (manager == null || manager.plugin == null|| manager.plugin.messenger == null) return;
 
-    channel = new MethodChannel(manager.plugin.messenger, "com.pichillilorenzo/flutter_chromesafaribrowser_" + id);
+    channel = new MethodChannel(manager.plugin.messenger, "com.pichillilorenzo/flutter_chromesafaribrowser_v2_" + id);
     channel.setMethodCallHandler(this);
 
     initialUrl = b.getString("url");

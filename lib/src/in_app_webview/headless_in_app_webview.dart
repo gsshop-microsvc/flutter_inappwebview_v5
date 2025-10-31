@@ -110,8 +110,8 @@ class HeadlessInAppWebView implements WebView {
       this.iosShouldAllowDeprecatedTLS}) {
     id = IdGenerator.generate();
     webViewController = new InAppWebViewControllerV2(id, this);
-    this._channel =
-        MethodChannel('com.pichillilorenzo/flutter_headless_inappwebview_$id');
+    this._channel = MethodChannel(
+        'com.pichillilorenzo/flutter_headless_inappwebview_v2_$id');
     this._channel.setMethodCallHandler(handleMethod);
   }
 

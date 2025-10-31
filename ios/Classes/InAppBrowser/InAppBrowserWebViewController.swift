@@ -41,7 +41,7 @@ public class InAppBrowserWebViewController: UIViewController, InAppBrowserDelega
     var isHidden = false
 
     public override func loadView() {
-        channel = FlutterMethodChannel(name: "com.pichillilorenzo/flutter_inappbrowser_" + id, binaryMessenger: SwiftFlutterPlugin.instance!.registrar!.messenger())
+        channel = FlutterMethodChannel(name: "com.pichillilorenzo/flutter_inappbrowser_v2_" + id, binaryMessenger: SwiftFlutterPlugin.instance!.registrar!.messenger())
         
         var userScripts: [UserScript] = []
         for intialUserScript in initialUserScripts {
@@ -66,7 +66,7 @@ public class InAppBrowserWebViewController: UIViewController, InAppBrowserDelega
         methodCallDelegate = InAppWebViewMethodHandler(webView: webView!)
         channel!.setMethodCallHandler(LeakAvoider(delegate: methodCallDelegate!).handle)
         
-        let pullToRefreshLayoutChannel = FlutterMethodChannel(name: "com.pichillilorenzo/flutter_inappwebview_pull_to_refresh_" + id,
+        let pullToRefreshLayoutChannel = FlutterMethodChannel(name: "com.pichillilorenzo/flutter_inappwebview_v2_pull_to_refresh_" + id,
                                                               binaryMessenger: SwiftFlutterPlugin.instance!.registrar!.messenger())
         let pullToRefreshOptions = PullToRefreshOptions()
         let _ = pullToRefreshOptions.parse(options: pullToRefreshInitialOptions)

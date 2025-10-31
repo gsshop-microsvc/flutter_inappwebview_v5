@@ -18,7 +18,7 @@ class WebMessageChannel {
   WebMessageChannel(
       {required this.id, required this.port1, required this.port2}) {
     this._channel = MethodChannel(
-        'com.pichillilorenzo/flutter_inappwebview_web_message_channel_$id');
+        'com.pichillilorenzo/flutter_inappwebview_v2_web_message_channel_$id');
     this._channel.setMethodCallHandler(handleMethod);
   }
 

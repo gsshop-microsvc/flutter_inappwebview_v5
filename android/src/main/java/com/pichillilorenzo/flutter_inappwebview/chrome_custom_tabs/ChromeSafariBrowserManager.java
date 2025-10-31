@@ -30,7 +30,7 @@ public class ChromeSafariBrowserManager implements MethodChannel.MethodCallHandl
   public ChromeSafariBrowserManager(final InAppWebViewFlutterPlugin plugin) {
     this.id = UUID.randomUUID().toString();
     this.plugin = plugin;
-    channel = new MethodChannel(plugin.messenger, "com.pichillilorenzo/flutter_chromesafaribrowser");
+    channel = new MethodChannel(plugin.messenger, "com.pichillilorenzo/flutter_chromesafaribrowser_v2");
     channel.setMethodCallHandler(this);
     shared.put(this.id, this);
   }

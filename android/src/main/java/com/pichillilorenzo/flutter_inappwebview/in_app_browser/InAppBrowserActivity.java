@@ -89,12 +89,12 @@ public class InAppBrowserActivity extends AppCompatActivity implements InAppBrow
 
     windowId = b.getInt("windowId");
 
-    channel = new MethodChannel(manager.plugin.messenger, "com.pichillilorenzo/flutter_inappbrowser_" + id);
+    channel = new MethodChannel(manager.plugin.messenger, "com.pichillilorenzo/flutter_inappbrowser_v2_" + id);
 
     setContentView(R.layout.activity_web_view);
 
     Map<String, Object> pullToRefreshInitialOptions = (Map<String, Object>) b.getSerializable("pullToRefreshInitialOptions");
-    MethodChannel pullToRefreshLayoutChannel = new MethodChannel(manager.plugin.messenger, "com.pichillilorenzo/flutter_inappwebview_pull_to_refresh_" + id);
+    MethodChannel pullToRefreshLayoutChannel = new MethodChannel(manager.plugin.messenger, "com.pichillilorenzo/flutter_inappwebview_v2_pull_to_refresh_" + id);
     PullToRefreshOptions pullToRefreshOptions = new PullToRefreshOptions();
     pullToRefreshOptions.parse(pullToRefreshInitialOptions);
     pullToRefreshLayout = findViewById(R.id.pullToRefresh);

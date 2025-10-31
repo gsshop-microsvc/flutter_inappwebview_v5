@@ -410,7 +410,7 @@ class _InAppWebViewV2State extends State<InAppWebViewV2> {
     );
 
     _channel = MethodChannel(
-        'com.pichillilorenzo/flutter_inappwebview_sub_${_persistedId}');
+        'com.pichillilorenzo/flutter_inappwebview_v2_sub_${_persistedId}');
   }
 
   @override

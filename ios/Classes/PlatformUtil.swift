@@ -18,7 +18,7 @@ class PlatformUtil: NSObject, FlutterPlugin {
     init(registrar: FlutterPluginRegistrar) {
         super.init()
         InAppWebViewStatic.registrar = registrar
-        InAppWebViewStatic.channel = FlutterMethodChannel(name: "com.pichillilorenzo/flutter_inappwebview_platformutil", binaryMessenger: registrar.messenger())
+        InAppWebViewStatic.channel = FlutterMethodChannel(name: "com.pichillilorenzo/flutter_inappwebview_v2_platformutil", binaryMessenger: registrar.messenger())
         registrar.addMethodCallDelegate(self, channel: InAppWebViewStatic.channel!)
     }
     

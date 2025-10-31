@@ -35,7 +35,7 @@ class WebMessageListener {
     assert(!this.allowedOriginRules.contains(""),
         "allowedOriginRules cannot contain empty strings");
     this._channel = MethodChannel(
-        'com.pichillilorenzo/flutter_inappwebview_web_message_listener_$jsObjectName');
+        'com.pichillilorenzo/flutter_inappwebview_v2_web_message_listener_$jsObjectName');
     this._channel.setMethodCallHandler(handleMethod);
   }
 

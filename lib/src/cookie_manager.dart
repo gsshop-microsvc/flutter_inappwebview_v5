@@ -20,7 +20,7 @@ import 'types.dart';
 class CookieManagerV2 {
   static CookieManagerV2? _instance;
   static const MethodChannel _channel = const MethodChannel(
-      'com.pichillilorenzo/flutter_inappwebview_cookiemanager');
+      'com.pichillilorenzo/flutter_inappwebview_v2_cookiemanager');
 
   CookieManagerV2._();
 

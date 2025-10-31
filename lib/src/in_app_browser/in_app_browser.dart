@@ -75,7 +75,7 @@ class InAppBrowser {
       this.implementation = WebViewImplementation.NATIVE}) {
     id = IdGenerator.generate();
     this._channel =
-        MethodChannel('com.pichillilorenzo/flutter_inappbrowser_$id');
+        MethodChannel('com.pichillilorenzo/flutter_inappbrowser_v2_$id');
     this._channel.setMethodCallHandler(handleMethod);
     _isOpened = false;
     webViewController = new InAppWebViewControllerV2.fromInAppBrowser(

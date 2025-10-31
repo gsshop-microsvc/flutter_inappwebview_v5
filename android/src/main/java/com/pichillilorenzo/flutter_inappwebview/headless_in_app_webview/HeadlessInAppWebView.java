@@ -33,7 +33,7 @@ public class HeadlessInAppWebView implements MethodChannel.MethodCallHandler {
     this.id = id;
     this.plugin = plugin;
     this.flutterWebView = flutterWebView;
-    this.channel = new MethodChannel(plugin.messenger, "com.pichillilorenzo/flutter_headless_inappwebview_" + id);
+    this.channel = new MethodChannel(plugin.messenger, "com.pichillilorenzo/flutter_headless_inappwebview_v2_" + id);
     channel.setMethodCallHandler(this);
   }
 

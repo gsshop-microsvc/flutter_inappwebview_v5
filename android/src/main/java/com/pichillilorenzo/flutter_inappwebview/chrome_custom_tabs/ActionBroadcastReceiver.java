@@ -30,7 +30,7 @@ public class ActionBroadcastReceiver extends BroadcastReceiver {
       if (managerId != null) {
         ChromeSafariBrowserManager manager = (ChromeSafariBrowserManager) ChromeSafariBrowserManager.shared.get(managerId);
         if (manager == null || manager.plugin == null|| manager.plugin.messenger == null) return;
-        MethodChannel channel = new MethodChannel(manager.plugin.messenger, "com.pichillilorenzo/flutter_chromesafaribrowser_" + viewId);
+        MethodChannel channel = new MethodChannel(manager.plugin.messenger, "com.pichillilorenzo/flutter_chromesafaribrowser_v2_" + viewId);
         Map<String, Object> obj = new HashMap<>();
         obj.put("url", url);
         obj.put("title", title);
