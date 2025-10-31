@@ -174,7 +174,7 @@
 - Fixed "Crash at HeadlessInAppWebView dispose" [#881](https://github.com/pichillilorenzo/flutter_inappwebview/issues/881)
 - Fixed "Crash happens when HeadlessInAppWebView's dispose function is called in iOS" [#972](https://github.com/pichillilorenzo/flutter_inappwebview/issues/972)
 - Fixed "In android, when click a href with img returns img src on onCreateWindow" [#951](https://github.com/pichillilorenzo/flutter_inappwebview/issues/951)
-- Fixed "crash at com.pichillilorenzo.flutter_inappwebview.in_app_webview.InAppWebView$11.run (InAppWebView.java:1307)" [#1040](https://github.com/pichillilorenzo/flutter_inappwebview/issues/1040)
+- Fixed "crash at com.microsvc.flutter_inappwebview.in_app_webview.InAppWebView$11.run (InAppWebView.java:1307)" [#1040](https://github.com/pichillilorenzo/flutter_inappwebview/issues/1040)
 - Fixed "Unexpected behavior when using a null initialUrlRequest" [#1063](https://github.com/pichillilorenzo/flutter_inappwebview/issues/1063)
 - Fixed "Local storage & cookie didn't persist when sharedCookie and cache both enabled" [#1092](https://github.com/pichillilorenzo/flutter_inappwebview/issues/1092)
 - Fixed "ios zoomBy crash: Foundation/NSNumber.swift:467: Fatal error: Unable to bridge NSNumber to Float" [#873](https://github.com/pichillilorenzo/flutter_inappwebview/issues/873)
@@ -230,7 +230,7 @@
 - `getScale` WebView method is now deprecated. Use the new `getZoomScale` WebView method
 - Removed `final` keyword for all `HeadlessInAppWebView` events
 - Fixed wrong usage of Android WebView scale property
-- Fixed "java.lang.NullPointerException: com.pichillilorenzo.flutter_inappwebview.in_app_webview.InAppWebViewRenderProcessClient$1.success(InAppWebViewRenderProcessClient.java:37)" [#757](https://github.com/pichillilorenzo/flutter_inappwebview/issues/757)
+- Fixed "java.lang.NullPointerException: com.microsvc.flutter_inappwebview.in_app_webview.InAppWebViewRenderProcessClient$1.success(InAppWebViewRenderProcessClient.java:37)" [#757](https://github.com/pichillilorenzo/flutter_inappwebview/issues/757)
 - Fixed "In a multi-activity app, the plugin doesn't reattach to the first activity" [#732](https://github.com/pichillilorenzo/flutter_inappwebview/issues/732)
 - Fixed "ChromeSafariBrowser isn't calling its events, and not keeping track of isOpen properly" [#759](https://github.com/pichillilorenzo/flutter_inappwebview/issues/759)
 - Fixed Android ChromeSafariBrowser menu item callback not called because of PendingIntents extra were cached
