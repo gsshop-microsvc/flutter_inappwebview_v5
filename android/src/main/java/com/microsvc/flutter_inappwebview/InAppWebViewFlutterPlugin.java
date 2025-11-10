@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
+import android.view.View;
 import android.webkit.ValueCallback;
 
 import androidx.annotation.Nullable;
@@ -16,10 +17,8 @@ import com.microsvc.flutter_inappwebview.headless_in_app_webview.HeadlessInAppWe
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 import io.flutter.plugin.common.BinaryMessenger;
-import io.flutter.plugin.common.PluginRegistry;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.plugin.platform.PlatformViewRegistry;
-import io.flutter.view.FlutterView;
 
 public class InAppWebViewFlutterPlugin implements FlutterPlugin, ActivityAware {
 
@@ -40,7 +39,9 @@ public class InAppWebViewFlutterPlugin implements FlutterPlugin, ActivityAware {
   public static ValueCallback<Uri[]> filePathCallback;
 
   public Context applicationContext;
-  public PluginRegistry.Registrar registrar;
+  @SuppressWarnings("deprecation")
+  @Nullable
+  public Object registrar; // PluginRegistry.Registrar for legacy Flutter support
   public BinaryMessenger messenger;
   public FlutterPlugin.FlutterAssets flutterAssets;
   @Nullable
@@ -48,16 +49,34 @@ public class InAppWebViewFlutterPlugin implements FlutterPlugin, ActivityAware {
   @Nullable
   public Activity activity;
   @SuppressWarnings("deprecation")
-  public FlutterView flutterView;
+  public View flutterView;
 
   public InAppWebViewFlutterPlugin() {}
 
   @SuppressWarnings("deprecation")
-  public static void registerWith(PluginRegistry.Registrar registrar) {
-    final InAppWebViewFlutterPlugin instance = new InAppWebViewFlutterPlugin();
-    instance.registrar = registrar;
-    instance.onAttachedToEngine(
-            registrar.context(), registrar.messenger(), registrar.activity(), registrar.platformViewRegistry(), registrar.view());
+  public static void registerWith(Object registrar) {
+    try {
+      final InAppWebViewFlutterPlugin instance = new InAppWebViewFlutterPlugin();
+      instance.registrar = registrar;
+      
+      // Use reflection to call methods on PluginRegistry.Registrar for legacy Flutter support
+      Class<?> registrarClass = registrar.getClass();
+      java.lang.reflect.Method contextMethod = registrarClass.getMethod("context");
+      java.lang.reflect.Method messengerMethod = registrarClass.getMethod("messenger");
+      java.lang.reflect.Method activityMethod = registrarClass.getMethod("activity");
+      java.lang.reflect.Method platformViewRegistryMethod = registrarClass.getMethod("platformViewRegistry");
+      java.lang.reflect.Method viewMethod = registrarClass.getMethod("view");
+      
+      Context context = (Context) contextMethod.invoke(registrar);
+      BinaryMessenger messenger = (BinaryMessenger) messengerMethod.invoke(registrar);
+      Activity activity = (Activity) activityMethod.invoke(registrar);
+      PlatformViewRegistry platformViewRegistry = (PlatformViewRegistry) platformViewRegistryMethod.invoke(registrar);
+      View flutterView = (View) viewMethod.invoke(registrar);
+      
+      instance.onAttachedToEngine(context, messenger, activity, platformViewRegistry, flutterView);
+    } catch (Exception e) {
+      throw new RuntimeException("Failed to register plugin with legacy Flutter API", e);
+    }
   }
 
   @Override
@@ -73,7 +92,7 @@ public class InAppWebViewFlutterPlugin implements FlutterPlugin, ActivityAware {
   }
 
   @SuppressWarnings("deprecation")
-  private void onAttachedToEngine(Context applicationContext, BinaryMessenger messenger, Activity activity, PlatformViewRegistry platformViewRegistry, FlutterView flutterView) {
+  private void onAttachedToEngine(Context applicationContext, BinaryMessenger messenger, Activity activity, PlatformViewRegistry platformViewRegistry, View flutterView) {
     this.applicationContext = applicationContext;
     this.activity = activity;
     this.messenger = messenger;
@@ -167,5 +186,42 @@ public class InAppWebViewFlutterPlugin implements FlutterPlugin, ActivityAware {
   public void onDetachedFromActivity() {
     this.activityPluginBinding = null;
     this.activity = null;
+  }
+
+  @SuppressWarnings("deprecation")
+  public void addActivityResultListener(Object listener) {
+    if (registrar != null) {
+      try {
+        // Use reflection to find the method with ActivityResultListener parameter
+        java.lang.reflect.Method[] methods = registrar.getClass().getMethods();
+        for (java.lang.reflect.Method method : methods) {
+          if (method.getName().equals("addActivityResultListener") && method.getParameterTypes().length == 1) {
+            method.invoke(registrar, listener);
+            return;
+          }
+        }
+      } catch (Exception e) {
+        // Ignore if method doesn't exist or invocation fails
+      }
+    } else if (activityPluginBinding != null) {
+      try {
+        activityPluginBinding.addActivityResultListener((io.flutter.plugin.common.PluginRegistry.ActivityResultListener) listener);
+      } catch (ClassCastException e) {
+        // Ignore if listener is not the right type
+      }
+    }
+  }
+
+  @SuppressWarnings("deprecation")
+  public String lookupKeyForAsset(String asset) {
+    if (registrar != null) {
+      try {
+        java.lang.reflect.Method method = registrar.getClass().getMethod("lookupKeyForAsset", String.class);
+        return (String) method.invoke(registrar, asset);
+      } catch (Exception e) {
+        // Fallback to modern API
+      }
+    }
+    return flutterAssets != null ? flutterAssets.getAssetFilePathByName(asset) : asset;
   }
 }
