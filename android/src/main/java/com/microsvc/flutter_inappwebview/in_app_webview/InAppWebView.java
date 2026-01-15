@@ -1484,7 +1484,44 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
     return actionMode;
   }
 
+  /**
+   * 플로팅 컨텍스트 메뉴의 레이아웃 위치를 업데이트합니다.
+   * 
+   * 수정: IllegalArgumentException: Given view not a child of InAppWebView
+   * 
+   * 문제: 이 메서드는 adjustFloatingContextMenuPosition()의 비동기 JavaScript 평가 콜백에서
+   * 호출될 수 있습니다. JavaScript 평가가 시작되고 콜백이 도착하기 전 사이에, 다양한 사용자
+   * 액션으로 인해 floatingContextMenu가 뷰 계층 구조에서 제거될 수 있습니다:
+   * - 사용자가 다른 곳을 탭함 (hideContextMenu() 호출됨)
+   * - 사용자가 스크롤함 (onScrollChanged()에서 메뉴 숨김)
+   * - 사용자가 메뉴 아이템을 클릭함 (hideContextMenu() 호출됨)
+   * - checkContextMenuShouldBeClosedTask가 메뉴를 닫음
+   * - 페이지 네비게이션 또는 시스템 이벤트 발생
+   * 
+   * 더 이상 자식 뷰가 아닌 뷰에 대해 updateViewLayout()을 호출하면
+   * IllegalArgumentException이 발생합니다.
+   * 
+   * 해결: updateViewLayout()을 호출하기 전에 floatingContextMenu가 여전히 자식 뷰인지 확인합니다.
+   * 
+   * 재현 시나리오:
+   * 1. 컨텍스트 메뉴 열기 -> JavaScript 콜백이 도착하기 전에 빠르게 다른 곳 탭
+   * 2. 컨텍스트 메뉴 열기 -> JavaScript 콜백이 도착하기 전에 빠르게 스크롤
+   * 3. 컨텍스트 메뉴 열기 -> JavaScript 콜백이 도착하기 전에 빠르게 메뉴 아이템 클릭
+   * 4. 컨텍스트 메뉴 열기 -> checkContextMenuShouldBeClosedTask가 콜백 도착 전에 메뉴 닫음
+   * 5. 여러 컨텍스트 메뉴를 빠르게 연속으로 열기 (rebuildActionMode가 이전 메뉴를 닫음)
+   * 6. 메뉴가 열려있는 동안 페이지 네비게이션 발생
+   */
   public void onFloatingActionGlobalLayout(int x, int y) {
+    if (floatingContextMenu == null) {
+      return;
+    }
+    
+    // floatingContextMenu가 여전히 이 뷰의 자식인지 확인
+    // JavaScript 평가 시작과 콜백 도착 사이에 뷰가 제거되었을 때 IllegalArgumentException을 방지합니다
+    if (indexOfChild(floatingContextMenu) < 0) {
+      return;
+    }
+    
     int maxWidth = getWidth();
     int maxHeight = getHeight();
     int width = floatingContextMenu.getWidth();
@@ -1509,7 +1546,7 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
     mainLooperHandler.post(new Runnable() {
       @Override
       public void run() {
-        if (floatingContextMenu != null) {
+        if (floatingContextMenu != null && indexOfChild(floatingContextMenu) >= 0) {
           floatingContextMenu.setVisibility(View.VISIBLE);
           floatingContextMenu.animate().alpha(1f).setDuration(100).setListener(null);
         }
