@@ -1707,10 +1707,28 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
     throw new UnsupportedOperationException();
   }
 
-  //  @Override
-//  protected void onWindowVisibilityChanged(int visibility) {
-//    if (visibility != View.GONE) super.onWindowVisibilityChanged(View.VISIBLE);
-//  }
+  @Override
+  protected void onWindowVisibilityChanged(int visibility) {
+    super.onWindowVisibilityChanged(visibility);
+    if (visibility == View.VISIBLE && options != null && !options.useHybridComposition) {
+      postInvalidateOnAnimation();
+      requestLayout();
+    }
+  }
+
+  @Override
+  protected void onDetachedFromWindow() {
+    if (options != null && !options.useHybridComposition) {
+      try {
+        stopLoading();
+        loadUrl("about:blank");
+      } catch (Exception ignored) {
+      }
+      setVisibility(View.INVISIBLE);
+      destroyDrawingCache();
+    }
+    super.onDetachedFromWindow();
+  }
 
   public float getZoomScale() {
     return zoomScale;

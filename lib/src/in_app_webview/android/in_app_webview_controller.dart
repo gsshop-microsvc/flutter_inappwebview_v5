@@ -58,6 +58,16 @@ class AndroidInAppWebViewController {
     await _channel.invokeMethod('resume', args);
   }
 
+  ///Forces native WebView to invalidate/re-layout and perform tiny native scroll nudges.
+  ///Useful when the surface is stale after route transitions while page state must be preserved.
+  Future<void> forceRepaint({int passes = 3, int frameDelayMs = 16}) async {
+    Map<String, dynamic> args = <String, dynamic>{};
+    args.putIfAbsent("passes", () => passes);
+    args.putIfAbsent("frameDelayMs", () => frameDelayMs);
+    await _channel.invokeMethod('forceRepaint', args);
+  }
+
+
   ///Use [InAppWebViewController.getOriginalUrl] instead.
   @Deprecated('Use `InAppWebViewController.getOriginalUrl` instead')
   Future<Uri?> getOriginalUrl() async {
