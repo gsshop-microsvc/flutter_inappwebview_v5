@@ -2,6 +2,7 @@ package com.pichillilorenzo.flutter_inappwebview;
 
 import android.net.Uri;
 import android.os.Build;
+import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
 
