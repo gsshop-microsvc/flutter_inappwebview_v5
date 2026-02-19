@@ -1716,20 +1716,6 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
     }
   }
 
-  @Override
-  protected void onDetachedFromWindow() {
-    if (options != null && !options.useHybridComposition) {
-      try {
-        stopLoading();
-        loadUrl("about:blank");
-      } catch (Exception ignored) {
-      }
-      setVisibility(View.INVISIBLE);
-      destroyDrawingCache();
-    }
-    super.onDetachedFromWindow();
-  }
-
   public float getZoomScale() {
     return zoomScale;
   }
