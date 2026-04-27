@@ -312,6 +312,40 @@ public class InAppWebViewMethodHandler implements MethodChannel.MethodCallHandle
         }
         result.success(true);
         break;
+      case "forceRepaint":
+        if (webView instanceof WebView) {
+          final WebView nativeWebView = (WebView) webView;
+          Integer passesArg = (Integer) call.argument("passes");
+          Integer frameDelayMsArg = (Integer) call.argument("frameDelayMs");
+          final int passes = Math.max(1, Math.min(passesArg != null ? passesArg : 3, 12));
+          final int frameDelayMs = Math.max(8, Math.min(frameDelayMsArg != null ? frameDelayMsArg : 16, 80));
+
+          nativeWebView.post(new Runnable() {
+            int count = 0;
+
+            @Override
+            public void run() {
+              try {
+                nativeWebView.onResume();
+                nativeWebView.setVisibility(View.VISIBLE);
+                nativeWebView.requestFocus();
+                nativeWebView.requestLayout();
+                nativeWebView.invalidate();
+                nativeWebView.postInvalidateOnAnimation();
+                nativeWebView.scrollBy(0, 1);
+                nativeWebView.scrollBy(0, -1);
+              } catch (Exception ignored) {
+              }
+
+              count++;
+              if (count < passes) {
+                nativeWebView.postDelayed(this, frameDelayMs);
+              }
+            }
+          });
+        }
+        result.success(true);
+        break;  
       case "pauseTimers":
         if (webView != null) {
           webView.pauseTimers();
