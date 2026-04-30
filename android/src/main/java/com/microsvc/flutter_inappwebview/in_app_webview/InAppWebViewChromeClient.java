@@ -68,7 +68,7 @@ public class InAppWebViewChromeClient extends WebChromeClient implements PluginR
   public static Map<Integer, Message> windowWebViewMessages = new HashMap<>();
   private static int windowAutoincrementId = 0;
 
-  private static final String fileProviderAuthorityExtension = "flutter_inappwebview.fileprovider";
+  private static final String fileProviderAuthorityExtension = "flutter_inappwebview_v2.fileprovider";
 
   private static final int PICKER = 1;
   private static final int PICKER_LEGACY = 3;

@@ -15,7 +15,7 @@ public class CredentialDatabase {
 
   // If you change the database schema, you must increment the database version.
   public static final int DATABASE_VERSION = 2;
-  public static final String DATABASE_NAME = "CredentialDatabase.db";
+  public static final String DATABASE_NAME = "CredentialDatabaseV2.db";
 
   public URLProtectionSpaceDao protectionSpaceDao;
   public URLCredentialDao credentialDao;
