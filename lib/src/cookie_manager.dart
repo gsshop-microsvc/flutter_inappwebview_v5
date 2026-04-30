@@ -62,7 +62,7 @@ class CookieManager {
       bool? isSecure,
       bool? isHttpOnly,
       HTTPCookieSameSitePolicy? sameSite,
-      InAppWebViewController? iosBelow11WebViewController}) async {
+      InAppWebViewControllerV2? iosBelow11WebViewController}) async {
     assert(url.toString().isNotEmpty);
     assert(name.isNotEmpty);
     assert(value.isNotEmpty);
@@ -108,7 +108,7 @@ class CookieManager {
       int? maxAge,
       bool? isSecure,
       HTTPCookieSameSitePolicy? sameSite,
-      InAppWebViewController? webViewController}) async {
+      InAppWebViewControllerV2? webViewController}) async {
     var cookieValue = name + "=" + value + "; Path=" + path;
 
     if (domain != null) cookieValue += "; Domain=" + domain;
@@ -158,7 +158,7 @@ class CookieManager {
   ///to get the cookies (session-only cookies and cookies with `isHttpOnly` enabled won't be found!).
   Future<List<Cookie>> getCookies(
       {required Uri url,
-      InAppWebViewController? iosBelow11WebViewController}) async {
+      InAppWebViewControllerV2? iosBelow11WebViewController}) async {
     assert(url.toString().isNotEmpty);
 
     if (await _shouldUseJavascript()) {
@@ -190,7 +190,7 @@ class CookieManager {
   }
 
   Future<List<Cookie>> _getCookiesWithJavaScript(
-      {required Uri url, InAppWebViewController? webViewController}) async {
+      {required Uri url, InAppWebViewControllerV2? webViewController}) async {
     assert(url.toString().isNotEmpty);
 
     List<Cookie> cookies = [];
@@ -252,7 +252,7 @@ class CookieManager {
   Future<Cookie?> getCookie(
       {required Uri url,
       required String name,
-      InAppWebViewController? iosBelow11WebViewController}) async {
+      InAppWebViewControllerV2? iosBelow11WebViewController}) async {
     assert(url.toString().isNotEmpty);
     assert(name.isNotEmpty);
 
@@ -301,7 +301,7 @@ class CookieManager {
       required String name,
       String path = "/",
       String? domain,
-      InAppWebViewController? iosBelow11WebViewController}) async {
+      InAppWebViewControllerV2? iosBelow11WebViewController}) async {
     assert(url.toString().isNotEmpty);
     assert(name.isNotEmpty);
 
@@ -339,7 +339,7 @@ class CookieManager {
       {required Uri url,
       String path = "/",
       String? domain,
-      InAppWebViewController? iosBelow11WebViewController}) async {
+      InAppWebViewControllerV2? iosBelow11WebViewController}) async {
     assert(url.toString().isNotEmpty);
 
     if (await _shouldUseJavascript()) {

@@ -4,7 +4,7 @@ import '../in_app_webview/in_app_webview_controller.dart';
 import '../types.dart';
 
 ///Class that provides access to the JavaScript [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API): `window.sessionStorage` and `window.localStorage`.
-///It used by [InAppWebViewController.webStorage].
+///It used by [InAppWebViewControllerV2.webStorage].
 class WebStorage {
   ///Represents `window.localStorage`.
   LocalStorage localStorage;
@@ -45,12 +45,12 @@ class WebStorageItem {
 ///Class that provides methods to manage the JavaScript [Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage) object.
 ///It is used by [LocalStorage] and [SessionStorage].
 class Storage {
-  late InAppWebViewController _controller;
+  late InAppWebViewControllerV2 _controller;
 
   ///The web storage type: `window.sessionStorage` or `window.localStorage`.
   WebStorageType webStorageType;
 
-  Storage(InAppWebViewController controller, this.webStorageType) {
+  Storage(InAppWebViewControllerV2 controller, this.webStorageType) {
     this._controller = controller;
   }
 
@@ -147,13 +147,13 @@ class Storage {
 ///Class that provides methods to manage the JavaScript `window.localStorage` object.
 ///It used by [WebStorage].
 class LocalStorage extends Storage {
-  LocalStorage(InAppWebViewController controller)
+  LocalStorage(InAppWebViewControllerV2 controller)
       : super(controller, WebStorageType.LOCAL_STORAGE);
 }
 
 ///Class that provides methods to manage the JavaScript `window.sessionStorage` object.
 ///It used by [WebStorage].
 class SessionStorage extends Storage {
-  SessionStorage(InAppWebViewController controller)
+  SessionStorage(InAppWebViewControllerV2 controller)
       : super(controller, WebStorageType.SESSION_STORAGE);
 }

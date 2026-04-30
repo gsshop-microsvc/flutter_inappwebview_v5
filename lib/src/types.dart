@@ -19,7 +19,7 @@ import 'util.dart';
 import 'web_message/web_message_listener.dart';
 import 'web_message/web_message_channel.dart';
 
-///This type represents a callback, added with [InAppWebViewController.addJavaScriptHandler], that listens to post messages sent from JavaScript.
+///This type represents a callback, added with [InAppWebViewControllerV2.addJavaScriptHandler], that listens to post messages sent from JavaScript.
 ///
 ///The Android implementation uses [addJavascriptInterface](https://developer.android.com/reference/android/webkit/WebView#addJavascriptInterface(java.lang.Object,%20java.lang.String)).
 ///The iOS implementation uses [addScriptMessageHandler](https://developer.apple.com/documentation/webkit/wkusercontentcontroller/1537172-addscriptmessagehandler?language=objc)
@@ -1849,7 +1849,7 @@ class ClientCertResponse {
   }
 }
 
-///Class that represents a favicon of a website. It is used by [InAppWebViewController.getFavicons] method.
+///Class that represents a favicon of a website. It is used by [InAppWebViewControllerV2.getFavicons] method.
 class Favicon {
   ///The url of the favicon image.
   Uri url;
@@ -4852,7 +4852,7 @@ class AndroidWebViewPackageInfo {
   }
 }
 
-///Class that represents the result used by the [InAppWebViewController.requestFocusNodeHref] method.
+///Class that represents the result used by the [InAppWebViewControllerV2.requestFocusNodeHref] method.
 class RequestFocusNodeHrefResult {
   ///The anchor's href attribute.
   Uri? url;
@@ -4879,7 +4879,7 @@ class RequestFocusNodeHrefResult {
   }
 }
 
-///Class that represents the result used by the [InAppWebViewController.requestImageRef] method.
+///Class that represents the result used by the [InAppWebViewControllerV2.requestImageRef] method.
 class RequestImageRefResult {
   ///The image's url.
   Uri? url;
@@ -4902,7 +4902,7 @@ class RequestImageRefResult {
   }
 }
 
-///Class that represents a `<meta>` HTML tag. It is used by the [InAppWebViewController.getMetaTags] method.
+///Class that represents a `<meta>` HTML tag. It is used by the [InAppWebViewControllerV2.getMetaTags] method.
 class MetaTag {
   ///The meta tag name value.
   String? name;
@@ -5617,7 +5617,7 @@ class ContentWorld {
   }
 }
 
-///Class that represents either a success or a failure, including an associated value in each case for [InAppWebViewController.callAsyncJavaScript].
+///Class that represents either a success or a failure, including an associated value in each case for [InAppWebViewControllerV2.callAsyncJavaScript].
 class CallAsyncJavaScriptResult {
   ///It contains the success value.
   dynamic value;
@@ -5749,7 +5749,7 @@ class CompressFormat {
   int get hashCode => _value.hashCode;
 }
 
-///Class that represents the configuration data to use when generating an image from a web view’s contents using [InAppWebViewController.takeScreenshot].
+///Class that represents the configuration data to use when generating an image from a web view’s contents using [InAppWebViewControllerV2.takeScreenshot].
 ///
 ///**NOTE for iOS**: available from iOS 11.0+.
 class ScreenshotConfiguration {
@@ -5989,7 +5989,7 @@ class ReferrerPolicy {
   int get hashCode => _value.hashCode;
 }
 
-///Class that represents the possible the `<script>` HTML attributes to be set used by [InAppWebViewController.injectJavascriptFileFromUrl].
+///Class that represents the possible the `<script>` HTML attributes to be set used by [InAppWebViewControllerV2.injectJavascriptFileFromUrl].
 class ScriptHtmlTagAttributes {
   ///This attribute indicates the type of script represented. The value of this attribute will be in one of the following categories.
   ///The default value is `text/javascript`.
@@ -6093,7 +6093,7 @@ class ScriptHtmlTagAttributes {
   }
 }
 
-///Class that represents the possible CSS stylesheet `<link>` HTML attributes to be set used by [InAppWebViewController.injectCSSFileFromUrl].
+///Class that represents the possible CSS stylesheet `<link>` HTML attributes to be set used by [InAppWebViewControllerV2.injectCSSFileFromUrl].
 class CSSLinkHtmlTagAttributes {
   ///The HTML [id] attribute is used to specify a unique id for the `<link>` HTML element.
   String? id;

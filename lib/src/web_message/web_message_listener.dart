@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import '../in_app_webview/in_app_webview_controller.dart';
 import '../types.dart';
 
-///This listener receives messages sent on the JavaScript object which was injected by [InAppWebViewController.addWebMessageListener].
+///This listener receives messages sent on the JavaScript object which was injected by [InAppWebViewControllerV2.addWebMessageListener].
 class WebMessageListener {
   ///The name for the injected JavaScript object.
   final String jsObjectName;
@@ -77,7 +77,7 @@ class WebMessageListener {
   }
 }
 
-///This class represents the JavaScript object injected by [InAppWebViewController.addWebMessageListener].
+///This class represents the JavaScript object injected by [InAppWebViewControllerV2.addWebMessageListener].
 ///An instance will be given by [WebMessageListener.onPostMessage].
 ///The app can use `postMessage(String)` to talk to the JavaScript context.
 ///

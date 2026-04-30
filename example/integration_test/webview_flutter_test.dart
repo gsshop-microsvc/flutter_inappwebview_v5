@@ -93,7 +93,7 @@ void main() {
 
   group('InAppWebView', () {
     testWidgets('initialUrlRequest', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
@@ -107,14 +107,14 @@ void main() {
           ),
         ),
       );
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       final String? currentUrl = (await controller.getUrl())?.toString();
       expect(currentUrl, 'https://github.com/flutter');
     });
 
     testWidgets('set/get options', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -135,7 +135,7 @@ void main() {
           ),
         ),
       );
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -155,7 +155,7 @@ void main() {
     group('javascript code evaluation', () {
       testWidgets('evaluateJavascript', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<void> pageLoaded = Completer<void>();
 
         await tester.pumpWidget(
@@ -173,7 +173,7 @@ void main() {
             ),
           ),
         );
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
         await pageLoaded.future;
 
@@ -191,7 +191,7 @@ void main() {
       testWidgets('evaluateJavascript with content world',
           (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<void> pageLoaded = Completer<void>();
 
         await tester.pumpWidget(
@@ -209,7 +209,7 @@ void main() {
             ),
           ),
         );
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
         await pageLoaded.future;
 
@@ -227,7 +227,7 @@ void main() {
 
       testWidgets('callAsyncJavaScript', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<void> pageLoaded = Completer<void>();
 
         await tester.pumpWidget(
@@ -245,7 +245,7 @@ void main() {
             ),
           ),
         );
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
         await pageLoaded.future;
 
@@ -281,7 +281,7 @@ void main() {
       testWidgets('callAsyncJavaScript with content world',
           (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<void> pageLoaded = Completer<void>();
 
         await tester.pumpWidget(
@@ -299,7 +299,7 @@ void main() {
             ),
           ),
         );
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
         await pageLoaded.future;
 
@@ -322,7 +322,7 @@ void main() {
     });
 
     testWidgets('loadUrl', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final StreamController<String> pageLoads =
           StreamController<String>.broadcast();
 
@@ -342,7 +342,7 @@ void main() {
           ),
         ),
       );
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       var url = await pageLoads.stream.first;
       expect(url, 'https://github.com/flutter');
@@ -356,7 +356,7 @@ void main() {
     });
 
     testWidgets('loadUrl with headers', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final StreamController<String> pageStarts =
           StreamController<String>.broadcast();
       final StreamController<String> pageLoads =
@@ -382,7 +382,7 @@ void main() {
           ),
         ),
       );
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       final Map<String, String> headers = <String, String>{
         'test_header': 'flutter_test_header'
@@ -542,7 +542,7 @@ void main() {
     }, skip: !Platform.isIOS);
 
     testWidgets('JavaScript Handler', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageStarted = Completer<void>();
       final Completer<void> pageLoaded = Completer<void>();
       final Completer<void> handlerFoo = Completer<void>();
@@ -628,7 +628,7 @@ void main() {
       final Completer<void> resizeCompleter = Completer<void>();
       final Completer<void> pageStarted = Completer<void>();
       final Completer<void> pageLoaded = Completer<void>();
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final GlobalKey key = GlobalKey();
 
       final InAppWebView webView = InAppWebView(
@@ -696,7 +696,7 @@ void main() {
 
     testWidgets('set custom userAgent', (WidgetTester tester) async {
       final Completer controllerCompleter1 =
-          Completer<InAppWebViewController>();
+          Completer<InAppWebViewControllerV2>();
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
@@ -713,7 +713,7 @@ void main() {
           ),
         ),
       );
-      InAppWebViewController controller1 = await controllerCompleter1.future;
+      InAppWebViewControllerV2 controller1 = await controllerCompleter1.future;
       final String customUserAgent1 =
           await controller1.evaluateJavascript(source: 'navigator.userAgent;');
       expect(customUserAgent1, 'Custom_User_Agent1');
@@ -770,8 +770,8 @@ void main() {
       });
 
       testWidgets('Auto media playback', (WidgetTester tester) async {
-        Completer<InAppWebViewController> controllerCompleter =
-            Completer<InAppWebViewController>();
+        Completer<InAppWebViewControllerV2> controllerCompleter =
+            Completer<InAppWebViewControllerV2>();
         Completer<void> pageLoaded = Completer<void>();
 
         await tester.pumpWidget(
@@ -795,14 +795,14 @@ void main() {
             ),
           ),
         );
-        InAppWebViewController controller = await controllerCompleter.future;
+        InAppWebViewControllerV2 controller = await controllerCompleter.future;
         await pageLoaded.future;
 
         bool isPaused =
             await controller.evaluateJavascript(source: 'isPaused();');
         expect(isPaused, false);
 
-        controllerCompleter = Completer<InAppWebViewController>();
+        controllerCompleter = Completer<InAppWebViewControllerV2>();
         pageLoaded = Completer<void>();
 
         // We change the key to re-create a new webview as we change the mediaPlaybackRequiresUserGesture
@@ -837,8 +837,8 @@ void main() {
 
       testWidgets('Video plays inline when allowsInlineMediaPlayback is true',
           (WidgetTester tester) async {
-        Completer<InAppWebViewController> controllerCompleter =
-            Completer<InAppWebViewController>();
+        Completer<InAppWebViewControllerV2> controllerCompleter =
+            Completer<InAppWebViewControllerV2>();
         Completer<void> pageLoaded = Completer<void>();
         Completer<void> onEnterFullscreenCompleter = Completer<void>();
 
@@ -876,8 +876,8 @@ void main() {
       testWidgets(
           'Video plays fullscreen when allowsInlineMediaPlayback is false',
           (WidgetTester tester) async {
-        Completer<InAppWebViewController> controllerCompleter =
-            Completer<InAppWebViewController>();
+        Completer<InAppWebViewControllerV2> controllerCompleter =
+            Completer<InAppWebViewControllerV2>();
         Completer<void> pageLoaded = Completer<void>();
         Completer<void> onEnterFullscreenCompleter = Completer<void>();
 
@@ -914,8 +914,8 @@ void main() {
       }, skip: true);
 
       testWidgets('exit fullscreen event', (WidgetTester tester) async {
-        Completer<InAppWebViewController> controllerCompleter =
-            Completer<InAppWebViewController>();
+        Completer<InAppWebViewControllerV2> controllerCompleter =
+            Completer<InAppWebViewControllerV2>();
         Completer<void> pageLoaded = Completer<void>();
         Completer<void> onExitFullscreenCompleter = Completer<void>();
 
@@ -947,7 +947,7 @@ void main() {
           ),
         );
 
-        InAppWebViewController controller = await controllerCompleter.future;
+        InAppWebViewControllerV2 controller = await controllerCompleter.future;
         await pageLoaded.future;
 
         await Future.delayed(Duration(seconds: 2));
@@ -989,8 +989,8 @@ void main() {
       });
 
       testWidgets('Auto media playback', (WidgetTester tester) async {
-        Completer<InAppWebViewController> controllerCompleter =
-            Completer<InAppWebViewController>();
+        Completer<InAppWebViewControllerV2> controllerCompleter =
+            Completer<InAppWebViewControllerV2>();
         Completer<void> pageStarted = Completer<void>();
         Completer<void> pageLoaded = Completer<void>();
 
@@ -1018,7 +1018,7 @@ void main() {
             ),
           ),
         );
-        InAppWebViewController controller = await controllerCompleter.future;
+        InAppWebViewControllerV2 controller = await controllerCompleter.future;
         await pageStarted.future;
         await pageLoaded.future;
 
@@ -1026,7 +1026,7 @@ void main() {
             await controller.evaluateJavascript(source: 'isPaused();');
         expect(isPaused, false);
 
-        controllerCompleter = Completer<InAppWebViewController>();
+        controllerCompleter = Completer<InAppWebViewControllerV2>();
         pageStarted = Completer<void>();
         pageLoaded = Completer<void>();
 
@@ -1079,7 +1079,7 @@ void main() {
           base64Encode(const Utf8Encoder().convert(getTitleTest));
       final Completer<void> pageStarted = Completer<void>();
       final Completer<void> pageLoaded = Completer<void>();
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
 
       await tester.pumpWidget(
         Directionality(
@@ -1101,7 +1101,7 @@ void main() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageStarted.future;
       await pageLoaded.future;
@@ -1138,7 +1138,7 @@ void main() {
 
         final Completer<void> pageLoaded = Completer<void>();
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
 
         await tester.pumpWidget(
           Directionality(
@@ -1157,7 +1157,7 @@ void main() {
           ),
         );
 
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
         await pageLoaded.future;
         await controller.scrollTo(x: 0, y: 0);
@@ -1213,7 +1213,7 @@ void main() {
 
         final Completer<void> pageLoaded = Completer<void>();
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
 
         await tester.pumpWidget(
           Directionality(
@@ -1235,7 +1235,7 @@ void main() {
           ),
         );
 
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
         await pageLoaded.future;
         await controller.scrollTo(x: 0, y: 0);
@@ -1271,7 +1271,7 @@ void main() {
 
       testWidgets('can allow requests', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final StreamController<String> pageLoads =
             StreamController<String>.broadcast();
         await tester.pumpWidget(
@@ -1301,7 +1301,7 @@ void main() {
         );
 
         await pageLoads.stream.first; // Wait for initial page load.
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
         await controller.evaluateJavascript(
             source: 'location.href = "https://www.google.com/"');
@@ -1317,7 +1317,7 @@ void main() {
           'allow requests on iOS only if iosWKNavigationType == IOSWKNavigationType.LINK_ACTIVATED',
           (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final StreamController<String> pageLoads =
             StreamController<String>.broadcast();
         await tester.pumpWidget(
@@ -1350,7 +1350,7 @@ void main() {
         );
 
         await pageLoads.stream.first; // Wait for initial page load.
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
         await controller.evaluateJavascript(
             source: 'location.href = "https://www.google.com/"');
@@ -1378,7 +1378,7 @@ void main() {
 
       testWidgets('can block requests', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final StreamController<String> pageLoads =
             StreamController<String>.broadcast();
         await tester.pumpWidget(
@@ -1408,7 +1408,7 @@ void main() {
         );
 
         await pageLoads.stream.first; // Wait for initial page load.
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
         await controller.evaluateJavascript(
             source: 'location.href = "https://www.youtube.com/"');
@@ -1430,7 +1430,7 @@ void main() {
       testWidgets('supports asynchronous decisions',
           (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final StreamController<String> pageLoads =
             StreamController<String>.broadcast();
         await tester.pumpWidget(
@@ -1461,7 +1461,7 @@ void main() {
         );
 
         await pageLoads.stream.first; // Wait for initial page load.
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
         await controller.evaluateJavascript(
             source: 'location.href = "https://www.google.com"');
@@ -1534,7 +1534,7 @@ void main() {
 
     testWidgets('launches with allowsBackForwardNavigationGestures true on iOS',
         (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
@@ -1555,7 +1555,7 @@ void main() {
           ),
         ),
       );
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       final String? currentUrl = (await controller.getUrl())?.toString();
       expect(currentUrl, 'https://github.com/flutter');
@@ -1563,7 +1563,7 @@ void main() {
 
     testWidgets('target _blank opens in same window',
         (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final StreamController<String> pageLoads =
           StreamController<String>.broadcast();
       await tester.pumpWidget(
@@ -1587,7 +1587,7 @@ void main() {
         ),
       );
       await pageLoads.stream.first;
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
 
       await controller.evaluateJavascript(
@@ -1603,7 +1603,7 @@ void main() {
       'can open new window and go back',
       (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final StreamController<String> pageLoads =
             StreamController<String>.broadcast();
         await tester.pumpWidget(
@@ -1628,7 +1628,7 @@ void main() {
           ),
         );
         await pageLoads.stream.first;
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
 
         await controller.evaluateJavascript(
@@ -1681,7 +1681,7 @@ void main() {
         final String openWindowTestBase64 =
             base64Encode(const Utf8Encoder().convert(openWindowTest));
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<void> pageLoadCompleter = Completer<void>();
 
         await tester.pumpWidget(
@@ -1707,7 +1707,7 @@ void main() {
           ),
         );
 
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
         await pageLoadCompleter.future;
 
@@ -1726,7 +1726,7 @@ void main() {
     group('intercept ajax request', () {
       testWidgets('send string data', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer shouldInterceptAjaxPostRequestCompleter =
             Completer<void>();
         final Completer<Map<String, dynamic>> onAjaxReadyStateChangeCompleter =
@@ -1813,7 +1813,7 @@ void main() {
 
       testWidgets('send json data', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer shouldInterceptAjaxPostRequestCompleter =
             Completer<void>();
         final Completer<Map<String, dynamic>> onAjaxReadyStateChangeCompleter =
@@ -1906,7 +1906,7 @@ void main() {
 
       testWidgets('send URLSearchParams data', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer shouldInterceptAjaxPostRequestCompleter =
             Completer<void>();
         final Completer<Map<String, dynamic>> onAjaxReadyStateChangeCompleter =
@@ -1995,7 +1995,7 @@ void main() {
 
       testWidgets('send FormData', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer shouldInterceptAjaxPostRequestCompleter =
             Completer<void>();
         final Completer<Map<String, dynamic>> onAjaxReadyStateChangeCompleter =
@@ -2092,7 +2092,7 @@ void main() {
     group('intercept fetch request', () {
       testWidgets('send string data', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<Map<String, dynamic>> fetchPostCompleter =
             Completer<Map<String, dynamic>>();
         final Completer<void> shouldInterceptFetchPostRequestCompleter =
@@ -2172,7 +2172,7 @@ void main() {
 
       testWidgets('send json data', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<Map<String, dynamic>> fetchPostCompleter =
             Completer<Map<String, dynamic>>();
         final Completer<void> shouldInterceptFetchPostRequestCompleter =
@@ -2258,7 +2258,7 @@ void main() {
 
       testWidgets('send URLSearchParams data', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<Map<String, dynamic>> fetchPostCompleter =
             Completer<Map<String, dynamic>>();
         final Completer<void> shouldInterceptFetchPostRequestCompleter =
@@ -2340,7 +2340,7 @@ void main() {
 
       testWidgets('send FormData', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<Map<String, dynamic>> fetchPostCompleter =
             Completer<Map<String, dynamic>>();
         final Completer<void> shouldInterceptFetchPostRequestCompleter =
@@ -2426,7 +2426,7 @@ void main() {
     });
 
     testWidgets('Content Blocker', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
       await tester.pumpWidget(
         Directionality(
@@ -2464,7 +2464,7 @@ void main() {
     testWidgets('Http Auth Credential Database', (WidgetTester tester) async {
       HttpAuthCredentialDatabase httpAuthCredentialDatabase =
           HttpAuthCredentialDatabase.instance();
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       httpAuthCredentialDatabase.setHttpAuthCredential(
@@ -2502,7 +2502,7 @@ void main() {
           ),
         ),
       );
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -2529,7 +2529,7 @@ void main() {
     });
 
     testWidgets('onReceivedHttpAuthRequest', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -2560,7 +2560,7 @@ void main() {
           ),
         ),
       );
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -2570,7 +2570,7 @@ void main() {
     });
 
     testWidgets('onConsoleMessage', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<ConsoleMessage> onConsoleMessageCompleter =
           Completer<ConsoleMessage>();
       await tester.pumpWidget(
@@ -2599,7 +2599,7 @@ void main() {
     group("WebView Windows", () {
       testWidgets('onCreateWindow return false', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<void> pageLoaded = Completer<void>();
         await tester.pumpWidget(
           Directionality(
@@ -2634,7 +2634,7 @@ void main() {
 
       testWidgets('onCreateWindow return true', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<int> onCreateWindowCompleter = Completer<int>();
         await tester.pumpWidget(
           Directionality(
@@ -2665,7 +2665,7 @@ void main() {
         var windowId = await onCreateWindowCompleter.future;
 
         final Completer windowControllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<String> windowPageLoaded = Completer<String>();
         final Completer<void> onCloseWindowCompleter = Completer<void>();
 
@@ -2704,7 +2704,7 @@ void main() {
     });
 
     testWidgets('onFindResultReceived', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<int> numberOfMatchesCompleter = Completer<int>();
       await tester.pumpWidget(
         Directionality(
@@ -2737,7 +2737,7 @@ void main() {
     });
 
     testWidgets('onDownloadStartRequest', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<String> onDownloadStartCompleter = Completer<String>();
       await tester.pumpWidget(
         Directionality(
@@ -2783,7 +2783,7 @@ void main() {
     });
 
     testWidgets('javascript dialogs', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
       final Completer<JsAlertRequest> alertCompleter =
           Completer<JsAlertRequest>();
@@ -2874,7 +2874,7 @@ void main() {
     });
 
     testWidgets('onLoadResourceCustomScheme', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> imageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -2958,7 +2958,7 @@ void main() {
     });
 
     testWidgets('onUpdateVisitedHistory', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> firstPushCompleter = Completer<void>();
       final Completer<void> secondPushCompleter = Completer<void>();
       final Completer<void> pageLoaded = Completer<void>();
@@ -2989,7 +2989,7 @@ void main() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -3076,7 +3076,7 @@ setTimeout(function() {
     }, skip: !Platform.isAndroid);
 
     testWidgets('onScrollChanged', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
       final Completer<void> onScrollChangedCompleter = Completer<void>();
       await tester.pumpWidget(
@@ -3101,7 +3101,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -3112,7 +3112,7 @@ setTimeout(function() {
     });
 
     testWidgets('SSL request', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
       await tester.pumpWidget(
         Directionality(
@@ -3142,7 +3142,7 @@ setTimeout(function() {
           ),
         ),
       );
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -3218,7 +3218,7 @@ setTimeout(function() {
     });
 
     testWidgets('onPageCommitVisible', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<String> onPageCommitVisibleCompleter =
           Completer<String>();
 
@@ -3244,7 +3244,7 @@ setTimeout(function() {
     });
 
     testWidgets('onTitleChanged', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
       final Completer<void> onTitleChangedCompleter = Completer<void>();
 
@@ -3270,7 +3270,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
       await controller.evaluateJavascript(
@@ -3279,7 +3279,7 @@ setTimeout(function() {
     });
 
     testWidgets('onZoomScaleChanged', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
       final Completer<void> onZoomScaleChangedCompleter = Completer<void>();
 
@@ -3307,7 +3307,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
       listenForScaleChange = true;
@@ -3318,7 +3318,7 @@ setTimeout(function() {
     });
 
     testWidgets('androidOnPermissionRequest', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
       final Completer<List<String>> onPermissionRequestCompleter =
           Completer<List<String>>();
@@ -3344,7 +3344,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
       await controller.evaluateJavascript(
@@ -3363,7 +3363,7 @@ setTimeout(function() {
       ];
       List<String> resourceLoaded = [];
 
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
       final Completer<void> loadedResourceCompleter = Completer<void>();
 
@@ -3413,7 +3413,7 @@ setTimeout(function() {
     }, skip: !Platform.isAndroid);
 
     testWidgets('androidOnReceivedIcon', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
       final Completer<Uint8List> onReceivedIconCompleter =
           Completer<Uint8List>();
@@ -3444,7 +3444,7 @@ setTimeout(function() {
     }, skip: !Platform.isAndroid);
 
     testWidgets('androidOnReceivedTouchIconUrl', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<String> onReceivedTouchIconUrlCompleter =
           Completer<String>();
 
@@ -3484,7 +3484,7 @@ setTimeout(function() {
     }, skip: !Platform.isAndroid);
 
     testWidgets('androidOnJsBeforeUnload', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
       final Completer<String> onJsBeforeUnloadCompleter = Completer<String>();
 
@@ -3518,7 +3518,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
       await controller.evaluateJavascript(
@@ -3530,7 +3530,7 @@ setTimeout(function() {
     group("iosOnNavigationResponse", () {
       testWidgets('allow navigation', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<void> pageLoaded = Completer<void>();
         final Completer<String> onNavigationResponseCompleter =
             Completer<String>();
@@ -3566,7 +3566,7 @@ setTimeout(function() {
 
       testWidgets('cancel navigation', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<void> pageLoaded = Completer<void>();
         final Completer<String> onNavigationResponseCompleter =
             Completer<String>();
@@ -3602,7 +3602,7 @@ setTimeout(function() {
     }, skip: !Platform.isIOS);
 
     testWidgets('initialUserScripts', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -3638,7 +3638,7 @@ setTimeout(function() {
           ),
         ),
       );
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -3663,7 +3663,7 @@ setTimeout(function() {
     group('POST requests', () {
       testWidgets('initialUrlRequest', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<void> postPageLoaded = Completer<void>();
 
         await tester.pumpWidget(
@@ -3689,7 +3689,7 @@ setTimeout(function() {
           ),
         );
 
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
         await postPageLoaded.future;
 
@@ -3704,7 +3704,7 @@ setTimeout(function() {
 
       testWidgets('loadUrl', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<void> postPageLoaded = Completer<void>();
 
         await tester.pumpWidget(
@@ -3725,7 +3725,7 @@ setTimeout(function() {
           ),
         );
 
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
 
         var postData = Uint8List.fromList(utf8.encode("name=FooBar"));
@@ -3752,7 +3752,7 @@ setTimeout(function() {
 
       testWidgets('postUrl', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<void> postPageLoaded = Completer<void>();
 
         await tester.pumpWidget(
@@ -3773,7 +3773,7 @@ setTimeout(function() {
           ),
         );
 
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
 
         var postData = Uint8List.fromList(utf8.encode("name=FooBar"));
@@ -3795,7 +3795,7 @@ setTimeout(function() {
     });
 
     testWidgets('loadData', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final StreamController<String> pageLoads =
           StreamController<String>.broadcast();
 
@@ -3815,7 +3815,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoads.stream.first;
 
@@ -3848,7 +3848,7 @@ setTimeout(function() {
     });
 
     testWidgets('loadFile', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final StreamController<String> pageLoads =
           StreamController<String>.broadcast();
 
@@ -3868,7 +3868,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoads.stream.first;
 
@@ -3886,7 +3886,7 @@ setTimeout(function() {
     });
 
     testWidgets('reload', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final StreamController<String> pageLoads =
           StreamController<String>.broadcast();
 
@@ -3906,7 +3906,7 @@ setTimeout(function() {
           ),
         ),
       );
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       String? url = await pageLoads.stream.first;
       expect(url, 'https://github.com/flutter');
@@ -3920,7 +3920,7 @@ setTimeout(function() {
 
     testWidgets('web history - go back and forward',
         (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final StreamController<String> pageLoads =
           StreamController<String>.broadcast();
 
@@ -3941,7 +3941,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
 
       var url = await pageLoads.stream.first;
@@ -4011,7 +4011,7 @@ setTimeout(function() {
     });
 
     testWidgets('getProgress', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -4031,7 +4031,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -4040,7 +4040,7 @@ setTimeout(function() {
     });
 
     testWidgets('getHtml', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -4060,7 +4060,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -4069,7 +4069,7 @@ setTimeout(function() {
     });
 
     testWidgets('getFavicons', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -4089,7 +4089,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -4099,7 +4099,7 @@ setTimeout(function() {
     });
 
     testWidgets('isLoading', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageStarted = Completer<void>();
       final Completer<void> pageLoaded = Completer<void>();
 
@@ -4125,7 +4125,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageStarted.future;
       expect(await controller.isLoading(), true);
@@ -4135,7 +4135,7 @@ setTimeout(function() {
     });
 
     testWidgets('stopLoading', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -4160,7 +4160,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
 
       if (Platform.isAndroid) {
@@ -4173,7 +4173,7 @@ setTimeout(function() {
     });
 
     testWidgets('injectJavascriptFileFromUrl', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
       final Completer<void> jQueryLoaded = Completer<void>();
       final Completer<void> jQueryLoadError = Completer<void>();
@@ -4194,7 +4194,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -4235,7 +4235,7 @@ setTimeout(function() {
     });
 
     testWidgets('injectJavascriptFileFromAsset', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -4254,7 +4254,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -4266,7 +4266,7 @@ setTimeout(function() {
     });
 
     testWidgets('injectCSSCode', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -4285,7 +4285,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -4304,7 +4304,7 @@ setTimeout(function() {
     });
 
     testWidgets('injectCSSFileFromUrl', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -4323,7 +4323,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -4339,7 +4339,7 @@ setTimeout(function() {
     });
 
     testWidgets('injectCSSFileFromAsset', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -4358,7 +4358,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -4374,7 +4374,7 @@ setTimeout(function() {
     });
 
     testWidgets('takeScreenshot', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -4394,7 +4394,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -4408,7 +4408,7 @@ setTimeout(function() {
     });
 
     testWidgets('clearCache', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -4428,14 +4428,14 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
       await expectLater(controller.clearCache(), completes);
     });
 
     testWidgets('T-Rex Runner game', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -4454,7 +4454,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -4466,7 +4466,7 @@ setTimeout(function() {
     });
 
     testWidgets('pause/resume timers', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -4485,7 +4485,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -4507,7 +4507,7 @@ setTimeout(function() {
     });
 
     testWidgets('printCurrentPage', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -4527,7 +4527,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -4535,7 +4535,7 @@ setTimeout(function() {
     }, skip: true);
 
     testWidgets('getContentHeight', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -4555,7 +4555,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -4565,7 +4565,7 @@ setTimeout(function() {
     });
 
     testWidgets('zoomBy', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -4585,7 +4585,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -4594,7 +4594,7 @@ setTimeout(function() {
     });
 
     testWidgets('getZoomScale', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -4614,7 +4614,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -4624,7 +4624,7 @@ setTimeout(function() {
     });
 
     testWidgets('clearFocus', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -4644,7 +4644,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -4652,7 +4652,7 @@ setTimeout(function() {
     });
 
     testWidgets('requestFocusNodeHref', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -4672,7 +4672,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -4680,7 +4680,7 @@ setTimeout(function() {
     });
 
     testWidgets('requestImageRef', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -4700,7 +4700,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -4708,7 +4708,7 @@ setTimeout(function() {
     });
 
     testWidgets('getMetaTags', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -4728,7 +4728,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -4737,7 +4737,7 @@ setTimeout(function() {
     });
 
     testWidgets('getMetaThemeColor', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -4756,7 +4756,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -4764,7 +4764,7 @@ setTimeout(function() {
     });
 
     testWidgets('getCertificate', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -4784,7 +4784,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -4798,7 +4798,7 @@ setTimeout(function() {
     });
 
     testWidgets('add/remove user scripts', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final StreamController<String> pageLoads =
           StreamController<String>.broadcast();
 
@@ -4819,7 +4819,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoads.stream.first;
 
@@ -4857,7 +4857,7 @@ setTimeout(function() {
     });
 
     testWidgets('saveWebArchive', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       await tester.pumpWidget(
@@ -4877,7 +4877,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -4904,7 +4904,7 @@ setTimeout(function() {
     });
 
     testWidgets('isSecureContext', (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final StreamController<String> pageLoads =
           StreamController<String>.broadcast();
 
@@ -4925,7 +4925,7 @@ setTimeout(function() {
         ),
       );
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoads.stream.first;
       expect(await controller.isSecureContext(), true);
@@ -4939,12 +4939,12 @@ setTimeout(function() {
     });
 
     test('getDefaultUserAgent', () async {
-      expect(await InAppWebViewController.getDefaultUserAgent(), isNotNull);
+      expect(await InAppWebViewControllerV2.getDefaultUserAgent(), isNotNull);
     });
 
     testWidgets('launches with pull-to-refresh feature',
         (WidgetTester tester) async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final pullToRefreshController = PullToRefreshController(
         options: PullToRefreshOptions(
             color: Colors.blue,
@@ -4974,7 +4974,7 @@ setTimeout(function() {
           ),
         ),
       );
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       final String? currentUrl = (await controller.getUrl())?.toString();
       expect(currentUrl, 'https://github.com/flutter');
@@ -4983,7 +4983,7 @@ setTimeout(function() {
     group('WebMessage', () {
       testWidgets('WebMessageChannel', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer webMessageCompleter = Completer<String>();
         await tester.pumpWidget(
           Directionality(
@@ -5051,7 +5051,7 @@ setTimeout(function() {
 
       testWidgets('WebMessageListener', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<void> pageLoaded = Completer<void>();
         final Completer webMessageCompleter = Completer<String>();
         await tester.pumpWidget(
@@ -5105,7 +5105,7 @@ setTimeout(function() {
     group('android methods', () {
       testWidgets('clearSslPreferences', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<void> pageLoaded = Completer<void>();
 
         await tester.pumpWidget(
@@ -5125,7 +5125,7 @@ setTimeout(function() {
           ),
         );
 
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
         await pageLoaded.future;
         await expectLater(controller.android.clearSslPreferences(), completes);
@@ -5133,7 +5133,7 @@ setTimeout(function() {
 
       testWidgets('pause/resume', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<void> pageLoaded = Completer<void>();
 
         await tester.pumpWidget(
@@ -5153,7 +5153,7 @@ setTimeout(function() {
           ),
         );
 
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
         await pageLoaded.future;
         await expectLater(controller.android.pause(), completes);
@@ -5163,7 +5163,7 @@ setTimeout(function() {
 
       testWidgets('getOriginalUrl', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<void> pageLoaded = Completer<void>();
 
         await tester.pumpWidget(
@@ -5183,7 +5183,7 @@ setTimeout(function() {
           ),
         );
 
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
         await pageLoaded.future;
         var originUrl = (await controller.getOriginalUrl())?.toString();
@@ -5192,7 +5192,7 @@ setTimeout(function() {
 
       testWidgets('pageDown/pageUp', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<void> pageLoaded = Completer<void>();
 
         await tester.pumpWidget(
@@ -5212,7 +5212,7 @@ setTimeout(function() {
           ),
         );
 
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
         await pageLoaded.future;
         expect(await controller.android.pageDown(bottom: false), true);
@@ -5222,7 +5222,7 @@ setTimeout(function() {
 
       testWidgets('zoomIn/zoomOut', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<void> pageLoaded = Completer<void>();
 
         await tester.pumpWidget(
@@ -5242,7 +5242,7 @@ setTimeout(function() {
           ),
         );
 
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
         await pageLoaded.future;
         expect(await controller.android.zoomIn(), true);
@@ -5252,7 +5252,7 @@ setTimeout(function() {
 
       testWidgets('clearHistory', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final StreamController<String> pageLoads =
             StreamController<String>.broadcast();
 
@@ -5273,7 +5273,7 @@ setTimeout(function() {
           ),
         );
 
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
         await pageLoads.stream.first;
         await controller.loadUrl(
@@ -5327,7 +5327,7 @@ setTimeout(function() {
     group('ios methods', () {
       testWidgets('reloadFromOrigin', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<void> pageLoaded = Completer<void>();
 
         await tester.pumpWidget(
@@ -5347,7 +5347,7 @@ setTimeout(function() {
           ),
         );
 
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
         await pageLoaded.future;
         await expectLater(controller.ios.reloadFromOrigin(), completes);
@@ -5355,7 +5355,7 @@ setTimeout(function() {
 
       testWidgets('createPdf', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<void> pageLoaded = Completer<void>();
 
         await tester.pumpWidget(
@@ -5375,7 +5375,7 @@ setTimeout(function() {
           ),
         );
 
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
         await pageLoaded.future;
 
@@ -5388,7 +5388,7 @@ setTimeout(function() {
 
       testWidgets('createWebArchiveData', (WidgetTester tester) async {
         final Completer controllerCompleter =
-            Completer<InAppWebViewController>();
+            Completer<InAppWebViewControllerV2>();
         final Completer<void> pageLoaded = Completer<void>();
 
         await tester.pumpWidget(
@@ -5408,7 +5408,7 @@ setTimeout(function() {
           ),
         );
 
-        final InAppWebViewController controller =
+        final InAppWebViewControllerV2 controller =
             await controllerCompleter.future;
         await pageLoaded.future;
 
@@ -5547,7 +5547,7 @@ setTimeout(function() {
   group('Cookie Manager', () {
     testWidgets('set, get, delete', (WidgetTester tester) async {
       CookieManager cookieManager = CookieManager.instance();
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<String> pageLoaded = Completer<String>();
       await tester.pumpWidget(
         Directionality(
@@ -5593,7 +5593,7 @@ setTimeout(function() {
 
   group('HeadlessInAppWebView', () {
     test('run and dispose', () async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       var headlessWebView = new HeadlessInAppWebView(
@@ -5610,7 +5610,7 @@ setTimeout(function() {
       await headlessWebView.run();
       expect(headlessWebView.isRunning(), true);
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -5623,7 +5623,7 @@ setTimeout(function() {
     });
 
     test('take screenshot', () async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       var headlessWebView = new HeadlessInAppWebView(
@@ -5639,7 +5639,7 @@ setTimeout(function() {
       await headlessWebView.run();
       expect(headlessWebView.isRunning(), true);
 
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -5658,7 +5658,7 @@ setTimeout(function() {
     });
 
     test('set and get custom size', () async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
 
       var headlessWebView = new HeadlessInAppWebView(
         initialUrlRequest:
@@ -5687,7 +5687,7 @@ setTimeout(function() {
     });
 
     test('set/get options', () async {
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       final Completer<void> pageLoaded = Completer<void>();
 
       var headlessWebView = new HeadlessInAppWebView(
@@ -5704,7 +5704,7 @@ setTimeout(function() {
       );
 
       await headlessWebView.run();
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       await pageLoaded.future;
 
@@ -6000,7 +6000,7 @@ setTimeout(function() {
     testWidgets('load asset file', (WidgetTester tester) async {
       expect(localhostServer.isRunning(), true);
 
-      final Completer controllerCompleter = Completer<InAppWebViewController>();
+      final Completer controllerCompleter = Completer<InAppWebViewControllerV2>();
       await tester.pumpWidget(
         Directionality(
           textDirection: TextDirection.ltr,
@@ -6014,7 +6014,7 @@ setTimeout(function() {
           ),
         ),
       );
-      final InAppWebViewController controller =
+      final InAppWebViewControllerV2 controller =
           await controllerCompleter.future;
       final String? currentUrl = (await controller.getUrl())?.toString();
       expect(currentUrl, 'http://localhost:8080/test_assets/index.html');

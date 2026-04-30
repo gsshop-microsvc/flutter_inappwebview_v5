@@ -42,7 +42,7 @@ class AndroidInAppWebViewController {
   }
 
   ///Does a best-effort attempt to pause any processing that can be paused safely, such as animations and geolocation. Note that this call does not pause JavaScript.
-  ///To pause JavaScript globally, use [InAppWebViewController.pauseTimers]. To resume WebView, call [resume].
+  ///To pause JavaScript globally, use [InAppWebViewControllerV2.pauseTimers]. To resume WebView, call [resume].
   ///
   ///**Official Android API**: https://developer.android.com/reference/android/webkit/WebView#onPause()
   Future<void> pause() async {
@@ -68,8 +68,8 @@ class AndroidInAppWebViewController {
   }
 
 
-  ///Use [InAppWebViewController.getOriginalUrl] instead.
-  @Deprecated('Use `InAppWebViewController.getOriginalUrl` instead')
+  ///Use [InAppWebViewControllerV2.getOriginalUrl] instead.
+  @Deprecated('Use `InAppWebViewControllerV2.getOriginalUrl` instead')
   Future<Uri?> getOriginalUrl() async {
     Map<String, dynamic> args = <String, dynamic>{};
     String? url = await _channel.invokeMethod('getOriginalUrl', args);

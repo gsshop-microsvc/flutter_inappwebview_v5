@@ -19,7 +19,7 @@ class InAppWebViewExampleScreen extends StatefulWidget {
 class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
   final GlobalKey webViewKey = GlobalKey();
 
-  InAppWebViewController? webViewController;
+  InAppWebViewControllerV2? webViewController;
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
       crossPlatform: InAppWebViewOptions(
           useShouldOverrideUrlLoading: true,

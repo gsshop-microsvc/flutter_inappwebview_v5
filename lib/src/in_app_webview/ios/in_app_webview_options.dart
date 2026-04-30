@@ -155,36 +155,36 @@ class IOSInAppWebViewOptions
   ///Set to `true` to be able to listen to the [WebView.iosOnNavigationResponse] event. The default value is `false`.
   bool useOnNavigationResponse;
 
-  ///Set to `true` to enable Apple Pay API for the [WebView] at its first page load or on the next page load (using [InAppWebViewController.setOptions]). The default value is `false`.
+  ///Set to `true` to enable Apple Pay API for the [WebView] at its first page load or on the next page load (using [InAppWebViewControllerV2.setOptions]). The default value is `false`.
   ///
   ///**IMPORTANT NOTE**: As written in the official [Safari 13 Release Notes](https://developer.apple.com/documentation/safari-release-notes/safari-13-release-notes#Payment-Request-API),
-  ///it won't work if any script injection APIs are used (such as [InAppWebViewController.evaluateJavascript] or [UserScript]).
+  ///it won't work if any script injection APIs are used (such as [InAppWebViewControllerV2.evaluateJavascript] or [UserScript]).
   ///So, when this attribute is `true`, all the methods, options, and events implemented using JavaScript won't be called or won't do anything and the result will always be `null`.
   ///
   ///Methods affected:
-  ///- [InAppWebViewController.addUserScript]
-  ///- [InAppWebViewController.addUserScripts]
-  ///- [InAppWebViewController.removeUserScript]
-  ///- [InAppWebViewController.removeUserScripts]
-  ///- [InAppWebViewController.removeAllUserScripts]
-  ///- [InAppWebViewController.evaluateJavascript]
-  ///- [InAppWebViewController.callAsyncJavaScript]
-  ///- [InAppWebViewController.injectJavascriptFileFromUrl]
-  ///- [InAppWebViewController.injectJavascriptFileFromAsset]
-  ///- [InAppWebViewController.injectCSSCode]
-  ///- [InAppWebViewController.injectCSSFileFromUrl]
-  ///- [InAppWebViewController.injectCSSFileFromAsset]
-  ///- [InAppWebViewController.findAllAsync]
-  ///- [InAppWebViewController.findNext]
-  ///- [InAppWebViewController.clearMatches]
-  ///- [InAppWebViewController.pauseTimers]
-  ///- [InAppWebViewController.getSelectedText]
-  ///- [InAppWebViewController.getHitTestResult]
-  ///- [InAppWebViewController.requestFocusNodeHref]
-  ///- [InAppWebViewController.requestImageRef]
-  ///- [InAppWebViewController.postWebMessage]
-  ///- [InAppWebViewController.createWebMessageChannel]
-  ///- [InAppWebViewController.addWebMessageListener]
+  ///- [InAppWebViewControllerV2.addUserScript]
+  ///- [InAppWebViewControllerV2.addUserScripts]
+  ///- [InAppWebViewControllerV2.removeUserScript]
+  ///- [InAppWebViewControllerV2.removeUserScripts]
+  ///- [InAppWebViewControllerV2.removeAllUserScripts]
+  ///- [InAppWebViewControllerV2.evaluateJavascript]
+  ///- [InAppWebViewControllerV2.callAsyncJavaScript]
+  ///- [InAppWebViewControllerV2.injectJavascriptFileFromUrl]
+  ///- [InAppWebViewControllerV2.injectJavascriptFileFromAsset]
+  ///- [InAppWebViewControllerV2.injectCSSCode]
+  ///- [InAppWebViewControllerV2.injectCSSFileFromUrl]
+  ///- [InAppWebViewControllerV2.injectCSSFileFromAsset]
+  ///- [InAppWebViewControllerV2.findAllAsync]
+  ///- [InAppWebViewControllerV2.findNext]
+  ///- [InAppWebViewControllerV2.clearMatches]
+  ///- [InAppWebViewControllerV2.pauseTimers]
+  ///- [InAppWebViewControllerV2.getSelectedText]
+  ///- [InAppWebViewControllerV2.getHitTestResult]
+  ///- [InAppWebViewControllerV2.requestFocusNodeHref]
+  ///- [InAppWebViewControllerV2.requestImageRef]
+  ///- [InAppWebViewControllerV2.postWebMessage]
+  ///- [InAppWebViewControllerV2.createWebMessageChannel]
+  ///- [InAppWebViewControllerV2.addWebMessageListener]
   ///
   ///Options affected:
   ///- [WebView.initialUserScripts]

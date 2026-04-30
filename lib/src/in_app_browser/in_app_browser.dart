@@ -39,7 +39,7 @@ class InAppBrowserNotOpenedException implements Exception {
 }
 
 ///This class uses the native WebView of the platform.
-///The [webViewController] field can be used to access the [InAppWebViewController] API.
+///The [webViewController] field can be used to access the [InAppWebViewControllerV2] API.
 class InAppBrowser {
   ///View ID used internally.
   late final String id;
@@ -58,8 +58,8 @@ class InAppBrowser {
   static const MethodChannel _sharedChannel =
       const MethodChannel('com.microsvc/flutter_inappbrowser_v2');
 
-  /// WebView Controller that can be used to access the [InAppWebViewController] API.
-  late final InAppWebViewController webViewController;
+  /// WebView Controller that can be used to access the [InAppWebViewControllerV2] API.
+  late final InAppWebViewControllerV2 webViewController;
 
   ///The window id of a [CreateWindowAction.windowId].
   final int? windowId;
@@ -78,7 +78,7 @@ class InAppBrowser {
         MethodChannel('com.microsvc/flutter_inappbrowser_v2_$id');
     this._channel.setMethodCallHandler(handleMethod);
     _isOpened = false;
-    webViewController = new InAppWebViewController.fromInAppBrowser(
+    webViewController = new InAppWebViewControllerV2.fromInAppBrowser(
         this._channel, this, this.initialUserScripts);
   }
 
@@ -433,7 +433,7 @@ class InAppBrowser {
   ///will have no effect due to a `WKWebView` limitation when creating a new window WebView: it's impossible to return a new `WKWebView`
   ///with a different `WKWebViewConfiguration` instance (see https://developer.apple.com/documentation/webkit/wkuidelegate/1536907-webview).
   ///So, these options will be inherited from the caller WebView.
-  ///Also, note that calling [InAppWebViewController.setOptions] method using the controller of the new created WebView,
+  ///Also, note that calling [InAppWebViewControllerV2.setOptions] method using the controller of the new created WebView,
   ///it will update also the WebView options of the caller WebView.
   ///
   ///**Official Android API**: https://developer.android.com/reference/android/webkit/WebChromeClient#onCreateWindow(android.webkit.WebView,%20boolean,%20boolean,%20android.os.Message)

@@ -56,7 +56,7 @@ class WebMessageChannel {
 ///
 ///A Message port represents one endpoint of a Message Channel. In Android webview, there is no separate Message Channel object.
 ///When a message channel is created, both ports are tangled to each other and started.
-///See [InAppWebViewController.createWebMessageChannel] for creating a message channel.
+///See [InAppWebViewControllerV2.createWebMessageChannel] for creating a message channel.
 ///
 ///When a message port is first created or received via transfer, it does not have a [WebMessageCallback] to receive web messages.
 ///On Android, the messages are queued until a [WebMessageCallback] is set.

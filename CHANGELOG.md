@@ -202,8 +202,8 @@
 
 ## 5.3.2
 
-- Added `onLoad` and `onError` callbacks in `ScriptHtmlTagAttributes` class used by `InAppWebViewController.injectJavascriptFileFromUrl`
-- `InAppWebViewController.injectJavascriptFileFromAsset` returns a `Future<dynamic>` type now
+- Added `onLoad` and `onError` callbacks in `ScriptHtmlTagAttributes` class used by `InAppWebViewControllerV2.injectJavascriptFileFromUrl`
+- `InAppWebViewControllerV2.injectJavascriptFileFromAsset` returns a `Future<dynamic>` type now
 
 ## 5.3.1+1
 
@@ -220,7 +220,7 @@
 ## 5.3.0+1
 
 - Fixed "Android - Pull to refresh triggered when scrolling container inside a website" [#765](https://github.com/pichillilorenzo/flutter_inappwebview/issues/765)
-- Fixed "InAppWebViewController.getHitTestResult" wrong type mapping
+- Fixed "InAppWebViewControllerV2.getHitTestResult" wrong type mapping
 
 ## 5.3.0
 
@@ -364,7 +364,7 @@
 - Merged "fix(iOS): missing implementation of method zoomBy" [#670](https://github.com/pichillilorenzo/flutter_inappwebview/pull/670) (thanks to [pcqpcq](https://github.com/pcqpcq))
 - Merged "[mod] Fix all issues relate to long click in Android version 7.0 (#657, #527)" [#671](https://github.com/pichillilorenzo/flutter_inappwebview/pull/671) (thanks to [MrNinja](https://github.com/MrNinja))
 - Merged "Fix ViewGroup.removeView NullPointerException (#450)" [#683](https://github.com/pichillilorenzo/flutter_inappwebview/pull/683) (thanks to [toda-bps](https://github.com/toda-bps))
-- Fixed missing properties initialization when using InAppWebViewController.fromInAppBrowser
+- Fixed missing properties initialization when using InAppWebViewControllerV2.fromInAppBrowser
 - Fixed "Issue in Flutter web: 'Unsupported operation: Platform._operatingSystem'" [#507](https://github.com/pichillilorenzo/flutter_inappwebview/issues/507)
 - Fixed "window.flutter_inappwebview.callHandler is not a function" [#218](https://github.com/pichillilorenzo/flutter_inappwebview/issues/218)
 - Fixed "Android ContentBlocker - java.lang.NullPointerException ContentBlockerTrigger resource type" [#506](https://github.com/pichillilorenzo/flutter_inappwebview/issues/506)
@@ -550,7 +550,7 @@
 ## 3.0.0
 
 - Added `Promise` javascript [polyfill](https://github.com/tildeio/rsvp.js) for webviews that doesn't support it for `window.flutter_inappwebview.callHandler`
-- Added `getDefaultUserAgent` static method to `InAppWebViewController`
+- Added `getDefaultUserAgent` static method to `InAppWebViewControllerV2`
 - Added `onUpdateVisitedHistory`, `onPrint`, `onLongPressHitTestResult` event
 - Added `androidOnGeolocationPermissionsHidePrompt` event for Android webview
 - Added `iosOnWebContentProcessDidTerminate`, `iosOnDidCommit`, `iosOnDidReceiveServerRedirectForProvisionalNavigation` events for iOS webview
@@ -736,11 +736,11 @@ Breaking changes:
 
 ## 0.5.5
 
-- added `getUrl` method for the `InAppWebViewController` class
-- added `getTitle` method for the `InAppWebViewController` class
-- added `getProgress` method for the `InAppWebViewController` class
-- added `getFavicon` method for the `InAppWebViewController` class
-- added `onScrollChanged` event for the `InAppWebViewController` and `InAppBrowser` class
+- added `getUrl` method for the `InAppWebViewControllerV2` class
+- added `getTitle` method for the `InAppWebViewControllerV2` class
+- added `getProgress` method for the `InAppWebViewControllerV2` class
+- added `getFavicon` method for the `InAppWebViewControllerV2` class
+- added `onScrollChanged` event for the `InAppWebViewControllerV2` and `InAppBrowser` class
 - added `onBrowserCreated` event for the `InAppBrowser` class
 - added `openData` method for the `InAppBrowser` class
 - added `initialData` property for the `InAppWebView` widget
@@ -748,7 +748,7 @@ Breaking changes:
 ## 0.5.4
 
 - added `WebHistory` and `WebHistoryItem` class
-- added `getCopyBackForwardList`, `goBackOrForward`, `canGoBackOrForward` and `goTo` methods for the `InAppWebViewController` class
+- added `getCopyBackForwardList`, `goBackOrForward`, `canGoBackOrForward` and `goTo` methods for the `InAppWebViewControllerV2` class
 
 ## 0.5.3
 
@@ -757,8 +757,8 @@ Breaking changes:
 ## 0.5.2
 
 - fixed some missing `result.success()` on Android and iOS
-- added `postUrl()` method for the `InAppWebViewController` class
-- added `loadData()` method for the `InAppWebViewController` class
+- added `postUrl()` method for the `InAppWebViewControllerV2` class
+- added `loadData()` method for the `InAppWebViewControllerV2` class
 
 ## 0.5.1
 
@@ -769,7 +769,7 @@ Breaking changes:
 - added initial support for Inline WebViews using the `InAppWebView` widget
 - added `InAppBrowser.openFile()` method
 - added `InAppBrowser.onProgressChanged()` event
-- moved `InAppBrowser` WebView related functions on the `InAppWebViewController` class
+- moved `InAppBrowser` WebView related functions on the `InAppWebViewControllerV2` class
 - added `InAppLocalhostServer` class
 - added `InAppWebView.canGoBack()` and `InAppWebView.canGoForward()` methods
 - removed `openWithSystemBrowser` and `isLocalFile` option. Now use the corresponding method
