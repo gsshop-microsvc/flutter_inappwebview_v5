@@ -71,7 +71,7 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.flutter_inappwebview.fileprovider"
+            android:authorities="${applicationId}.flutter_inappwebview_v2.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

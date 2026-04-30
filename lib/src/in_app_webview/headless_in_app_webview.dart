@@ -3,7 +3,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_inappwebview/src/util.dart';
+import 'package:flutter_inappwebview_v2/src/util.dart';
 
 import '../context_menu.dart';
 import '../types.dart';
@@ -25,7 +25,7 @@ class HeadlessInAppWebView implements WebView {
   bool _running = false;
 
   static const MethodChannel _sharedChannel =
-      const MethodChannel('com.pichillilorenzo/flutter_headless_inappwebview');
+      const MethodChannel('com.microsvc/flutter_headless_inappwebview_v2');
   late MethodChannel _channel;
 
   ///WebView Controller that can be used to access the [InAppWebViewController] API.
@@ -112,7 +112,7 @@ class HeadlessInAppWebView implements WebView {
     id = IdGenerator.generate();
     webViewController = new InAppWebViewController(id, this);
     this._channel =
-        MethodChannel('com.pichillilorenzo/flutter_headless_inappwebview_$id');
+        MethodChannel('com.microsvc/flutter_headless_inappwebview_v2_$id');
     this._channel.setMethodCallHandler(handleMethod);
   }
 

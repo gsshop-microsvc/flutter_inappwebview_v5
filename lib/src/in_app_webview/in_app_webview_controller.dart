@@ -72,7 +72,7 @@ class InAppWebViewController {
   InAppWebViewController(dynamic id, WebView webview) {
     this._id = id;
     this._channel =
-        MethodChannel('com.pichillilorenzo/flutter_inappwebview_$id');
+        MethodChannel('com.microsvc/flutter_inappwebview_v2_$id');
     this._channel.setMethodCallHandler(handleMethod);
     this._webview = webview;
     this._userScripts =
@@ -1732,7 +1732,7 @@ class InAppWebViewController {
   ///- iOS
   Future<String> getTRexRunnerHtml() async {
     return await rootBundle.loadString(
-        "packages/flutter_inappwebview/assets/t_rex_runner/t-rex.html");
+        "packages/flutter_inappwebview_v2/assets/t_rex_runner/t-rex.html");
   }
 
   ///Gets the css of the Chromium's t-rex runner game. Used in combination with [getTRexRunnerHtml].
@@ -1742,7 +1742,7 @@ class InAppWebViewController {
   ///- iOS
   Future<String> getTRexRunnerCss() async {
     return await rootBundle.loadString(
-        "packages/flutter_inappwebview/assets/t_rex_runner/t-rex.css");
+        "packages/flutter_inappwebview_v2/assets/t_rex_runner/t-rex.css");
   }
 
   ///Scrolls the WebView to the position.

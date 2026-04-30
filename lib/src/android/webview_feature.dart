@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 ///Class that represents an Android-specific utility class for checking which WebView Support Library features are supported on the device.
 class AndroidWebViewFeature {
   static const MethodChannel _channel = const MethodChannel(
-      'com.pichillilorenzo/flutter_inappwebview_android_webviewfeature');
+      'com.microsvc/flutter_inappwebview_v2_android_webviewfeature');
 
   final String _value;
 

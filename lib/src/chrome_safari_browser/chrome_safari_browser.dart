@@ -4,7 +4,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_inappwebview/src/util.dart';
+import 'package:flutter_inappwebview_v2/src/util.dart';
 
 import 'chrome_safari_browser_options.dart';
 
@@ -47,12 +47,12 @@ class ChromeSafariBrowser {
   bool _isOpened = false;
   late MethodChannel _channel;
   static const MethodChannel _sharedChannel =
-      const MethodChannel('com.pichillilorenzo/flutter_chromesafaribrowser');
+      const MethodChannel('com.microsvc/flutter_chromesafaribrowser_v2');
 
   ChromeSafariBrowser() {
     id = IdGenerator.generate();
     this._channel =
-        MethodChannel('com.pichillilorenzo/flutter_chromesafaribrowser_$id');
+        MethodChannel('com.microsvc/flutter_chromesafaribrowser_v2_$id');
     this._channel.setMethodCallHandler(handleMethod);
     _isOpened = false;
   }
