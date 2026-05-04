@@ -21,7 +21,7 @@ import '../pull_to_refresh/pull_to_refresh_controller.dart';
 import '../pull_to_refresh/pull_to_refresh_options.dart';
 
 ///Flutter Widget for adding an **inline native WebView** integrated in the flutter widget tree.
-class InAppWebView extends StatefulWidget implements WebView {
+class InAppWebViewV2 extends StatefulWidget implements WebView {
   /// `gestureRecognizers` specifies which gestures should be consumed by the WebView.
   /// It is possible for other gesture recognizers to be competing with the web view on pointer
   /// events, e.g if the web view is inside a [ListView] the [ListView] will want to handle
@@ -34,7 +34,7 @@ class InAppWebView extends StatefulWidget implements WebView {
   ///The window id of a [CreateWindowAction.windowId].
   final int? windowId;
 
-  const InAppWebView({
+  const InAppWebViewV2({
     Key? key,
     this.windowId,
     this.initialUrlRequest,
@@ -104,7 +104,7 @@ class InAppWebView extends StatefulWidget implements WebView {
   }) : super(key: key);
 
   @override
-  _InAppWebViewState createState() => _InAppWebViewState();
+  _InAppWebViewV2State createState() => _InAppWebViewV2State();
 
   @override
   final void Function(InAppWebViewControllerV2 controller)?
@@ -225,8 +225,11 @@ class InAppWebView extends StatefulWidget implements WebView {
       DownloadStartRequest downloadStartRequest)? onDownloadStartRequest;
 
   @override
-  final void Function(InAppWebViewControllerV2 controller, int activeMatchOrdinal,
-      int numberOfMatches, bool isDoneCounting)? onFindResultReceived;
+  final void Function(
+      InAppWebViewControllerV2 controller,
+      int activeMatchOrdinal,
+      int numberOfMatches,
+      bool isDoneCounting)? onFindResultReceived;
 
   @override
   final Future<JsAlertResponse?> Function(
@@ -234,9 +237,8 @@ class InAppWebView extends StatefulWidget implements WebView {
       onJsAlert;
 
   @override
-  final Future<JsConfirmResponse?> Function(
-          InAppWebViewControllerV2 controller, JsConfirmRequest jsConfirmRequest)?
-      onJsConfirm;
+  final Future<JsConfirmResponse?> Function(InAppWebViewControllerV2 controller,
+      JsConfirmRequest jsConfirmRequest)? onJsConfirm;
 
   @override
   final Future<JsPromptResponse?> Function(
@@ -261,10 +263,12 @@ class InAppWebView extends StatefulWidget implements WebView {
       InAppWebViewControllerV2 controller, Uri url)? onLoadResourceCustomScheme;
 
   @override
-  final void Function(InAppWebViewControllerV2 controller, Uri? url)? onLoadStart;
+  final void Function(InAppWebViewControllerV2 controller, Uri? url)?
+      onLoadStart;
 
   @override
-  final void Function(InAppWebViewControllerV2 controller, Uri? url)? onLoadStop;
+  final void Function(InAppWebViewControllerV2 controller, Uri? url)?
+      onLoadStop;
 
   @override
   final void Function(InAppWebViewControllerV2 controller,
@@ -278,7 +282,8 @@ class InAppWebView extends StatefulWidget implements WebView {
       onProgressChanged;
 
   @override
-  final Future<ClientCertResponse?> Function(InAppWebViewControllerV2 controller,
+  final Future<ClientCertResponse?> Function(
+      InAppWebViewControllerV2 controller,
       URLAuthenticationChallenge challenge)? onReceivedClientCertRequest;
 
   @override
@@ -314,8 +319,8 @@ class InAppWebView extends StatefulWidget implements WebView {
 
   @override
   final Future<NavigationActionPolicy?> Function(
-          InAppWebViewControllerV2 controller, NavigationAction navigationAction)?
-      shouldOverrideUrlLoading;
+      InAppWebViewControllerV2 controller,
+      NavigationAction navigationAction)? shouldOverrideUrlLoading;
 
   @override
   final void Function(InAppWebViewControllerV2 controller)? onEnterFullscreen;
@@ -328,9 +333,8 @@ class InAppWebView extends StatefulWidget implements WebView {
       bool clampedX, bool clampedY)? onOverScrolled;
 
   @override
-  final void Function(
-          InAppWebViewControllerV2 controller, double oldScale, double newScale)?
-      onZoomScaleChanged;
+  final void Function(InAppWebViewControllerV2 controller, double oldScale,
+      double newScale)? onZoomScaleChanged;
 
   @override
   final Future<WebResourceResponse?> Function(
@@ -359,9 +363,8 @@ class InAppWebView extends StatefulWidget implements WebView {
   ///Use [onZoomScaleChanged] instead.
   @Deprecated('Use `onZoomScaleChanged` instead')
   @override
-  final void Function(
-          InAppWebViewControllerV2 controller, double oldScale, double newScale)?
-      androidOnScaleChanged;
+  final void Function(InAppWebViewControllerV2 controller, double oldScale,
+      double newScale)? androidOnScaleChanged;
 
   @override
   final Future<JsBeforeUnloadResponse?> Function(
@@ -374,7 +377,7 @@ class InAppWebView extends StatefulWidget implements WebView {
       androidOnReceivedLoginRequest;
 }
 
-class _InAppWebViewState extends State<InAppWebView> {
+class _InAppWebViewV2State extends State<InAppWebViewV2> {
   late InAppWebViewControllerV2 _controller;
   AndroidViewController? _androidViewController;
   late MethodChannel _channel;
@@ -543,7 +546,7 @@ class _InAppWebViewState extends State<InAppWebView> {
   }
 
   @override
-  void didUpdateWidget(InAppWebView oldWidget) {
+  void didUpdateWidget(InAppWebViewV2 oldWidget) {
     super.didUpdateWidget(oldWidget);
   }
 

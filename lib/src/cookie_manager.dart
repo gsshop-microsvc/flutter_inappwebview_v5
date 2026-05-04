@@ -17,24 +17,24 @@ import 'types.dart';
 ///**NOTE for iOS below 11.0 (LIMITED SUPPORT!)**: in this case, almost all of the methods ([CookieManager.deleteAllCookies] and [IOSCookieManager.getAllCookies] are not supported!)
 ///has been implemented using JavaScript because there is no other way to work with them on iOS below 11.0.
 ///See https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies#restrict_access_to_cookies for JavaScript restrictions.
-class CookieManager {
-  static CookieManager? _instance;
-  static const MethodChannel _channel = const MethodChannel(
-      'com.microsvc/flutter_inappwebview_v2_cookiemanager');
+class CookieManagerV2 {
+  static CookieManagerV2? _instance;
+  static const MethodChannel _channel =
+      const MethodChannel('com.microsvc/flutter_inappwebview_v2_cookiemanager');
 
-  CookieManager._();
+  CookieManagerV2._();
 
   ///Contains only iOS-specific methods of [CookieManager].
   late IOSCookieManager ios;
 
   ///Gets the [CookieManager] shared instance.
-  static CookieManager instance() {
+  static CookieManagerV2 instance() {
     return (_instance != null) ? _instance! : _init();
   }
 
-  static CookieManager _init() {
+  static CookieManagerV2 _init() {
     _channel.setMethodCallHandler(_handleMethod);
-    _instance = CookieManager._();
+    _instance = CookieManagerV2._();
     _instance!.ios = IOSCookieManager.instance();
     return _instance!;
   }
@@ -419,7 +419,7 @@ class IOSCookieManager {
 
     Map<String, dynamic> args = <String, dynamic>{};
     List<dynamic> cookieListMap =
-        await CookieManager._channel.invokeMethod('getAllCookies', args);
+        await CookieManagerV2._channel.invokeMethod('getAllCookies', args);
     cookieListMap = cookieListMap.cast<Map<dynamic, dynamic>>();
 
     cookieListMap.forEach((cookieMap) {

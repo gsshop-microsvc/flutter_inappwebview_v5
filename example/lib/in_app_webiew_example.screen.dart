@@ -114,7 +114,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
           Expanded(
             child: Stack(
               children: [
-                InAppWebView(
+                InAppWebViewV2(
                   key: webViewKey,
                   // contextMenu: contextMenu,
                   initialUrlRequest:
