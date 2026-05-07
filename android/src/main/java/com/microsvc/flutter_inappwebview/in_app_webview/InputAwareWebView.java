@@ -148,6 +148,10 @@ public class InputAwareWebView extends WebView {
     if (useHybridComposition) {
       return super.checkInputConnectionProxy(view);
     }
+    if (!isWebViewInputProxyView(view)) {
+      traceInputLifecycle("checkInputConnectionProxy:ignoredNonWebViewProxy", view);
+      return super.checkInputConnectionProxy(view);
+    }
     // Check to see if the view param is WebView's ThreadedInputConnectionProxyView.
     View previousProxy = threadedInputConnectionProxyView;
     threadedInputConnectionProxyView = view;
@@ -174,6 +178,29 @@ public class InputAwareWebView extends WebView {
     traceInputLifecycle("checkInputConnectionProxy:newProxy", view);
     setInputConnectionTarget(/*targetView=*/ proxyAdapterView);
     return super.checkInputConnectionProxy(view);
+  }
+
+  private boolean isWebViewInputProxyView(@Nullable View view) {
+    if (view == null) {
+      return false;
+    }
+    if (view == this || view == containerView) {
+      return false;
+    }
+    String className = view.getClass().getName();
+    if (className.contains("ThreadedInputConnectionProxyView")) {
+      return true;
+    }
+    // On Android 9/10 we occasionally receive FlutterView-related callbacks here.
+    // Explicitly reject them so we don't replace WebView proxy target incorrectly.
+    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q
+            && (className.contains("io.flutter")
+            || className.contains("FlutterView")
+            || className.contains("PlatformView"))) {
+      return false;
+    }
+    // Keep previous behavior for unknown non-Flutter views.
+    return true;
   }
 
   /**
@@ -416,7 +443,7 @@ public class InputAwareWebView extends WebView {
       if (proxyAdapterView != null) {
         return proxyAdapterView;
       }
-      if (threadedInputConnectionProxyView != null) {
+      if (isWebViewInputProxyView(threadedInputConnectionProxyView)) {
         return threadedInputConnectionProxyView;
       }
       return InputAwareWebView.this;
