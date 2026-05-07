@@ -70,6 +70,7 @@ public interface InAppWebViewInterface {
   boolean zoomIn();
   boolean zoomOut();
   void clearFocus();
+  void reconnectInputConnection();
   Map<String, Object> requestFocusNodeHref();
   Map<String, Object> requestImageRef();
   int getScrollX();

@@ -67,6 +67,16 @@ class AndroidInAppWebViewController {
     await _channel.invokeMethod('forceRepaint', args);
   }
 
+  ///Reconnects Android WebView input connection for legacy Android versions
+  ///where IME can stay visible while text no longer reaches focused inputs
+  ///after returning from another native screen.
+  ///
+  ///This is a no-op on Android 11+ and other platforms.
+  Future<void> reconnectInputConnection() async {
+    Map<String, dynamic> args = <String, dynamic>{};
+    await _channel.invokeMethod('reconnectInputConnection', args);
+  }
+
 
   ///Use [InAppWebViewControllerV2.getOriginalUrl] instead.
   @Deprecated('Use `InAppWebViewControllerV2.getOriginalUrl` instead')

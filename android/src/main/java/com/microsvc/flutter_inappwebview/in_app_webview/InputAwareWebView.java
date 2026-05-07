@@ -24,6 +24,8 @@ import androidx.annotation.Nullable;
  */
 public class InputAwareWebView extends WebView {
   private static final String LOG_TAG = "InputAwareWebView";
+  private static final long RECONNECT_INPUT_DELAY_MS = 120L;
+  private static final int MAX_RECONNECT_INPUT_RETRIES = 2;
   @Nullable
   public View containerView;
   private View threadedInputConnectionProxyView;
@@ -224,6 +226,114 @@ public class InputAwareWebView extends WebView {
           }
         }
       });
+  }
+
+  protected boolean shouldReconnectInputConnectionWorkaround() {
+    return Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q;
+  }
+
+  public void reconnectInputConnection() {
+    reconnectInputConnection("manual", true);
+  }
+
+  protected void reconnectInputConnection(String reason, boolean showSoftInput) {
+    if (!shouldReconnectInputConnectionWorkaround()) {
+      return;
+    }
+    if (!isAttachedToWindow()) {
+      logReconnectDebug("skip: not attached (reason=" + reason + ")");
+      return;
+    }
+    post(new ReconnectInputRunnable(reason, showSoftInput));
+  }
+
+  private void logReconnectDebug(String message) {
+    if (!shouldReconnectInputConnectionWorkaround()) {
+      return;
+    }
+    Log.d(LOG_TAG, "[reconnectInput] " + message);
+  }
+
+  @Nullable
+  private InputMethodManager getInputMethodManager() {
+    return (InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE);
+  }
+
+  private final class ReconnectInputRunnable implements Runnable {
+    private final String reason;
+    private final boolean showSoftInput;
+    private int attempt = 0;
+
+    ReconnectInputRunnable(String reason, boolean showSoftInput) {
+      this.reason = reason;
+      this.showSoftInput = showSoftInput;
+    }
+
+    @Override
+    public void run() {
+      if (!isAttachedToWindow()) {
+        logReconnectDebug("abort: detached (reason=" + reason + ")");
+        return;
+      }
+
+      attempt++;
+
+      // Rebuild focus state so IMM can rebuild InputConnection for old Android versions.
+      clearFocus();
+      boolean focusRequested = requestFocus();
+      View targetView = thisTargetView();
+      if (containerView != null) {
+        containerView.requestFocus();
+      }
+
+      InputMethodManager imm = getInputMethodManager();
+      boolean restarted = false;
+      boolean shown = false;
+      if (imm != null) {
+        if (!useHybridComposition && targetView != null && containerView != null) {
+          setInputConnectionTarget(targetView);
+        }
+        View restartTarget = targetView != null ? targetView : InputAwareWebView.this;
+        imm.restartInput(restartTarget);
+        restarted = true;
+        if (showSoftInput && hasWindowFocus() && isShown()) {
+          shown = imm.showSoftInput(InputAwareWebView.this, InputMethodManager.SHOW_IMPLICIT);
+        }
+      }
+
+      boolean active = imm != null && (imm.isActive(InputAwareWebView.this)
+              || (targetView != null && imm.isActive(targetView)));
+      logReconnectDebug(
+              "attempt=" + attempt
+                      + ", reason=" + reason
+                      + ", focusRequested=" + focusRequested
+                      + ", restarted=" + restarted
+                      + ", shown=" + shown
+                      + ", active=" + active
+                      + ", hybrid=" + useHybridComposition);
+
+      if (!active && attempt < MAX_RECONNECT_INPUT_RETRIES) {
+        postDelayed(this, RECONNECT_INPUT_DELAY_MS);
+      } else if (!active) {
+        logReconnectDebug("failed after retries (reason=" + reason + ")");
+      } else {
+        logReconnectDebug("success (reason=" + reason + ")");
+      }
+    }
+
+    @Nullable
+    private View thisTargetView() {
+      if (useHybridComposition) {
+        return InputAwareWebView.this;
+      }
+      if (proxyAdapterView != null) {
+        return proxyAdapterView;
+      }
+      if (threadedInputConnectionProxyView != null) {
+        return threadedInputConnectionProxyView;
+      }
+      return InputAwareWebView.this;
+    }
   }
 
   @Override

@@ -1716,6 +1716,19 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
     }
   }
 
+  @Override
+  public void onWindowFocusChanged(boolean hasWindowFocus) {
+    super.onWindowFocusChanged(hasWindowFocus);
+    if (!hasWindowFocus || !shouldReconnectInputConnectionWorkaround()) {
+      return;
+    }
+    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE);
+    boolean shouldReconnect = hasFocus() || (imm != null && imm.isActive(this));
+    if (shouldReconnect) {
+      reconnectInputConnection("windowFocusChanged:true", false);
+    }
+  }
+
   public float getZoomScale() {
     return zoomScale;
   }

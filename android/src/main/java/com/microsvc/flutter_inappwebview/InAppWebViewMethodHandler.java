@@ -458,6 +458,12 @@ public class InAppWebViewMethodHandler implements MethodChannel.MethodCallHandle
         }
         result.success(true);
         break;
+      case "reconnectInputConnection":
+        if (webView != null) {
+          webView.reconnectInputConnection();
+        }
+        result.success(true);
+        break;
       case "setContextMenu":
         if (webView != null) {
           Map<String, Object> contextMenu = (Map<String, Object>) call.argument("contextMenu");
