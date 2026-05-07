@@ -257,6 +257,7 @@ public class FlutterWebView implements PlatformWebView {
         }
         final InAppWebView webView = pairsView.first;
         if (webView != null && webView.inAppBrowserDelegate == null && !webView.options.useHybridComposition) {
+            webView.traceInputLifecycle("platformView:onInputConnectionLocked", webView);
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
                 // On Android 9/10, locking can keep a stale connection and block first typing.
                 // Keep unlock/reconnect paths only for these versions.
@@ -275,6 +276,7 @@ public class FlutterWebView implements PlatformWebView {
         }
         final InAppWebView webView = pairsView.first;
         if (webView != null && webView.inAppBrowserDelegate == null && !webView.options.useHybridComposition) {
+            webView.traceInputLifecycle("platformView:onInputConnectionUnlocked", webView);
             webView.unlockInputConnection();
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
                 webView.reconnectInputConnectionAfterUnlock("platformView:inputUnlocked");
@@ -291,6 +293,7 @@ public class FlutterWebView implements PlatformWebView {
         }
         final InAppWebView webView = pairsView.first;
         if (webView != null && !webView.options.useHybridComposition) {
+            webView.traceInputLifecycle("platformView:onFlutterViewAttached", flutterView);
             webView.setContainerView(flutterView);
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
                 webView.reconnectInputConnectionAfterUnlock("platformView:flutterViewAttached");
@@ -307,6 +310,7 @@ public class FlutterWebView implements PlatformWebView {
         }
         final InAppWebView webView = pairsView.first;
         if (webView != null && !webView.options.useHybridComposition) {
+            webView.traceInputLifecycle("platformView:onFlutterViewDetached", webView);
             webView.setContainerView(null);
         }
     }

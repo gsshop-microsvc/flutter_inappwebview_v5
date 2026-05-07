@@ -27,6 +27,7 @@ import java.util.Map;
  */
 public class InputAwareWebView extends WebView {
   private static final String LOG_TAG = "InputAwareWebView";
+  private static final String INPUT_TRACE_PREFIX = "[IAW_IME_TRACE]";
   private static final long RECONNECT_INPUT_DELAY_MS = 120L;
   private static final long AUTO_RECONNECT_INITIAL_DELAY_MS = 80L;
   private static final int MAX_RECONNECT_INPUT_RETRIES = 2;
@@ -60,6 +61,7 @@ public class InputAwareWebView extends WebView {
   public void setContainerView(View containerView) {
     View previousContainerView = this.containerView;
     this.containerView = containerView;
+    traceInputLifecycle("setContainerView", containerView);
 
     if (proxyAdapterView == null) {
       return;
@@ -102,6 +104,7 @@ public class InputAwareWebView extends WebView {
       return;
     }
 
+    traceInputLifecycle("lockInputConnection", proxyAdapterView);
     proxyAdapterView.setLocked(true);
   }
 
@@ -115,6 +118,7 @@ public class InputAwareWebView extends WebView {
       return;
     }
 
+    traceInputLifecycle("unlockInputConnection", proxyAdapterView);
     proxyAdapterView.setLocked(false);
   }
 
@@ -149,6 +153,7 @@ public class InputAwareWebView extends WebView {
     threadedInputConnectionProxyView = view;
     if (previousProxy == view) {
       // This isn't a new ThreadedInputConnectionProxyView. Ignore it.
+      traceInputLifecycle("checkInputConnectionProxy:reuse", view);
       return super.checkInputConnectionProxy(view);
     }
     if (containerView == null) {
@@ -166,6 +171,7 @@ public class InputAwareWebView extends WebView {
         /*containerView=*/ containerView,
         /*targetView=*/ view,
         /*imeHandler=*/ view.getHandler());
+    traceInputLifecycle("checkInputConnectionProxy:newProxy", view);
     setInputConnectionTarget(/*targetView=*/ proxyAdapterView);
     return super.checkInputConnectionProxy(view);
   }
@@ -300,9 +306,32 @@ public class InputAwareWebView extends WebView {
     if (!shouldReconnectInputConnectionWorkaround()) {
       return;
     }
-    Log.d(LOG_TAG, "[reconnectInput] " + message);
+    Log.d(LOG_TAG, INPUT_TRACE_PREFIX + " [reconnectInput] " + message);
     Map<String, Object> payload = new HashMap<>();
+    payload.put("tag", "IAW_IME_TRACE");
     payload.put("message", message);
+    payload.put("hasWindowFocus", hasWindowFocus());
+    payload.put("hasFocus", hasFocus());
+    payload.put("isShown", isShown());
+    payload.put("useHybridComposition", useHybridComposition);
+    onInputConnectionDebugLog(payload);
+  }
+
+  public void traceInputLifecycle(String stage, @Nullable View relatedView) {
+    if (!shouldReconnectInputConnectionWorkaround()) {
+      return;
+    }
+    String traceMessage =
+            "stage=" + stage
+                    + ", relatedView=" + (relatedView != null ? relatedView.getClass().getName() : "null")
+                    + ", hasWindowFocus=" + hasWindowFocus()
+                    + ", hasFocus=" + hasFocus()
+                    + ", isShown=" + isShown()
+                    + ", useHybridComposition=" + useHybridComposition;
+    Log.d(LOG_TAG, INPUT_TRACE_PREFIX + " " + traceMessage);
+    Map<String, Object> payload = new HashMap<>();
+    payload.put("tag", "IAW_IME_TRACE");
+    payload.put("message", traceMessage);
     payload.put("hasWindowFocus", hasWindowFocus());
     payload.put("hasFocus", hasFocus());
     payload.put("isShown", isShown());
