@@ -105,6 +105,10 @@ public class InputAwareWebView extends WebView {
     proxyAdapterView.setLocked(true);
   }
 
+  public boolean hasCachedInputConnection() {
+    return proxyAdapterView != null && proxyAdapterView.hasCachedConnection();
+  }
+
   /** Sets the proxy adapter view back to its default behavior. */
   public void unlockInputConnection() {
     if (proxyAdapterView == null) {
