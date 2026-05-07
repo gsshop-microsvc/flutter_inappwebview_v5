@@ -14,6 +14,9 @@ import android.widget.ListPopupWindow;
 
 import androidx.annotation.Nullable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A WebView subclass that mirrors the same implementation hacks that the system WebView does in
  * order to correctly create an InputConnection.
@@ -25,6 +28,7 @@ import androidx.annotation.Nullable;
 public class InputAwareWebView extends WebView {
   private static final String LOG_TAG = "InputAwareWebView";
   private static final long RECONNECT_INPUT_DELAY_MS = 120L;
+  private static final long AUTO_RECONNECT_INITIAL_DELAY_MS = 80L;
   private static final int MAX_RECONNECT_INPUT_RETRIES = 2;
   @Nullable
   public View containerView;
@@ -236,6 +240,21 @@ public class InputAwareWebView extends WebView {
     reconnectInputConnection("manual", true);
   }
 
+  protected void reconnectInputConnectionDelayed(String reason, boolean showSoftInput, long delayMs) {
+    if (!shouldReconnectInputConnectionWorkaround()) {
+      return;
+    }
+    if (!isAttachedToWindow()) {
+      logReconnectDebug("skip delayed: not attached (reason=" + reason + ")");
+      return;
+    }
+    postDelayed(new ReconnectInputRunnable(reason, showSoftInput), Math.max(0L, delayMs));
+  }
+
+  protected long getDefaultAutoReconnectInitialDelayMs() {
+    return AUTO_RECONNECT_INITIAL_DELAY_MS;
+  }
+
   protected void reconnectInputConnection(String reason, boolean showSoftInput) {
     if (!shouldReconnectInputConnectionWorkaround()) {
       return;
@@ -252,7 +271,16 @@ public class InputAwareWebView extends WebView {
       return;
     }
     Log.d(LOG_TAG, "[reconnectInput] " + message);
+    Map<String, Object> payload = new HashMap<>();
+    payload.put("message", message);
+    payload.put("hasWindowFocus", hasWindowFocus());
+    payload.put("hasFocus", hasFocus());
+    payload.put("isShown", isShown());
+    payload.put("useHybridComposition", useHybridComposition);
+    onInputConnectionDebugLog(payload);
   }
+
+  protected void onInputConnectionDebugLog(Map<String, Object> payload) {}
 
   @Nullable
   private InputMethodManager getInputMethodManager() {
@@ -278,13 +306,10 @@ public class InputAwareWebView extends WebView {
 
       attempt++;
 
-      // Rebuild focus state so IMM can rebuild InputConnection for old Android versions.
-      clearFocus();
-      boolean focusRequested = requestFocus();
+      // Keep current focus chain; clearFocus() may close IME on some Android 9/10 devices.
+      boolean focusRequested = hasFocus() || requestFocus();
       View targetView = thisTargetView();
-      if (containerView != null) {
-        containerView.requestFocus();
-      }
+      boolean targetFocusRequested = targetView != null && (targetView.isFocused() || targetView.requestFocus());
 
       InputMethodManager imm = getInputMethodManager();
       boolean restarted = false;
@@ -294,9 +319,10 @@ public class InputAwareWebView extends WebView {
           setInputConnectionTarget(targetView);
         }
         View restartTarget = targetView != null ? targetView : InputAwareWebView.this;
+        imm.viewClicked(restartTarget);
         imm.restartInput(restartTarget);
         restarted = true;
-        if (showSoftInput && hasWindowFocus() && isShown()) {
+        if (showSoftInput && hasWindowFocus() && isShown() && !imm.isActive(restartTarget)) {
           shown = imm.showSoftInput(InputAwareWebView.this, InputMethodManager.SHOW_IMPLICIT);
         }
       }
@@ -307,6 +333,7 @@ public class InputAwareWebView extends WebView {
               "attempt=" + attempt
                       + ", reason=" + reason
                       + ", focusRequested=" + focusRequested
+                      + ", targetFocusRequested=" + targetFocusRequested
                       + ", restarted=" + restarted
                       + ", shown=" + shown
                       + ", active=" + active
@@ -315,6 +342,7 @@ public class InputAwareWebView extends WebView {
       if (!active && attempt < MAX_RECONNECT_INPUT_RETRIES) {
         postDelayed(this, RECONNECT_INPUT_DELAY_MS);
       } else if (!active) {
+        logReconnectFailureSnapshot(reason, targetView, imm);
         logReconnectDebug("failed after retries (reason=" + reason + ")");
       } else {
         logReconnectDebug("success (reason=" + reason + ")");
@@ -333,6 +361,23 @@ public class InputAwareWebView extends WebView {
         return threadedInputConnectionProxyView;
       }
       return InputAwareWebView.this;
+    }
+
+    private void logReconnectFailureSnapshot(String reason, @Nullable View targetView, @Nullable InputMethodManager imm) {
+      View root = getRootView();
+      View focused = root != null ? root.findFocus() : null;
+      logReconnectDebug(
+              "failureSnapshot reason=" + reason
+                      + ", webViewHasFocus=" + hasFocus()
+                      + ", webViewWindowFocus=" + hasWindowFocus()
+                      + ", webViewShown=" + isShown()
+                      + ", targetClass=" + (targetView != null ? targetView.getClass().getName() : "null")
+                      + ", targetFocused=" + (targetView != null && targetView.isFocused())
+                      + ", rootFocusedClass=" + (focused != null ? focused.getClass().getName() : "null")
+                      + ", immAvailable=" + (imm != null)
+                      + ", immAcceptingText=" + (imm != null && imm.isAcceptingText())
+                      + ", immActiveWebView=" + (imm != null && imm.isActive(InputAwareWebView.this))
+                      + ", immActiveTarget=" + (imm != null && targetView != null && imm.isActive(targetView)));
     }
   }
 

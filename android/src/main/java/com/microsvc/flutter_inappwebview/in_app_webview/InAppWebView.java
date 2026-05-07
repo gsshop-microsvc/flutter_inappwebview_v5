@@ -3,6 +3,7 @@ package com.microsvc.flutter_inappwebview.in_app_webview;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.annotation.TargetApi;
+import android.content.pm.ApplicationInfo;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -85,6 +86,7 @@ import com.microsvc.flutter_inappwebview.types.WebMessageChannel;
 import com.microsvc.flutter_inappwebview.types.WebMessageListener;
 
 import org.json.JSONObject;
+import org.json.JSONException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -1713,6 +1715,9 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
     if (visibility == View.VISIBLE && options != null && !options.useHybridComposition) {
       postInvalidateOnAnimation();
       requestLayout();
+      if (shouldReconnectInputConnectionWorkaround()) {
+        maybeReconnectInputOnFocusRestore("windowVisibility:visible");
+      }
     }
   }
 
@@ -1722,11 +1727,141 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
     if (!hasWindowFocus || !shouldReconnectInputConnectionWorkaround()) {
       return;
     }
-    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE);
-    boolean shouldReconnect = hasFocus() || (imm != null && imm.isActive(this));
-    if (shouldReconnect) {
-      reconnectInputConnection("windowFocusChanged:true", false);
+    maybeReconnectInputOnFocusRestore("windowFocusChanged:true");
+  }
+
+  private void maybeReconnectInputOnFocusRestore(final String reason) {
+    if (!shouldReconnectInputConnectionWorkaround()) {
+      return;
     }
+    if (!getSettings().getJavaScriptEnabled() || Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+      reconnectInputConnectionDelayed(reason + ":no-js-check", false, getDefaultAutoReconnectInitialDelayMs());
+      return;
+    }
+    evaluateJavascript(
+            "(function(){try{"
+                    + "var el=document.activeElement;"
+                    + "if(!el){return {editable:false,tag:null,type:null,readOnly:null,disabled:null,docHasFocus:document.hasFocus()};}"
+                    + "var tag=(el.tagName||'').toLowerCase();"
+                    + "var type=(el.type||'').toLowerCase();"
+                    + "var editable=!!(el.isContentEditable||tag==='textarea'||(tag==='input'&&!/^(button|checkbox|color|file|hidden|image|radio|range|reset|submit)$/i.test(type)));"
+                    + "return {editable:editable,tag:tag,type:type,readOnly:!!el.readOnly,disabled:!!el.disabled,docHasFocus:document.hasFocus()};"
+                    + "}catch(e){return {editable:null,error:String(e)};}})();",
+            new ValueCallback<String>() {
+              @Override
+              public void onReceiveValue(String value) {
+                Map<String, Object> state = parseEditableState(value);
+                boolean editable = toBoolean(state.get("editable"));
+                boolean readOnly = toBoolean(state.get("readOnly"));
+                boolean disabled = toBoolean(state.get("disabled"));
+                if (editable && !readOnly && !disabled) {
+                  reconnectInputConnectionDelayed(reason + ":editable", false, getDefaultAutoReconnectInitialDelayMs());
+                } else {
+                  Log.d(LOG_TAG, "[reconnectInput] skip auto reconnect, reason=" + reason + ", state=" + state);
+                }
+              }
+            });
+  }
+
+  private Map<String, Object> parseEditableState(String jsValue) {
+    Map<String, Object> state = new HashMap<>();
+    if (jsValue == null || jsValue.equals("null")) {
+      state.put("editable", false);
+      state.put("raw", jsValue);
+      return state;
+    }
+    try {
+      JSONObject object = new JSONObject(jsValue);
+      Iterator<String> keys = object.keys();
+      while (keys.hasNext()) {
+        String key = keys.next();
+        state.put(key, object.get(key));
+      }
+    } catch (JSONException e) {
+      state.put("editable", false);
+      state.put("parseError", e.getMessage());
+      state.put("raw", jsValue);
+    }
+    return state;
+  }
+
+  private boolean toBoolean(Object value) {
+    if (value instanceof Boolean) {
+      return (Boolean) value;
+    }
+    if (value instanceof String) {
+      return Boolean.parseBoolean((String) value);
+    }
+    return false;
+  }
+
+  @Override
+  protected void onInputConnectionDebugLog(Map<String, Object> payload) {
+    if (channel == null || !isDebuggableApp()) {
+      return;
+    }
+    try {
+      channel.invokeMethod("onInputConnectionDebugLog", payload);
+    } catch (Exception e) {
+      Log.d(LOG_TAG, "[reconnectInput] failed to dispatch Flutter debug log: " + e.getMessage());
+    }
+  }
+
+  private boolean isDebuggableApp() {
+    ApplicationInfo applicationInfo = getContext().getApplicationInfo();
+    return applicationInfo != null
+            && (applicationInfo.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+  }
+
+  public void diagnoseInputConnection(final MethodChannel.Result result) {
+    final Map<String, Object> nativeState = new HashMap<>();
+    nativeState.put("sdkInt", Build.VERSION.SDK_INT);
+    nativeState.put("useHybridComposition", options != null && options.useHybridComposition);
+    nativeState.put("hasWindowFocus", hasWindowFocus());
+    nativeState.put("hasFocus", hasFocus());
+    nativeState.put("isShown", isShown());
+    nativeState.put("isAttachedToWindow", isAttachedToWindow());
+    nativeState.put("containerViewPresent", containerView != null);
+    nativeState.put("containerHasFocus", containerView != null && containerView.hasFocus());
+
+    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE);
+    nativeState.put("immAvailable", imm != null);
+    nativeState.put("immIsAcceptingText", imm != null && imm.isAcceptingText());
+    nativeState.put("immIsActiveWebView", imm != null && imm.isActive(this));
+
+    View root = getRootView();
+    View currentFocus = root != null ? root.findFocus() : null;
+    nativeState.put("rootFocusedViewClass", currentFocus != null ? currentFocus.getClass().getName() : null);
+
+    if (!getSettings().getJavaScriptEnabled() || Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+      Log.d(LOG_TAG, "[diagnoseInput] native=" + nativeState + ", js=skipped");
+      Map<String, Object> resultMap = new HashMap<>();
+      resultMap.put("native", nativeState);
+      resultMap.put("js", null);
+      result.success(resultMap);
+      return;
+    }
+
+    evaluateJavascript(
+            "(function(){try{"
+                    + "var el=document.activeElement;"
+                    + "if(!el){return {hasActiveElement:false,docHasFocus:document.hasFocus()};}"
+                    + "var tag=(el.tagName||'').toLowerCase();"
+                    + "var type=(el.type||'').toLowerCase();"
+                    + "var valueLen=(typeof el.value==='string')?el.value.length:null;"
+                    + "return {hasActiveElement:true,docHasFocus:document.hasFocus(),tag:tag,type:type,isContentEditable:!!el.isContentEditable,readOnly:!!el.readOnly,disabled:!!el.disabled,valueLength:valueLen};"
+                    + "}catch(e){return {error:String(e)};}})();",
+            new ValueCallback<String>() {
+              @Override
+              public void onReceiveValue(String value) {
+                Map<String, Object> jsState = parseEditableState(value);
+                Map<String, Object> resultMap = new HashMap<>();
+                resultMap.put("native", nativeState);
+                resultMap.put("js", jsState);
+                Log.d(LOG_TAG, "[diagnoseInput] " + resultMap);
+                result.success(resultMap);
+              }
+            });
   }
 
   public float getZoomScale() {

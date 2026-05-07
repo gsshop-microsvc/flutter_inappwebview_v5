@@ -77,6 +77,16 @@ class AndroidInAppWebViewController {
     await _channel.invokeMethod('reconnectInputConnection', args);
   }
 
+  ///Collects native/JS input diagnostics to investigate cases where IME is
+  ///visible but typed characters do not reach the focused web input.
+  ///
+  ///Returns a map with `native` and `js` sections when available.
+  Future<Map<String, dynamic>?> diagnoseInputConnection() async {
+    Map<String, dynamic> args = <String, dynamic>{};
+    return (await _channel.invokeMethod('diagnoseInputConnection', args))
+        ?.cast<String, dynamic>();
+  }
+
 
   ///Use [InAppWebViewControllerV2.getOriginalUrl] instead.
   @Deprecated('Use `InAppWebViewControllerV2.getOriginalUrl` instead')
