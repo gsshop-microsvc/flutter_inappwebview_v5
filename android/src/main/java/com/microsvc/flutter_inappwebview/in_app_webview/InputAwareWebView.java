@@ -58,6 +58,7 @@ public class InputAwareWebView extends WebView {
   }
 
   public void setContainerView(View containerView) {
+    View previousContainerView = this.containerView;
     this.containerView = containerView;
 
     if (proxyAdapterView == null) {
@@ -66,6 +67,20 @@ public class InputAwareWebView extends WebView {
 
     Log.w(LOG_TAG, "The containerView has changed while the proxyAdapterView exists.");
     if (containerView != null) {
+      // On some Android 9/10 route transitions, Flutter reattaches with a different container view.
+      // Recreate proxyAdapterView so it uses the latest window token/handler chain.
+      if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q
+              && previousContainerView != null
+              && previousContainerView != containerView
+              && threadedInputConnectionProxyView != null
+              && threadedInputConnectionProxyView.getHandler() != null) {
+        proxyAdapterView =
+                new ThreadedInputConnectionProxyAdapterView(
+                        /*containerView=*/ containerView,
+                        /*targetView=*/ threadedInputConnectionProxyView,
+                        /*imeHandler=*/ threadedInputConnectionProxyView.getHandler());
+        logReconnectDebug("recreated proxyAdapterView after containerView swap");
+      }
       setInputConnectionTarget(proxyAdapterView);
     }
   }
@@ -238,6 +253,10 @@ public class InputAwareWebView extends WebView {
 
   public void reconnectInputConnection() {
     reconnectInputConnection("manual", true);
+  }
+
+  public void reconnectInputConnectionAfterUnlock(String reason) {
+    reconnectInputConnectionDelayed(reason, false, 24L);
   }
 
   protected void reconnectInputConnectionDelayed(String reason, boolean showSoftInput, long delayMs) {

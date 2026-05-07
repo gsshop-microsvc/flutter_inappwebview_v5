@@ -271,6 +271,7 @@ public class FlutterWebView implements PlatformWebView {
         final InAppWebView webView = pairsView.first;
         if (webView != null && webView.inAppBrowserDelegate == null && !webView.options.useHybridComposition) {
             webView.unlockInputConnection();
+            webView.reconnectInputConnectionAfterUnlock("platformView:inputUnlocked");
         }
     }
 
@@ -284,6 +285,7 @@ public class FlutterWebView implements PlatformWebView {
         final InAppWebView webView = pairsView.first;
         if (webView != null && !webView.options.useHybridComposition) {
             webView.setContainerView(flutterView);
+            webView.reconnectInputConnectionAfterUnlock("platformView:flutterViewAttached");
         }
     }
 
