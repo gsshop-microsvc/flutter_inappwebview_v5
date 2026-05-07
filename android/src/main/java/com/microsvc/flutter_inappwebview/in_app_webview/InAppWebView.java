@@ -1271,6 +1271,14 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   public boolean onTouchEvent(MotionEvent ev) {
     lastTouch = new Point((int) ev.getX(), (int) ev.getY());
 
+    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q
+            && !options.useHybridComposition
+            && ev.getActionMasked() == MotionEvent.ACTION_DOWN
+            && !hasCachedInputConnection()) {
+      // Warm up input connection at the exact user-interaction timing.
+      reconnectInputConnectionDelayed("webView:firstTouchWarmup", false, 24L);
+    }
+
     ViewParent parent = getParent();
     if (parent instanceof PullToRefreshLayout) {
       PullToRefreshLayout pullToRefreshLayout = (PullToRefreshLayout) parent;

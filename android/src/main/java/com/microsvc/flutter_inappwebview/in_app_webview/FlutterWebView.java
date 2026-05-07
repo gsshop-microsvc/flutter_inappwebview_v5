@@ -294,9 +294,6 @@ public class FlutterWebView implements PlatformWebView {
             webView.setContainerView(flutterView);
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q && webView.hasCachedInputConnection()) {
                 webView.reconnectInputConnectionAfterUnlock("platformView:flutterViewAttached");
-            } else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
-                // Prime the first input connection on initial attach without forcing keyboard popup.
-                webView.reconnectInputConnectionDelayed("platformView:flutterViewAttached:warmup", false, 120L);
             }
         }
     }
