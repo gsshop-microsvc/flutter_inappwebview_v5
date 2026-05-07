@@ -248,57 +248,55 @@ public class FlutterWebView implements PlatformWebView {
 
     }
 
-    // @Override
-    // public void onInputConnectionLocked() {
-    //     Pair<InAppWebView, PullToRefreshLayout> pairsView
-    //             = WebViewManager.persistedWebViewMap.get(persistedId);
+    @Override
+    public void onInputConnectionLocked() {
+        Pair<InAppWebView, PullToRefreshLayout> pairsView =
+                WebViewManager.persistedWebViewMap.get(persistedId);
+        if (pairsView == null) {
+            return;
+        }
+        final InAppWebView webView = pairsView.first;
+        if (webView != null && webView.inAppBrowserDelegate == null && !webView.options.useHybridComposition) {
+            webView.lockInputConnection();
+        }
+    }
 
-    //     final InAppWebView webView = pairsView.first;
-    //     final PullToRefreshLayout pullToRefreshLayout = pairsView.second;
-    //     MethodChannel channel = WebViewManager.persistedMethodChannel.get(persistedId);
+    @Override
+    public void onInputConnectionUnlocked() {
+        Pair<InAppWebView, PullToRefreshLayout> pairsView =
+                WebViewManager.persistedWebViewMap.get(persistedId);
+        if (pairsView == null) {
+            return;
+        }
+        final InAppWebView webView = pairsView.first;
+        if (webView != null && webView.inAppBrowserDelegate == null && !webView.options.useHybridComposition) {
+            webView.unlockInputConnection();
+        }
+    }
 
-    //     if (webView != null && webView.inAppBrowserDelegate == null && !webView.options.useHybridComposition)
-    //         webView.lockInputConnection();
-    // }
+    @Override
+    public void onFlutterViewAttached(@NonNull View flutterView) {
+        Pair<InAppWebView, PullToRefreshLayout> pairsView =
+                WebViewManager.persistedWebViewMap.get(persistedId);
+        if (pairsView == null) {
+            return;
+        }
+        final InAppWebView webView = pairsView.first;
+        if (webView != null && !webView.options.useHybridComposition) {
+            webView.setContainerView(flutterView);
+        }
+    }
 
-    // @Override
-    // public void onInputConnectionUnlocked() {
-    //     Pair<InAppWebView, PullToRefreshLayout> pairsView
-    //             = WebViewManager.persistedWebViewMap.get(persistedId);
-
-    //     final InAppWebView webView = pairsView.first;
-    //     final PullToRefreshLayout pullToRefreshLayout = pairsView.second;
-    //     MethodChannel channel = WebViewManager.persistedMethodChannel.get(persistedId);
-
-    //     if (webView != null && webView.inAppBrowserDelegate == null && !webView.options.useHybridComposition)
-    //         webView.unlockInputConnection();
-    // }
-
-    // @Override
-    // public void onFlutterViewAttached(@NonNull View flutterView) {
-    //     Pair<InAppWebView, PullToRefreshLayout> pairsView
-    //             = WebViewManager.persistedWebViewMap.get(persistedId);
-
-    //     final InAppWebView webView = pairsView.first;
-    //     final PullToRefreshLayout pullToRefreshLayout = pairsView.second;
-    //     MethodChannel channel = WebViewManager.persistedMethodChannel.get(persistedId);
-
-    //     if (webView != null && !webView.options.useHybridComposition) {
-    //         webView.setContainerView(flutterView);
-    //     }
-    // }
-
-    // @Override
-    // public void onFlutterViewDetached() {
-    //     Pair<InAppWebView, PullToRefreshLayout> pairsView
-    //             = WebViewManager.persistedWebViewMap.get(persistedId);
-
-    //     final InAppWebView webView = pairsView.first;
-    //     final PullToRefreshLayout pullToRefreshLayout = pairsView.second;
-    //     MethodChannel channel = WebViewManager.persistedMethodChannel.get(persistedId);
-
-    //     if (webView != null && !webView.options.useHybridComposition) {
-    //         webView.setContainerView(null);
-    //     }
-    // }
+    @Override
+    public void onFlutterViewDetached() {
+        Pair<InAppWebView, PullToRefreshLayout> pairsView =
+                WebViewManager.persistedWebViewMap.get(persistedId);
+        if (pairsView == null) {
+            return;
+        }
+        final InAppWebView webView = pairsView.first;
+        if (webView != null && !webView.options.useHybridComposition) {
+            webView.setContainerView(null);
+        }
+    }
 }
