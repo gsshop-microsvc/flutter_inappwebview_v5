@@ -44,6 +44,10 @@ final class ThreadedInputConnectionProxyAdapterView extends View {
         isLocked = locked;
     }
 
+    boolean hasCachedConnection() {
+        return cachedConnection != null;
+    }
+
     /**
      * This is expected to be called on the IME thread. See the setup required for this in {@link
      * InputAwareWebView#checkInputConnectionProxy(View)}.

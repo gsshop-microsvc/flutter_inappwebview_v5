@@ -95,6 +95,13 @@ public class InputAwareWebView extends WebView {
       return;
     }
 
+    // API 29 and below can call lock before any valid connection exists.
+    // Locking with a null cache causes first text input to fail.
+    if (shouldReconnectInputConnectionWorkaround() && !proxyAdapterView.hasCachedConnection()) {
+      logReconnectDebug("skip lockInputConnection because cached connection is null");
+      return;
+    }
+
     proxyAdapterView.setLocked(true);
   }
 
