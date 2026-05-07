@@ -148,6 +148,7 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
 
   public Map<String, WebMessageChannel> webMessageChannels = new HashMap<>();
   public List<WebMessageListener> webMessageListeners = new ArrayList<>();
+  private boolean firstInputWarmupTriggered = false;
 
   public InAppWebView(Context context) {
     super(context);
@@ -1274,9 +1275,10 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
     if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q
             && !options.useHybridComposition
             && ev.getActionMasked() == MotionEvent.ACTION_DOWN
+            && !firstInputWarmupTriggered
             && !hasCachedInputConnection()) {
-      // Warm up input connection at the exact user-interaction timing.
-      reconnectInputConnectionDelayed("webView:firstTouchWarmup", false, 24L);
+      firstInputWarmupTriggered = true;
+      reconnectInputConnectionDelayed("webView:firstInputOneShotWarmup", false, 80L);
     }
 
     ViewParent parent = getParent();

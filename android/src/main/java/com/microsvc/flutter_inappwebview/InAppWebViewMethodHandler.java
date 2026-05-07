@@ -310,6 +310,11 @@ public class InAppWebViewMethodHandler implements MethodChannel.MethodCallHandle
       case "resume":
         if (webView != null) {
           webView.onResume();
+          if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q
+                  && webView instanceof InAppWebView
+                  && ((InAppWebView) webView).hasCachedInputConnection()) {
+            ((InAppWebView) webView).reconnectInputConnectionAfterUnlock("method:resume");
+          }
         }
         result.success(true);
         break;
