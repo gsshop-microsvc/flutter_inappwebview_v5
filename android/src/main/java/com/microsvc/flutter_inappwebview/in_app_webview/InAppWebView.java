@@ -149,6 +149,7 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   public Map<String, WebMessageChannel> webMessageChannels = new HashMap<>();
   public List<WebMessageListener> webMessageListeners = new ArrayList<>();
   private boolean firstInputWarmupTriggered = false;
+  private boolean lastWindowFocusState = false;
 
   public InAppWebView(Context context) {
     super(context);
@@ -1734,6 +1735,10 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   @Override
   public void onWindowFocusChanged(boolean hasWindowFocus) {
     super.onWindowFocusChanged(hasWindowFocus);
+    if (hasWindowFocus == lastWindowFocusState) {
+      return;
+    }
+    lastWindowFocusState = hasWindowFocus;
     if (!hasWindowFocus || !shouldReconnectInputConnectionWorkaround()) {
       return;
     }
