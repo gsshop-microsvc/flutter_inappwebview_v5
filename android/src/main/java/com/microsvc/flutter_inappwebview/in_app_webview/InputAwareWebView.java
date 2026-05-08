@@ -14,6 +14,9 @@ import android.widget.ListPopupWindow;
 
 import androidx.annotation.Nullable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * A WebView subclass that mirrors the same implementation hacks that the system WebView does in
  * order to correctly create an InputConnection.
@@ -395,27 +398,32 @@ public class InputAwareWebView extends WebView {
     InputMethodManager imm = getInputMethodManager();
     View root = getRootView();
     View rootFocus = root != null ? root.findFocus() : null;
-    Log.d(INPUT_DEBUG_TAG,
-            "stage=" + stage
-                    + ", sdk=" + Build.VERSION.SDK_INT
-                    + ", attached=" + isAttachedToWindow()
-                    + ", windowFocus=" + hasWindowFocus()
-                    + ", focus=" + hasFocus()
-                    + ", shown=" + isShown()
-                    + ", hybrid=" + useHybridComposition
-                    + ", container=" + viewLabel(containerView)
-                    + ", containerFocus=" + (containerView != null && containerView.hasFocus())
-                    + ", proxy=" + viewLabel(proxyAdapterView)
-                    + ", proxyCached=" + hasCachedInputConnection()
-                    + ", threadedProxy=" + viewLabel(threadedInputConnectionProxyView)
-                    + ", related=" + viewLabel(relatedView)
-                    + ", relatedFocus=" + (relatedView != null && relatedView.hasFocus())
-                    + ", rootFocus=" + viewLabel(rootFocus)
-                    + ", imm=" + (imm != null)
-                    + ", immAccepting=" + (imm != null && imm.isAcceptingText())
-                    + ", immActiveWebView=" + (imm != null && imm.isActive(InputAwareWebView.this))
-                    + ", immActiveRelated=" + (imm != null && relatedView != null && imm.isActive(relatedView)));
+    Map<String, Object> payload = new HashMap<>();
+    payload.put("tag", INPUT_DEBUG_TAG);
+    payload.put("stage", stage);
+    payload.put("sdk", Build.VERSION.SDK_INT);
+    payload.put("attached", isAttachedToWindow());
+    payload.put("windowFocus", hasWindowFocus());
+    payload.put("focus", hasFocus());
+    payload.put("shown", isShown());
+    payload.put("hybrid", useHybridComposition);
+    payload.put("container", viewLabel(containerView));
+    payload.put("containerFocus", containerView != null && containerView.hasFocus());
+    payload.put("proxy", viewLabel(proxyAdapterView));
+    payload.put("proxyCached", hasCachedInputConnection());
+    payload.put("threadedProxy", viewLabel(threadedInputConnectionProxyView));
+    payload.put("related", viewLabel(relatedView));
+    payload.put("relatedFocus", relatedView != null && relatedView.hasFocus());
+    payload.put("rootFocus", viewLabel(rootFocus));
+    payload.put("imm", imm != null);
+    payload.put("immAccepting", imm != null && imm.isAcceptingText());
+    payload.put("immActiveWebView", imm != null && imm.isActive(InputAwareWebView.this));
+    payload.put("immActiveRelated", imm != null && relatedView != null && imm.isActive(relatedView));
+    Log.d(INPUT_DEBUG_TAG, payload.toString());
+    onInputConnectionDebugLog(payload);
   }
+
+  protected void onInputConnectionDebugLog(Map<String, Object> payload) {}
 
   private final class ReconnectInputRunnable implements Runnable {
     private final String reason;

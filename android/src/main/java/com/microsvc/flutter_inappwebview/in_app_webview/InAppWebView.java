@@ -1723,13 +1723,14 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   @Override
   protected void onWindowVisibilityChanged(int visibility) {
     super.onWindowVisibilityChanged(visibility);
-    Log.d(INPUT_DEBUG_TAG,
-            "stage=webView:onWindowVisibilityChanged visibility=" + visibility
-                    + ", attached=" + isAttachedToWindow()
-                    + ", windowFocus=" + hasWindowFocus()
-                    + ", focus=" + hasFocus()
-                    + ", shown=" + isShown()
-                    + ", hybrid=" + (options != null && options.useHybridComposition));
+    Map<String, Object> payload = new HashMap<>();
+    payload.put("visibility", visibility);
+    payload.put("attached", isAttachedToWindow());
+    payload.put("windowFocus", hasWindowFocus());
+    payload.put("focus", hasFocus());
+    payload.put("shown", isShown());
+    payload.put("hybrid", options != null && options.useHybridComposition);
+    logInputDebug("webView:onWindowVisibilityChanged", payload);
     if (visibility == View.VISIBLE && options != null && !options.useHybridComposition) {
       postInvalidateOnAnimation();
       requestLayout();
@@ -1742,13 +1743,14 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   @Override
   public void onWindowFocusChanged(boolean hasWindowFocus) {
     super.onWindowFocusChanged(hasWindowFocus);
-    Log.d(INPUT_DEBUG_TAG,
-            "stage=webView:onWindowFocusChanged hasWindowFocus=" + hasWindowFocus
-                    + ", last=" + lastWindowFocusState
-                    + ", attached=" + isAttachedToWindow()
-                    + ", focus=" + hasFocus()
-                    + ", shown=" + isShown()
-                    + ", hybrid=" + (options != null && options.useHybridComposition));
+    Map<String, Object> payload = new HashMap<>();
+    payload.put("hasWindowFocus", hasWindowFocus);
+    payload.put("last", lastWindowFocusState);
+    payload.put("attached", isAttachedToWindow());
+    payload.put("focus", hasFocus());
+    payload.put("shown", isShown());
+    payload.put("hybrid", options != null && options.useHybridComposition);
+    logInputDebug("webView:onWindowFocusChanged", payload);
     if (hasWindowFocus == lastWindowFocusState) {
       return;
     }
@@ -1760,12 +1762,13 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   }
 
   private void maybeReconnectInputOnFocusRestore(final String reason) {
-    Log.d(INPUT_DEBUG_TAG,
-            "stage=webView:maybeReconnectInputOnFocusRestore reason=" + reason
-                    + ", jsEnabled=" + getSettings().getJavaScriptEnabled()
-                    + ", attached=" + isAttachedToWindow()
-                    + ", windowFocus=" + hasWindowFocus()
-                    + ", focus=" + hasFocus());
+    Map<String, Object> payload = new HashMap<>();
+    payload.put("reason", reason);
+    payload.put("jsEnabled", getSettings().getJavaScriptEnabled());
+    payload.put("attached", isAttachedToWindow());
+    payload.put("windowFocus", hasWindowFocus());
+    payload.put("focus", hasFocus());
+    logInputDebug("webView:maybeReconnectInputOnFocusRestore", payload);
     if (!shouldReconnectInputConnectionWorkaround()) {
       return;
     }
@@ -1789,10 +1792,11 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
                 boolean editable = toBoolean(state.get("editable"));
                 boolean readOnly = toBoolean(state.get("readOnly"));
                 boolean disabled = toBoolean(state.get("disabled"));
-                Log.d(INPUT_DEBUG_TAG,
-                        "stage=webView:focusRestoreJs reason=" + reason
-                                + ", state=" + state
-                                + ", shouldReconnect=" + (editable && !readOnly && !disabled));
+                Map<String, Object> payload = new HashMap<>();
+                payload.put("reason", reason);
+                payload.put("state", state);
+                payload.put("shouldReconnect", editable && !readOnly && !disabled);
+                logInputDebug("webView:focusRestoreJs", payload);
                 if (editable && !readOnly && !disabled) {
                   reconnectInputConnectionDelayed(reason + ":editable", true, getDefaultAutoReconnectInitialDelayMs());
                 }
@@ -1832,23 +1836,46 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
     return false;
   }
 
+  @Override
+  protected void onInputConnectionDebugLog(Map<String, Object> payload) {
+    if (channel == null) {
+      return;
+    }
+    try {
+      channel.invokeMethod("onInputConnectionDebugLog", payload);
+    } catch (Exception ignored) {}
+  }
+
+  private void logInputDebug(String stage, Map<String, Object> payload) {
+    payload.put("tag", INPUT_DEBUG_TAG);
+    payload.put("stage", stage);
+    Log.d(INPUT_DEBUG_TAG, payload.toString());
+    onInputConnectionDebugLog(payload);
+  }
+
+  private void logInputDebug(String stage, String key, Object value) {
+    Map<String, Object> payload = new HashMap<>();
+    payload.put(key, value);
+    logInputDebug(stage, payload);
+  }
+
   public boolean hideInputConnectionBeforeScreenLock() {
-    Log.d(INPUT_DEBUG_TAG,
-            "stage=webView:hideBeforeScreenLock method"
-                    + ", attached=" + isAttachedToWindow()
-                    + ", windowFocus=" + hasWindowFocus()
-                    + ", focus=" + hasFocus()
-                    + ", shown=" + isShown());
+    Map<String, Object> payload = new HashMap<>();
+    payload.put("attached", isAttachedToWindow());
+    payload.put("windowFocus", hasWindowFocus());
+    payload.put("focus", hasFocus());
+    payload.put("shown", isShown());
+    logInputDebug("webView:hideBeforeScreenLock method", payload);
     return super.hideInputConnectionBeforeScreenLock();
   }
 
   public void recoverInputConnectionAfterScreenUnlock(final MethodChannel.Result result) {
-    Log.d(INPUT_DEBUG_TAG,
-            "stage=webView:recoverAfterScreenUnlock method"
-                    + ", attached=" + isAttachedToWindow()
-                    + ", windowFocus=" + hasWindowFocus()
-                    + ", focus=" + hasFocus()
-                    + ", shown=" + isShown());
+    Map<String, Object> payload = new HashMap<>();
+    payload.put("attached", isAttachedToWindow());
+    payload.put("windowFocus", hasWindowFocus());
+    payload.put("focus", hasFocus());
+    payload.put("shown", isShown());
+    logInputDebug("webView:recoverAfterScreenUnlock method", payload);
     if (!shouldReconnectInputConnectionWorkaround()) {
       result.success(false);
       return;
@@ -1879,9 +1906,10 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
                 boolean readOnly = toBoolean(state.get("readOnly"));
                 boolean disabled = toBoolean(state.get("disabled"));
                 boolean shouldRecover = editable && !readOnly && !disabled;
-                Log.d(INPUT_DEBUG_TAG,
-                        "stage=webView:recoverAfterScreenUnlockJs state=" + state
-                                + ", shouldRecover=" + shouldRecover);
+                Map<String, Object> payload = new HashMap<>();
+                payload.put("state", state);
+                payload.put("shouldRecover", shouldRecover);
+                logInputDebug("webView:recoverAfterScreenUnlockJs", payload);
                 if (shouldRecover) {
                   recoverInputConnectionAfterScreenUnlock("method:screenUnlock:editable");
                 }
