@@ -465,7 +465,9 @@ public class InputAwareWebView extends WebView {
         showSoftInputIfRequested(imm, restartTarget);
       }
 
-      boolean active = imm != null && (imm.isActive(InputAwareWebView.this)
+      boolean active = imm != null
+              && imm.isAcceptingText()
+              && (imm.isActive(InputAwareWebView.this)
               || (targetView != null && imm.isActive(targetView)));
       logInputState("reconnectRun afterRestart reason=" + reason + ", attempt=" + attempt + ", active=" + active, targetView);
 

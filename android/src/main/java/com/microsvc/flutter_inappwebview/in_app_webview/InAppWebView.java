@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.SystemClock;
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintManager;
@@ -150,6 +151,7 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   public List<WebMessageListener> webMessageListeners = new ArrayList<>();
   private boolean firstInputWarmupTriggered = false;
   private boolean lastWindowFocusState = false;
+  private long suppressAutoInputReconnectUntilMs = 0L;
 
   public InAppWebView(Context context) {
     super(context);
@@ -1772,6 +1774,10 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
     if (!shouldReconnectInputConnectionWorkaround()) {
       return;
     }
+    if (SystemClock.uptimeMillis() < suppressAutoInputReconnectUntilMs) {
+      logInputDebug("webView:maybeReconnectInputOnFocusRestore suppressed", "reason", reason);
+      return;
+    }
     if (!getSettings().getJavaScriptEnabled() || Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
       reconnectInputConnectionDelayed(reason + ":no-js-check", true, getDefaultAutoReconnectInitialDelayMs());
       return;
@@ -1870,6 +1876,7 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   }
 
   public void recoverInputConnectionAfterScreenUnlock(final MethodChannel.Result result) {
+    suppressAutoInputReconnectUntilMs = SystemClock.uptimeMillis() + 700L;
     Map<String, Object> payload = new HashMap<>();
     payload.put("attached", isAttachedToWindow());
     payload.put("windowFocus", hasWindowFocus());
@@ -1896,7 +1903,9 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
                     + "var tag=(el.tagName||'').toLowerCase();"
                     + "var type=(el.type||'').toLowerCase();"
                     + "var editable=!!(el.isContentEditable||tag==='textarea'||(tag==='input'&&!/^(button|checkbox|color|file|hidden|image|radio|range|reset|submit)$/i.test(type)));"
-                    + "return {editable:editable,readOnly:!!el.readOnly,disabled:!!el.disabled};"
+                    + "var shouldFocus=editable&&!el.readOnly&&!el.disabled;"
+                    + "if(shouldFocus){try{el.blur();setTimeout(function(){try{el.focus();}catch(e){}},50);}catch(e){}}"
+                    + "return {editable:editable,readOnly:!!el.readOnly,disabled:!!el.disabled,docHasFocus:document.hasFocus(),focusReset:shouldFocus};"
                     + "}catch(e){return {editable:null,error:String(e)};}})();",
             new ValueCallback<String>() {
               @Override
