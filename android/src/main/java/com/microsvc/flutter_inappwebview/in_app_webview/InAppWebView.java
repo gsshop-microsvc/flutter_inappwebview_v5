@@ -106,7 +106,6 @@ import static com.microsvc.flutter_inappwebview.types.PreferredContentModeOption
 final public class InAppWebView extends InputAwareWebView implements InAppWebViewInterface {
 
   static final String LOG_TAG = "InAppWebView";
-  private static final String INPUT_DEBUG_TAG = "IAW_INPUT_DEBUG";
 
   @Nullable
   public InAppWebViewFlutterPlugin plugin;
@@ -1725,14 +1724,6 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   @Override
   protected void onWindowVisibilityChanged(int visibility) {
     super.onWindowVisibilityChanged(visibility);
-    Map<String, Object> payload = new HashMap<>();
-    payload.put("visibility", visibility);
-    payload.put("attached", isAttachedToWindow());
-    payload.put("windowFocus", hasWindowFocus());
-    payload.put("focus", hasFocus());
-    payload.put("shown", isShown());
-    payload.put("hybrid", options != null && options.useHybridComposition);
-    logInputDebug("webView:onWindowVisibilityChanged", payload);
     if (visibility == View.VISIBLE && options != null && !options.useHybridComposition) {
       postInvalidateOnAnimation();
       requestLayout();
@@ -1745,14 +1736,6 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   @Override
   public void onWindowFocusChanged(boolean hasWindowFocus) {
     super.onWindowFocusChanged(hasWindowFocus);
-    Map<String, Object> payload = new HashMap<>();
-    payload.put("hasWindowFocus", hasWindowFocus);
-    payload.put("last", lastWindowFocusState);
-    payload.put("attached", isAttachedToWindow());
-    payload.put("focus", hasFocus());
-    payload.put("shown", isShown());
-    payload.put("hybrid", options != null && options.useHybridComposition);
-    logInputDebug("webView:onWindowFocusChanged", payload);
     if (hasWindowFocus == lastWindowFocusState) {
       return;
     }
@@ -1764,18 +1747,10 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   }
 
   private void maybeReconnectInputOnFocusRestore(final String reason) {
-    Map<String, Object> payload = new HashMap<>();
-    payload.put("reason", reason);
-    payload.put("jsEnabled", getSettings().getJavaScriptEnabled());
-    payload.put("attached", isAttachedToWindow());
-    payload.put("windowFocus", hasWindowFocus());
-    payload.put("focus", hasFocus());
-    logInputDebug("webView:maybeReconnectInputOnFocusRestore", payload);
     if (!shouldReconnectInputConnectionWorkaround()) {
       return;
     }
     if (SystemClock.uptimeMillis() < suppressAutoInputReconnectUntilMs) {
-      logInputDebug("webView:maybeReconnectInputOnFocusRestore suppressed", "reason", reason);
       return;
     }
     if (!getSettings().getJavaScriptEnabled() || Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
@@ -1798,11 +1773,6 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
                 boolean editable = toBoolean(state.get("editable"));
                 boolean readOnly = toBoolean(state.get("readOnly"));
                 boolean disabled = toBoolean(state.get("disabled"));
-                Map<String, Object> payload = new HashMap<>();
-                payload.put("reason", reason);
-                payload.put("state", state);
-                payload.put("shouldReconnect", editable && !readOnly && !disabled);
-                logInputDebug("webView:focusRestoreJs", payload);
                 if (editable && !readOnly && !disabled) {
                   reconnectInputConnectionDelayed(reason + ":editable", true, getDefaultAutoReconnectInitialDelayMs());
                 }
@@ -1842,47 +1812,12 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
     return false;
   }
 
-  @Override
-  protected void onInputConnectionDebugLog(Map<String, Object> payload) {
-    if (channel == null) {
-      return;
-    }
-    try {
-      channel.invokeMethod("onInputConnectionDebugLog", payload);
-    } catch (Exception ignored) {}
-  }
-
-  private void logInputDebug(String stage, Map<String, Object> payload) {
-    payload.put("tag", INPUT_DEBUG_TAG);
-    payload.put("stage", stage);
-    Log.d(INPUT_DEBUG_TAG, payload.toString());
-    onInputConnectionDebugLog(payload);
-  }
-
-  private void logInputDebug(String stage, String key, Object value) {
-    Map<String, Object> payload = new HashMap<>();
-    payload.put(key, value);
-    logInputDebug(stage, payload);
-  }
-
   public boolean hideInputConnectionBeforeScreenLock() {
-    Map<String, Object> payload = new HashMap<>();
-    payload.put("attached", isAttachedToWindow());
-    payload.put("windowFocus", hasWindowFocus());
-    payload.put("focus", hasFocus());
-    payload.put("shown", isShown());
-    logInputDebug("webView:hideBeforeScreenLock method", payload);
     return super.hideInputConnectionBeforeScreenLock();
   }
 
   public void recoverInputConnectionAfterScreenUnlock(final MethodChannel.Result result) {
     suppressAutoInputReconnectUntilMs = SystemClock.uptimeMillis() + 700L;
-    Map<String, Object> payload = new HashMap<>();
-    payload.put("attached", isAttachedToWindow());
-    payload.put("windowFocus", hasWindowFocus());
-    payload.put("focus", hasFocus());
-    payload.put("shown", isShown());
-    logInputDebug("webView:recoverAfterScreenUnlock method", payload);
     if (!shouldReconnectInputConnectionWorkaround()) {
       result.success(false);
       return;
@@ -1915,10 +1850,6 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
                 boolean readOnly = toBoolean(state.get("readOnly"));
                 boolean disabled = toBoolean(state.get("disabled"));
                 boolean shouldRecover = editable && !readOnly && !disabled;
-                Map<String, Object> payload = new HashMap<>();
-                payload.put("state", state);
-                payload.put("shouldRecover", shouldRecover);
-                logInputDebug("webView:recoverAfterScreenUnlockJs", payload);
                 if (shouldRecover) {
                   recoverInputConnectionAfterScreenUnlock("method:screenUnlock:editable");
                 }
