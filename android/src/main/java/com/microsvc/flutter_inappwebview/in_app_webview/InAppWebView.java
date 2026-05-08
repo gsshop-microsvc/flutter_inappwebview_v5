@@ -1749,7 +1749,7 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
       return;
     }
     if (!getSettings().getJavaScriptEnabled() || Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-      hideThenReconnectInputConnection(reason + ":no-js-check");
+      reconnectInputConnectionDelayed(reason + ":no-js-check", true, getDefaultAutoReconnectInitialDelayMs());
       return;
     }
     evaluateJavascript(
@@ -1769,7 +1769,7 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
                 boolean readOnly = toBoolean(state.get("readOnly"));
                 boolean disabled = toBoolean(state.get("disabled"));
                 if (editable && !readOnly && !disabled) {
-                  hideThenReconnectInputConnection(reason + ":editable");
+                  reconnectInputConnectionDelayed(reason + ":editable", true, getDefaultAutoReconnectInitialDelayMs());
                 }
               }
             });
