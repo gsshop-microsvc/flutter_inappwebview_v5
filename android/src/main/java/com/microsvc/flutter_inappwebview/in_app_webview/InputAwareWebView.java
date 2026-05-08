@@ -29,6 +29,7 @@ public class InputAwareWebView extends WebView {
   private static final int MAX_RECONNECT_INPUT_RETRIES = 2;
   private static final long SHOW_SOFT_INPUT_RETRY_DELAY_MS = 80L;
   private static final int MAX_SHOW_SOFT_INPUT_ATTEMPTS = 3;
+  private static final long HIDE_THEN_RECONNECT_DELAY_MS = 180L;
   @Nullable
   public View containerView;
   private View threadedInputConnectionProxyView;
@@ -293,6 +294,22 @@ public class InputAwareWebView extends WebView {
     reconnectInputConnectionDelayed(reason, false, 24L);
   }
 
+  public void hideThenReconnectInputConnection(String reason) {
+    if (!shouldReconnectInputConnectionWorkaround()) {
+      return;
+    }
+    if (!isAttachedToWindow()) {
+      return;
+    }
+    InputMethodManager imm = getInputMethodManager();
+    if (imm != null) {
+      View targetView = getCurrentReconnectTargetView();
+      View tokenView = targetView != null ? targetView : InputAwareWebView.this;
+      imm.hideSoftInputFromWindow(tokenView.getWindowToken(), 0);
+    }
+    reconnectInputConnectionDelayed(reason + ":after-hide", true, HIDE_THEN_RECONNECT_DELAY_MS);
+  }
+
   protected void reconnectInputConnectionDelayed(String reason, boolean showSoftInput, long delayMs) {
     if (!shouldReconnectInputConnectionWorkaround()) {
       return;
@@ -320,6 +337,20 @@ public class InputAwareWebView extends WebView {
   @Nullable
   private InputMethodManager getInputMethodManager() {
     return (InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE);
+  }
+
+  @Nullable
+  private View getCurrentReconnectTargetView() {
+    if (useHybridComposition) {
+      return InputAwareWebView.this;
+    }
+    if (proxyAdapterView != null) {
+      return proxyAdapterView;
+    }
+    if (isWebViewInputProxyView(threadedInputConnectionProxyView)) {
+      return threadedInputConnectionProxyView;
+    }
+    return InputAwareWebView.this;
   }
 
   private final class ReconnectInputRunnable implements Runnable {
