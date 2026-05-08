@@ -14,9 +14,6 @@ import android.widget.ListPopupWindow;
 
 import androidx.annotation.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * A WebView subclass that mirrors the same implementation hacks that the system WebView does in
  * order to correctly create an InputConnection.
@@ -27,7 +24,6 @@ import java.util.Map;
  */
 public class InputAwareWebView extends WebView {
   private static final String LOG_TAG = "InputAwareWebView";
-  private static final String INPUT_TRACE_PREFIX = "[IAW_IME_TRACE]";
   private static final long RECONNECT_INPUT_DELAY_MS = 120L;
   private static final long AUTO_RECONNECT_INITIAL_DELAY_MS = 80L;
   private static final int MAX_RECONNECT_INPUT_RETRIES = 2;
@@ -61,7 +57,6 @@ public class InputAwareWebView extends WebView {
   public void setContainerView(View containerView) {
     View previousContainerView = this.containerView;
     this.containerView = containerView;
-    traceInputLifecycle("setContainerView", containerView);
 
     if (proxyAdapterView == null) {
       return;
@@ -81,7 +76,6 @@ public class InputAwareWebView extends WebView {
                         /*containerView=*/ containerView,
                         /*targetView=*/ threadedInputConnectionProxyView,
                         /*imeHandler=*/ threadedInputConnectionProxyView.getHandler());
-        logReconnectDebug("recreated proxyAdapterView after containerView swap");
       }
       setInputConnectionTarget(proxyAdapterView);
     }
@@ -100,11 +94,9 @@ public class InputAwareWebView extends WebView {
     // API 29 and below can call lock before any valid connection exists.
     // Locking with a null cache causes first text input to fail.
     if (shouldReconnectInputConnectionWorkaround() && !proxyAdapterView.hasCachedConnection()) {
-      logReconnectDebug("skip lockInputConnection because cached connection is null");
       return;
     }
 
-    traceInputLifecycle("lockInputConnection", proxyAdapterView);
     proxyAdapterView.setLocked(true);
   }
 
@@ -118,7 +110,6 @@ public class InputAwareWebView extends WebView {
       return;
     }
 
-    traceInputLifecycle("unlockInputConnection", proxyAdapterView);
     proxyAdapterView.setLocked(false);
   }
 
@@ -149,7 +140,6 @@ public class InputAwareWebView extends WebView {
       return super.checkInputConnectionProxy(view);
     }
     if (!isWebViewInputProxyView(view)) {
-      traceInputLifecycle("checkInputConnectionProxy:ignoredNonWebViewProxy", view);
       return super.checkInputConnectionProxy(view);
     }
     // Check to see if the view param is WebView's ThreadedInputConnectionProxyView.
@@ -157,7 +147,6 @@ public class InputAwareWebView extends WebView {
     threadedInputConnectionProxyView = view;
     if (previousProxy == view) {
       // This isn't a new ThreadedInputConnectionProxyView. Ignore it.
-      traceInputLifecycle("checkInputConnectionProxy:reuse", view);
       return super.checkInputConnectionProxy(view);
     }
     if (containerView == null) {
@@ -175,7 +164,6 @@ public class InputAwareWebView extends WebView {
         /*containerView=*/ containerView,
         /*targetView=*/ view,
         /*imeHandler=*/ view.getHandler());
-    traceInputLifecycle("checkInputConnectionProxy:newProxy", view);
     setInputConnectionTarget(/*targetView=*/ proxyAdapterView);
     return super.checkInputConnectionProxy(view);
   }
@@ -308,7 +296,6 @@ public class InputAwareWebView extends WebView {
       return;
     }
     if (!isAttachedToWindow()) {
-      logReconnectDebug("skip delayed: not attached (reason=" + reason + ")");
       return;
     }
     postDelayed(new ReconnectInputRunnable(reason, showSoftInput), Math.max(0L, delayMs));
@@ -323,50 +310,10 @@ public class InputAwareWebView extends WebView {
       return;
     }
     if (!isAttachedToWindow()) {
-      logReconnectDebug("skip: not attached (reason=" + reason + ")");
       return;
     }
     post(new ReconnectInputRunnable(reason, showSoftInput));
   }
-
-  private void logReconnectDebug(String message) {
-    if (!shouldReconnectInputConnectionWorkaround()) {
-      return;
-    }
-    Log.d(LOG_TAG, INPUT_TRACE_PREFIX + " [reconnectInput] " + message);
-    Map<String, Object> payload = new HashMap<>();
-    payload.put("tag", "IAW_IME_TRACE");
-    payload.put("message", message);
-    payload.put("hasWindowFocus", hasWindowFocus());
-    payload.put("hasFocus", hasFocus());
-    payload.put("isShown", isShown());
-    payload.put("useHybridComposition", useHybridComposition);
-    onInputConnectionDebugLog(payload);
-  }
-
-  public void traceInputLifecycle(String stage, @Nullable View relatedView) {
-    if (!shouldReconnectInputConnectionWorkaround()) {
-      return;
-    }
-    String traceMessage =
-            "stage=" + stage
-                    + ", relatedView=" + (relatedView != null ? relatedView.getClass().getName() : "null")
-                    + ", hasWindowFocus=" + hasWindowFocus()
-                    + ", hasFocus=" + hasFocus()
-                    + ", isShown=" + isShown()
-                    + ", useHybridComposition=" + useHybridComposition;
-    Log.d(LOG_TAG, INPUT_TRACE_PREFIX + " " + traceMessage);
-    Map<String, Object> payload = new HashMap<>();
-    payload.put("tag", "IAW_IME_TRACE");
-    payload.put("message", traceMessage);
-    payload.put("hasWindowFocus", hasWindowFocus());
-    payload.put("hasFocus", hasFocus());
-    payload.put("isShown", isShown());
-    payload.put("useHybridComposition", useHybridComposition);
-    onInputConnectionDebugLog(payload);
-  }
-
-  protected void onInputConnectionDebugLog(Map<String, Object> payload) {}
 
   @Nullable
   private InputMethodManager getInputMethodManager() {
@@ -386,20 +333,21 @@ public class InputAwareWebView extends WebView {
     @Override
     public void run() {
       if (!isAttachedToWindow()) {
-        logReconnectDebug("abort: detached (reason=" + reason + ")");
         return;
       }
 
       attempt++;
 
       // Keep current focus chain; clearFocus() may close IME on some Android 9/10 devices.
-      boolean focusRequested = hasFocus() || requestFocus();
+      if (!hasFocus()) {
+        requestFocus();
+      }
       View targetView = thisTargetView();
-      boolean targetFocusRequested = targetView != null && (targetView.isFocused() || targetView.requestFocus());
+      if (targetView != null && !targetView.isFocused()) {
+        targetView.requestFocus();
+      }
 
       InputMethodManager imm = getInputMethodManager();
-      boolean restarted = false;
-      boolean shown = false;
       if (imm != null) {
         if (!useHybridComposition && targetView != null && containerView != null) {
           setInputConnectionTarget(targetView);
@@ -407,31 +355,14 @@ public class InputAwareWebView extends WebView {
         View restartTarget = targetView != null ? targetView : InputAwareWebView.this;
         imm.viewClicked(restartTarget);
         imm.restartInput(restartTarget);
-        restarted = true;
-        if (showSoftInput && hasWindowFocus() && isShown() && !imm.isActive(restartTarget)) {
-          shown = imm.showSoftInput(InputAwareWebView.this, InputMethodManager.SHOW_IMPLICIT);
-        }
+        showSoftInputIfRequested(imm, restartTarget);
       }
 
       boolean active = imm != null && (imm.isActive(InputAwareWebView.this)
               || (targetView != null && imm.isActive(targetView)));
-      logReconnectDebug(
-              "attempt=" + attempt
-                      + ", reason=" + reason
-                      + ", focusRequested=" + focusRequested
-                      + ", targetFocusRequested=" + targetFocusRequested
-                      + ", restarted=" + restarted
-                      + ", shown=" + shown
-                      + ", active=" + active
-                      + ", hybrid=" + useHybridComposition);
 
       if (!active && attempt < MAX_RECONNECT_INPUT_RETRIES) {
         postDelayed(this, RECONNECT_INPUT_DELAY_MS);
-      } else if (!active) {
-        logReconnectFailureSnapshot(reason, targetView, imm);
-        logReconnectDebug("failed after retries (reason=" + reason + ")");
-      } else {
-        logReconnectDebug("success (reason=" + reason + ")");
       }
     }
 
@@ -449,21 +380,22 @@ public class InputAwareWebView extends WebView {
       return InputAwareWebView.this;
     }
 
-    private void logReconnectFailureSnapshot(String reason, @Nullable View targetView, @Nullable InputMethodManager imm) {
-      View root = getRootView();
-      View focused = root != null ? root.findFocus() : null;
-      logReconnectDebug(
-              "failureSnapshot reason=" + reason
-                      + ", webViewHasFocus=" + hasFocus()
-                      + ", webViewWindowFocus=" + hasWindowFocus()
-                      + ", webViewShown=" + isShown()
-                      + ", targetClass=" + (targetView != null ? targetView.getClass().getName() : "null")
-                      + ", targetFocused=" + (targetView != null && targetView.isFocused())
-                      + ", rootFocusedClass=" + (focused != null ? focused.getClass().getName() : "null")
-                      + ", immAvailable=" + (imm != null)
-                      + ", immAcceptingText=" + (imm != null && imm.isAcceptingText())
-                      + ", immActiveWebView=" + (imm != null && imm.isActive(InputAwareWebView.this))
-                      + ", immActiveTarget=" + (imm != null && targetView != null && imm.isActive(targetView)));
+    private void showSoftInputIfRequested(final InputMethodManager imm, final View restartTarget) {
+      if (!showSoftInput || !hasWindowFocus() || !isShown()) {
+        return;
+      }
+      imm.showSoftInput(restartTarget, InputMethodManager.SHOW_IMPLICIT);
+      if (restartTarget != InputAwareWebView.this) {
+        imm.showSoftInput(InputAwareWebView.this, InputMethodManager.SHOW_IMPLICIT);
+      }
+      postDelayed(new Runnable() {
+        @Override
+        public void run() {
+          if (isAttachedToWindow() && hasWindowFocus() && isShown()) {
+            imm.showSoftInput(restartTarget, InputMethodManager.SHOW_IMPLICIT);
+          }
+        }
+      }, 80L);
     }
   }
 

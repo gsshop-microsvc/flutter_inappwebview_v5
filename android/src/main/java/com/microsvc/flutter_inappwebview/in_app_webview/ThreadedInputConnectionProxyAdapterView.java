@@ -2,7 +2,6 @@ package com.microsvc.flutter_inappwebview.in_app_webview;
 
 import android.os.Handler;
 import android.os.IBinder;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
@@ -13,8 +12,6 @@ import android.view.inputmethod.InputConnection;
  * https://github.com/flutter/plugins/blob/master/packages/webview_flutter/android/src/main/java/io/flutter/plugins/webviewflutter/ThreadedInputConnectionProxyAdapterView.java
  */
 final class ThreadedInputConnectionProxyAdapterView extends View {
-    private static final String LOG_TAG = "InputAwareWebView";
-    private static final String INPUT_TRACE_PREFIX = "[IAW_IME_TRACE]";
     final Handler imeHandler;
     final IBinder windowToken;
     final View containerView;
@@ -64,10 +61,6 @@ final class ThreadedInputConnectionProxyAdapterView extends View {
                 (isLocked) ? cachedConnection : targetView.onCreateInputConnection(outAttrs);
         triggerDelayed = true;
         cachedConnection = inputConnection;
-        Log.d(LOG_TAG, INPUT_TRACE_PREFIX + " stage=proxy:onCreateInputConnection"
-                + ", isLocked=" + isLocked
-                + ", hasCachedConnection=" + (cachedConnection != null)
-                + ", targetView=" + targetView.getClass().getName());
         return inputConnection;
     }
 

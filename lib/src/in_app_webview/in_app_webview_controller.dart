@@ -188,14 +188,6 @@ class InAppWebViewControllerV2 {
             _inAppBrowser!.onConsoleMessage(consoleMessage);
         }
         break;
-      case "onInputConnectionDebugLog":
-        if (kDebugMode) {
-          final Map<String, dynamic> payload =
-              (call.arguments as Map?)?.cast<String, dynamic>() ??
-                  <String, dynamic>{};
-          debugPrint("[IAW][InputDebug] ${jsonEncode(payload)}");
-        }
-        break;
       case "onScrollChanged":
         if ((_webview != null && _webview!.onScrollChanged != null) ||
             _inAppBrowser != null) {

@@ -3,7 +3,6 @@ package com.microsvc.flutter_inappwebview.in_app_webview;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.annotation.TargetApi;
-import android.content.pm.ApplicationInfo;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -1750,7 +1749,7 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
       return;
     }
     if (!getSettings().getJavaScriptEnabled() || Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-      reconnectInputConnectionDelayed(reason + ":no-js-check", false, getDefaultAutoReconnectInitialDelayMs());
+      reconnectInputConnectionDelayed(reason + ":no-js-check", true, getDefaultAutoReconnectInitialDelayMs());
       return;
     }
     evaluateJavascript(
@@ -1770,9 +1769,7 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
                 boolean readOnly = toBoolean(state.get("readOnly"));
                 boolean disabled = toBoolean(state.get("disabled"));
                 if (editable && !readOnly && !disabled) {
-                  reconnectInputConnectionDelayed(reason + ":editable", false, getDefaultAutoReconnectInitialDelayMs());
-                } else {
-                  Log.d(LOG_TAG, "[reconnectInput] skip auto reconnect, reason=" + reason + ", state=" + state);
+                  reconnectInputConnectionDelayed(reason + ":editable", true, getDefaultAutoReconnectInitialDelayMs());
                 }
               }
             });
@@ -1810,24 +1807,6 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
     return false;
   }
 
-  @Override
-  protected void onInputConnectionDebugLog(Map<String, Object> payload) {
-    if (channel == null || !isDebuggableApp()) {
-      return;
-    }
-    try {
-      channel.invokeMethod("onInputConnectionDebugLog", payload);
-    } catch (Exception e) {
-      Log.d(LOG_TAG, "[reconnectInput] failed to dispatch Flutter debug log: " + e.getMessage());
-    }
-  }
-
-  private boolean isDebuggableApp() {
-    ApplicationInfo applicationInfo = getContext().getApplicationInfo();
-    return applicationInfo != null
-            && (applicationInfo.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
-  }
-
   public void diagnoseInputConnection(final MethodChannel.Result result) {
     final Map<String, Object> nativeState = new HashMap<>();
     nativeState.put("sdkInt", Build.VERSION.SDK_INT);
@@ -1849,7 +1828,6 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
     nativeState.put("rootFocusedViewClass", currentFocus != null ? currentFocus.getClass().getName() : null);
 
     if (!getSettings().getJavaScriptEnabled() || Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-      Log.d(LOG_TAG, "[diagnoseInput] native=" + nativeState + ", js=skipped");
       Map<String, Object> resultMap = new HashMap<>();
       resultMap.put("native", nativeState);
       resultMap.put("js", null);
@@ -1873,7 +1851,6 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
                 Map<String, Object> resultMap = new HashMap<>();
                 resultMap.put("native", nativeState);
                 resultMap.put("js", jsState);
-                Log.d(LOG_TAG, "[diagnoseInput] " + resultMap);
                 result.success(resultMap);
               }
             });
