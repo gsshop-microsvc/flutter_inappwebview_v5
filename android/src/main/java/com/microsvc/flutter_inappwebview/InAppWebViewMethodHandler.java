@@ -469,6 +469,13 @@ public class InAppWebViewMethodHandler implements MethodChannel.MethodCallHandle
         }
         result.success(true);
         break;
+      case "recoverInputConnectionAfterScreenUnlock":
+        if (webView instanceof InAppWebView) {
+          ((InAppWebView) webView).recoverInputConnectionAfterScreenUnlock(result);
+        } else {
+          result.success(false);
+        }
+        break;
       case "diagnoseInputConnection":
         if (webView instanceof InAppWebView) {
           ((InAppWebView) webView).diagnoseInputConnection(result);

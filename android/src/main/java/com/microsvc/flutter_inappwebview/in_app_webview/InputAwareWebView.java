@@ -29,6 +29,7 @@ public class InputAwareWebView extends WebView {
   private static final int MAX_RECONNECT_INPUT_RETRIES = 2;
   private static final long SHOW_SOFT_INPUT_RETRY_DELAY_MS = 80L;
   private static final int MAX_SHOW_SOFT_INPUT_ATTEMPTS = 3;
+  private static final long SCREEN_UNLOCK_RECOVER_DELAY_MS = 180L;
   @Nullable
   public View containerView;
   private View threadedInputConnectionProxyView;
@@ -293,6 +294,21 @@ public class InputAwareWebView extends WebView {
     reconnectInputConnectionDelayed(reason, false, 24L);
   }
 
+  public void recoverInputConnectionAfterScreenUnlock(String reason) {
+    if (!shouldReconnectInputConnectionWorkaround()) {
+      return;
+    }
+    if (!isAttachedToWindow()) {
+      return;
+    }
+    InputMethodManager imm = getInputMethodManager();
+    View targetView = getCurrentReconnectTargetView();
+    if (imm != null) {
+      imm.hideSoftInputFromWindow(targetView.getWindowToken(), 0);
+    }
+    reconnectInputConnectionDelayed(reason + ":after-hide", true, SCREEN_UNLOCK_RECOVER_DELAY_MS);
+  }
+
   protected void reconnectInputConnectionDelayed(String reason, boolean showSoftInput, long delayMs) {
     if (!shouldReconnectInputConnectionWorkaround()) {
       return;
@@ -320,6 +336,19 @@ public class InputAwareWebView extends WebView {
   @Nullable
   private InputMethodManager getInputMethodManager() {
     return (InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE);
+  }
+
+  private View getCurrentReconnectTargetView() {
+    if (useHybridComposition) {
+      return InputAwareWebView.this;
+    }
+    if (proxyAdapterView != null) {
+      return proxyAdapterView;
+    }
+    if (isWebViewInputProxyView(threadedInputConnectionProxyView)) {
+      return threadedInputConnectionProxyView;
+    }
+    return InputAwareWebView.this;
   }
 
   private final class ReconnectInputRunnable implements Runnable {
@@ -370,16 +399,7 @@ public class InputAwareWebView extends WebView {
 
     @Nullable
     private View thisTargetView() {
-      if (useHybridComposition) {
-        return InputAwareWebView.this;
-      }
-      if (proxyAdapterView != null) {
-        return proxyAdapterView;
-      }
-      if (isWebViewInputProxyView(threadedInputConnectionProxyView)) {
-        return threadedInputConnectionProxyView;
-      }
-      return InputAwareWebView.this;
+      return getCurrentReconnectTargetView();
     }
 
     private void showSoftInputIfRequested(final InputMethodManager imm, final View restartTarget) {

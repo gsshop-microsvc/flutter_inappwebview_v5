@@ -77,6 +77,19 @@ class AndroidInAppWebViewController {
     await _channel.invokeMethod('reconnectInputConnection', args);
   }
 
+  ///Recovers Android WebView input connection after returning from screen
+  ///lock on legacy Android versions.
+  ///
+  ///On Android 9/10, IME can stay visible after screen unlock while text no
+  ///longer reaches the focused WebView input. This method is intended to be
+  ///called explicitly from the app lifecycle `resumed` path. It is a no-op on
+  ///Android 11+ and returns whether a focused editable element was recovered.
+  Future<bool> recoverInputConnectionAfterScreenUnlock() async {
+    Map<String, dynamic> args = <String, dynamic>{};
+    return await _channel.invokeMethod(
+        'recoverInputConnectionAfterScreenUnlock', args);
+  }
+
   ///Collects native/JS input diagnostics to investigate cases where IME is
   ///visible but typed characters do not reach the focused web input.
   ///

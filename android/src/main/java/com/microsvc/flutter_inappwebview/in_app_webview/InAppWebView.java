@@ -1807,6 +1807,45 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
     return false;
   }
 
+  public void recoverInputConnectionAfterScreenUnlock(final MethodChannel.Result result) {
+    if (!shouldReconnectInputConnectionWorkaround()) {
+      result.success(false);
+      return;
+    }
+    if (!isAttachedToWindow()) {
+      result.success(false);
+      return;
+    }
+    if (!getSettings().getJavaScriptEnabled() || Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+      recoverInputConnectionAfterScreenUnlock("method:screenUnlock:no-js-check");
+      result.success(true);
+      return;
+    }
+    evaluateJavascript(
+            "(function(){try{"
+                    + "var el=document.activeElement;"
+                    + "if(!el){return {editable:false};}"
+                    + "var tag=(el.tagName||'').toLowerCase();"
+                    + "var type=(el.type||'').toLowerCase();"
+                    + "var editable=!!(el.isContentEditable||tag==='textarea'||(tag==='input'&&!/^(button|checkbox|color|file|hidden|image|radio|range|reset|submit)$/i.test(type)));"
+                    + "return {editable:editable,readOnly:!!el.readOnly,disabled:!!el.disabled};"
+                    + "}catch(e){return {editable:null,error:String(e)};}})();",
+            new ValueCallback<String>() {
+              @Override
+              public void onReceiveValue(String value) {
+                Map<String, Object> state = parseEditableState(value);
+                boolean editable = toBoolean(state.get("editable"));
+                boolean readOnly = toBoolean(state.get("readOnly"));
+                boolean disabled = toBoolean(state.get("disabled"));
+                boolean shouldRecover = editable && !readOnly && !disabled;
+                if (shouldRecover) {
+                  recoverInputConnectionAfterScreenUnlock("method:screenUnlock:editable");
+                }
+                result.success(shouldRecover);
+              }
+            });
+  }
+
   public void diagnoseInputConnection(final MethodChannel.Result result) {
     final Map<String, Object> nativeState = new HashMap<>();
     nativeState.put("sdkInt", Build.VERSION.SDK_INT);
