@@ -2,6 +2,7 @@ package com.microsvc.flutter_inappwebview;
 
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
@@ -38,6 +39,7 @@ import io.flutter.plugin.common.MethodChannel;
 
 public class InAppWebViewMethodHandler implements MethodChannel.MethodCallHandler {
   static final String LOG_TAG = "IAWMethodHandler";
+  private static final String INPUT_DEBUG_TAG = "IAW_INPUT_DEBUG";
 
   public InAppWebViewInterface webView;
 
@@ -470,6 +472,7 @@ public class InAppWebViewMethodHandler implements MethodChannel.MethodCallHandle
         result.success(true);
         break;
       case "hideInputConnectionBeforeScreenLock":
+        Log.d(INPUT_DEBUG_TAG, "stage=method:hideInputConnectionBeforeScreenLock webView=" + (webView != null ? webView.getClass().getName() : "null"));
         if (webView instanceof InAppWebView) {
           result.success(((InAppWebView) webView).hideInputConnectionBeforeScreenLock());
         } else {
@@ -477,6 +480,7 @@ public class InAppWebViewMethodHandler implements MethodChannel.MethodCallHandle
         }
         break;
       case "recoverInputConnectionAfterScreenUnlock":
+        Log.d(INPUT_DEBUG_TAG, "stage=method:recoverInputConnectionAfterScreenUnlock webView=" + (webView != null ? webView.getClass().getName() : "null"));
         if (webView instanceof InAppWebView) {
           ((InAppWebView) webView).recoverInputConnectionAfterScreenUnlock(result);
         } else {

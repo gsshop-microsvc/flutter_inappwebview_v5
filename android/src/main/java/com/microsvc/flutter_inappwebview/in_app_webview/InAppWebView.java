@@ -105,6 +105,7 @@ import static com.microsvc.flutter_inappwebview.types.PreferredContentModeOption
 final public class InAppWebView extends InputAwareWebView implements InAppWebViewInterface {
 
   static final String LOG_TAG = "InAppWebView";
+  private static final String INPUT_DEBUG_TAG = "IAW_INPUT_DEBUG";
 
   @Nullable
   public InAppWebViewFlutterPlugin plugin;
@@ -1722,6 +1723,13 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   @Override
   protected void onWindowVisibilityChanged(int visibility) {
     super.onWindowVisibilityChanged(visibility);
+    Log.d(INPUT_DEBUG_TAG,
+            "stage=webView:onWindowVisibilityChanged visibility=" + visibility
+                    + ", attached=" + isAttachedToWindow()
+                    + ", windowFocus=" + hasWindowFocus()
+                    + ", focus=" + hasFocus()
+                    + ", shown=" + isShown()
+                    + ", hybrid=" + (options != null && options.useHybridComposition));
     if (visibility == View.VISIBLE && options != null && !options.useHybridComposition) {
       postInvalidateOnAnimation();
       requestLayout();
@@ -1734,6 +1742,13 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   @Override
   public void onWindowFocusChanged(boolean hasWindowFocus) {
     super.onWindowFocusChanged(hasWindowFocus);
+    Log.d(INPUT_DEBUG_TAG,
+            "stage=webView:onWindowFocusChanged hasWindowFocus=" + hasWindowFocus
+                    + ", last=" + lastWindowFocusState
+                    + ", attached=" + isAttachedToWindow()
+                    + ", focus=" + hasFocus()
+                    + ", shown=" + isShown()
+                    + ", hybrid=" + (options != null && options.useHybridComposition));
     if (hasWindowFocus == lastWindowFocusState) {
       return;
     }
@@ -1745,6 +1760,12 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   }
 
   private void maybeReconnectInputOnFocusRestore(final String reason) {
+    Log.d(INPUT_DEBUG_TAG,
+            "stage=webView:maybeReconnectInputOnFocusRestore reason=" + reason
+                    + ", jsEnabled=" + getSettings().getJavaScriptEnabled()
+                    + ", attached=" + isAttachedToWindow()
+                    + ", windowFocus=" + hasWindowFocus()
+                    + ", focus=" + hasFocus());
     if (!shouldReconnectInputConnectionWorkaround()) {
       return;
     }
@@ -1768,6 +1789,10 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
                 boolean editable = toBoolean(state.get("editable"));
                 boolean readOnly = toBoolean(state.get("readOnly"));
                 boolean disabled = toBoolean(state.get("disabled"));
+                Log.d(INPUT_DEBUG_TAG,
+                        "stage=webView:focusRestoreJs reason=" + reason
+                                + ", state=" + state
+                                + ", shouldReconnect=" + (editable && !readOnly && !disabled));
                 if (editable && !readOnly && !disabled) {
                   reconnectInputConnectionDelayed(reason + ":editable", true, getDefaultAutoReconnectInitialDelayMs());
                 }
@@ -1808,10 +1833,22 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   }
 
   public boolean hideInputConnectionBeforeScreenLock() {
+    Log.d(INPUT_DEBUG_TAG,
+            "stage=webView:hideBeforeScreenLock method"
+                    + ", attached=" + isAttachedToWindow()
+                    + ", windowFocus=" + hasWindowFocus()
+                    + ", focus=" + hasFocus()
+                    + ", shown=" + isShown());
     return super.hideInputConnectionBeforeScreenLock();
   }
 
   public void recoverInputConnectionAfterScreenUnlock(final MethodChannel.Result result) {
+    Log.d(INPUT_DEBUG_TAG,
+            "stage=webView:recoverAfterScreenUnlock method"
+                    + ", attached=" + isAttachedToWindow()
+                    + ", windowFocus=" + hasWindowFocus()
+                    + ", focus=" + hasFocus()
+                    + ", shown=" + isShown());
     if (!shouldReconnectInputConnectionWorkaround()) {
       result.success(false);
       return;
@@ -1842,6 +1879,9 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
                 boolean readOnly = toBoolean(state.get("readOnly"));
                 boolean disabled = toBoolean(state.get("disabled"));
                 boolean shouldRecover = editable && !readOnly && !disabled;
+                Log.d(INPUT_DEBUG_TAG,
+                        "stage=webView:recoverAfterScreenUnlockJs state=" + state
+                                + ", shouldRecover=" + shouldRecover);
                 if (shouldRecover) {
                   recoverInputConnectionAfterScreenUnlock("method:screenUnlock:editable");
                 }
