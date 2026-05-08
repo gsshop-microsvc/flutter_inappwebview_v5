@@ -1847,7 +1847,7 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
                 boolean readOnly = toBoolean(state.get("readOnly"));
                 boolean disabled = toBoolean(state.get("disabled"));
                 if (editable && !readOnly && !disabled) {
-                  super.recoverInputConnectionAfterScreenUnlock(reason + ":editable");
+                  InAppWebView.this.recoverInputConnectionAfterScreenUnlock(reason + ":editable");
                 }
               }
             });
@@ -1888,7 +1888,7 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
                 boolean disabled = toBoolean(state.get("disabled"));
                 boolean shouldRecover = editable && !readOnly && !disabled;
                 if (shouldRecover) {
-                  super.recoverInputConnectionAfterScreenUnlock("method:screenUnlock:editable");
+                  InAppWebView.this.recoverInputConnectionAfterScreenUnlock("method:screenUnlock:editable");
                 }
                 result.success(shouldRecover);
               }
