@@ -27,6 +27,8 @@ public class InputAwareWebView extends WebView {
   private static final long RECONNECT_INPUT_DELAY_MS = 120L;
   private static final long AUTO_RECONNECT_INITIAL_DELAY_MS = 80L;
   private static final int MAX_RECONNECT_INPUT_RETRIES = 2;
+  private static final long SHOW_SOFT_INPUT_RETRY_DELAY_MS = 80L;
+  private static final int MAX_SHOW_SOFT_INPUT_ATTEMPTS = 3;
   @Nullable
   public View containerView;
   private View threadedInputConnectionProxyView;
@@ -384,18 +386,28 @@ public class InputAwareWebView extends WebView {
       if (!showSoftInput || !hasWindowFocus() || !isShown()) {
         return;
       }
+      showSoftInputAttempt(imm, restartTarget, 1);
+    }
+
+    private void showSoftInputAttempt(final InputMethodManager imm, final View restartTarget, final int attempt) {
+      if (!isAttachedToWindow() || !hasWindowFocus() || !isShown()) {
+        return;
+      }
+      imm.viewClicked(restartTarget);
+      imm.restartInput(restartTarget);
       imm.showSoftInput(restartTarget, InputMethodManager.SHOW_IMPLICIT);
       if (restartTarget != InputAwareWebView.this) {
         imm.showSoftInput(InputAwareWebView.this, InputMethodManager.SHOW_IMPLICIT);
       }
+      if (attempt >= MAX_SHOW_SOFT_INPUT_ATTEMPTS) {
+        return;
+      }
       postDelayed(new Runnable() {
         @Override
         public void run() {
-          if (isAttachedToWindow() && hasWindowFocus() && isShown()) {
-            imm.showSoftInput(restartTarget, InputMethodManager.SHOW_IMPLICIT);
-          }
+          showSoftInputAttempt(imm, restartTarget, attempt + 1);
         }
-      }, 80L);
+      }, SHOW_SOFT_INPUT_RETRY_DELAY_MS);
     }
   }
 
