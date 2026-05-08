@@ -1807,6 +1807,10 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
     return false;
   }
 
+  public boolean hideInputConnectionBeforeScreenLock() {
+    return super.hideInputConnectionBeforeScreenLock();
+  }
+
   public void recoverInputConnectionAfterScreenUnlock(final MethodChannel.Result result) {
     if (!shouldReconnectInputConnectionWorkaround()) {
       result.success(false);

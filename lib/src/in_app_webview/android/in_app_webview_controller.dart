@@ -77,6 +77,17 @@ class AndroidInAppWebViewController {
     await _channel.invokeMethod('reconnectInputConnection', args);
   }
 
+  ///Hides Android WebView IME before screen lock on legacy Android versions.
+  ///
+  ///Use this from the app lifecycle `inactive`/`paused` path so Android 9/10
+  ///does not keep a stale visible IME across screen lock. It is a no-op on
+  ///Android 11+ and returns whether a hide request was accepted.
+  Future<bool> hideInputConnectionBeforeScreenLock() async {
+    Map<String, dynamic> args = <String, dynamic>{};
+    return await _channel.invokeMethod(
+        'hideInputConnectionBeforeScreenLock', args);
+  }
+
   ///Recovers Android WebView input connection after returning from screen
   ///lock on legacy Android versions.
   ///

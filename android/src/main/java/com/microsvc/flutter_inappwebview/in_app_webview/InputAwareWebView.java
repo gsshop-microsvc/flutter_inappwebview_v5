@@ -294,6 +294,21 @@ public class InputAwareWebView extends WebView {
     reconnectInputConnectionDelayed(reason, false, 24L);
   }
 
+  public boolean hideInputConnectionBeforeScreenLock() {
+    if (!shouldReconnectInputConnectionWorkaround()) {
+      return false;
+    }
+    if (!isAttachedToWindow()) {
+      return false;
+    }
+    InputMethodManager imm = getInputMethodManager();
+    if (imm == null) {
+      return false;
+    }
+    View targetView = getCurrentReconnectTargetView();
+    return imm.hideSoftInputFromWindow(targetView.getWindowToken(), 0);
+  }
+
   public void recoverInputConnectionAfterScreenUnlock(String reason) {
     if (!shouldReconnectInputConnectionWorkaround()) {
       return;
