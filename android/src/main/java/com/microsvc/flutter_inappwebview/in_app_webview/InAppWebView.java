@@ -1276,14 +1276,12 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
 
     if (shouldReconnectInputConnectionWorkaround()
             && !options.useHybridComposition
+            && !isCreateWindowWebView()
             && ev.getActionMasked() == MotionEvent.ACTION_DOWN
             && !firstInputWarmupTriggered
             && !hasCachedInputConnection()) {
       firstInputWarmupTriggered = true;
-      reconnectInputConnectionDelayed(
-              "webView:firstInputOneShotWarmup",
-              isCreateWindowWebView(),
-              80L);
+      reconnectInputConnectionDelayed("webView:firstInputOneShotWarmup", false, 80L);
     }
 
     ViewParent parent = getParent();
@@ -1334,14 +1332,6 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
     InputConnection connection = super.onCreateInputConnection(outAttrs);
     if (connection == null && !options.useHybridComposition && containerView != null) {
       if (shouldReconnectInputConnectionWorkaround() && isCreateWindowWebView()) {
-        long now = SystemClock.uptimeMillis();
-        if (now >= suppressAutoInputReconnectUntilMs) {
-          suppressAutoInputReconnectUntilMs = now + 700L;
-          reconnectInputConnectionDelayed(
-                  "webView:createWindowNullInputConnection",
-                  true,
-                  getDefaultAutoReconnectInitialDelayMs());
-        }
         return null;
       }
       // workaround to hide the Keyboard when the user click outside
@@ -1766,6 +1756,9 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
 
   private void maybeReconnectInputOnFocusRestore(final String reason) {
     if (!shouldReconnectInputConnectionWorkaround()) {
+      return;
+    }
+    if (isCreateWindowWebView()) {
       return;
     }
     if (SystemClock.uptimeMillis() < suppressAutoInputReconnectUntilMs) {
