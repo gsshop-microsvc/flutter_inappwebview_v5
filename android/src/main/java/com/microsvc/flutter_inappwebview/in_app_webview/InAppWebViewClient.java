@@ -816,11 +816,10 @@ public class InAppWebViewClient extends WebViewClient {
   @Override
   public boolean onRenderProcessGone(WebView view, RenderProcessGoneDetail detail) {
     final InAppWebView webView = (InAppWebView) view;
+    Boolean didCrash = detail.didCrash();
+    Integer rendererPriorityAtExit = detail.rendererPriorityAtExit();
 
     if (webView.options.useOnRenderProcessGone) {
-      Boolean didCrash = detail.didCrash();
-      Integer rendererPriorityAtExit = detail.rendererPriorityAtExit();
-
       Map<String, Object> obj = new HashMap<>();
       obj.put("didCrash", didCrash);
       obj.put("rendererPriorityAtExit", rendererPriorityAtExit);
@@ -830,7 +829,12 @@ public class InAppWebViewClient extends WebViewClient {
       return true;
     }
 
-    return super.onRenderProcessGone(view, detail);
+    try {
+      webView.dispose();
+      webView.destroy();
+    } catch (Exception ignored) {
+    }
+    return true;
   }
 
   @Override

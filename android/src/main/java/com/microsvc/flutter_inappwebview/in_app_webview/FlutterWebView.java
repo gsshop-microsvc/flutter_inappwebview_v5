@@ -170,9 +170,12 @@ public class FlutterWebView implements PlatformWebView {
 
         if (windowId != null) {
             Message resultMsg = InAppWebViewChromeClient.windowWebViewMessages.get(windowId);
-            if (resultMsg != null) {
+            if (resultMsg != null && resultMsg.obj instanceof WebView.WebViewTransport) {
                 ((WebView.WebViewTransport) resultMsg.obj).setWebView(webView);
                 resultMsg.sendToTarget();
+                InAppWebViewChromeClient.windowWebViewMessages.remove(windowId);
+            } else {
+                InAppWebViewChromeClient.windowWebViewMessages.remove(windowId);
             }
         } else {
             if (initialFile != null) {

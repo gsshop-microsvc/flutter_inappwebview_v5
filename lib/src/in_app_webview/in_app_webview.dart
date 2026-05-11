@@ -379,7 +379,6 @@ class InAppWebViewV2 extends StatefulWidget implements WebView {
 
 class _InAppWebViewV2State extends State<InAppWebViewV2> {
   late InAppWebViewControllerV2 _controller;
-  AndroidViewController? _androidViewController;
   late MethodChannel _channel;
 
   int _persistedId = DateTime.now().millisecondsSinceEpoch % 100000;
@@ -453,9 +452,6 @@ class _InAppWebViewV2State extends State<InAppWebViewV2> {
               },
               onCreatePlatformView: (PlatformViewCreationParams params) {
                 return _initSurfaceAndroidViewController(params);
-                // return _androidViewController = state
-                //     ? _initExpensiveAndroidViewController(params)
-                //     : _initSurfaceAndroidViewController(params);
               },
             );
           });
@@ -483,36 +479,6 @@ class _InAppWebViewV2State extends State<InAppWebViewV2> {
     }
     return Text(
         '$defaultTargetPlatform is not yet supported by the flutter_inappwebview plugin');
-  }
-
-  AndroidViewController _initExpensiveAndroidViewController(
-    PlatformViewCreationParams params,
-  ) {
-    return PlatformViewsService.initExpensiveAndroidView(
-      id: params.id,
-      viewType: 'com.microsvc/flutter_inappwebview_v2',
-      layoutDirection: Directionality.maybeOf(context) ?? TextDirection.rtl,
-      creationParams: <String, dynamic>{
-        'initialUrlRequest': widget.initialUrlRequest?.toMap(),
-        'initialFile': widget.initialFile,
-        'initialData': widget.initialData?.toMap(),
-        'initialOptions': widget.initialOptions?.toMap() ?? {},
-        'contextMenu': widget.contextMenu?.toMap() ?? {},
-        'windowId': widget.windowId,
-        'persistedId': _persistedId,
-        'implementation': widget.implementation.toValue(),
-        'initialUserScripts':
-            widget.initialUserScripts?.map((e) => e.toMap()).toList() ?? [],
-        'pullToRefreshOptions':
-            widget.pullToRefreshController?.options.toMap() ??
-                PullToRefreshOptions(enabled: false).toMap()
-      },
-      creationParamsCodec: const StandardMessageCodec(),
-    )
-      ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
-      ..addOnPlatformViewCreatedListener(
-          (id) => _onPlatformViewCreated(_persistedId))
-      ..create();
   }
 
   AndroidViewController _initSurfaceAndroidViewController(
