@@ -1274,7 +1274,7 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   public boolean onTouchEvent(MotionEvent ev) {
     lastTouch = new Point((int) ev.getX(), (int) ev.getY());
 
-    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q
+    if (shouldReconnectInputConnectionWorkaround()
             && !options.useHybridComposition
             && ev.getActionMasked() == MotionEvent.ACTION_DOWN
             && !firstInputWarmupTriggered

@@ -69,7 +69,7 @@ public class InputAwareWebView extends WebView {
     if (containerView != null) {
       // On some Android 9/10 route transitions, Flutter reattaches with a different container view.
       // Recreate proxyAdapterView so it uses the latest window token/handler chain.
-      if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q
+      if (shouldReconnectInputConnectionWorkaround()
               && previousContainerView != null
               && previousContainerView != containerView
               && threadedInputConnectionProxyView != null
@@ -184,7 +184,7 @@ public class InputAwareWebView extends WebView {
     }
     // On Android 9/10 we occasionally receive FlutterView-related callbacks here.
     // Explicitly reject them so we don't replace WebView proxy target incorrectly.
-    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q
+    if (shouldReconnectInputConnectionWorkaround()
             && (className.contains("io.flutter")
             || className.contains("FlutterView")
             || className.contains("PlatformView"))) {
@@ -283,7 +283,8 @@ public class InputAwareWebView extends WebView {
   }
 
   protected boolean shouldReconnectInputConnectionWorkaround() {
-    return Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q;
+    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+            && Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q;
   }
 
   public void reconnectInputConnection() {

@@ -250,6 +250,9 @@ public class FlutterWebView implements PlatformWebView {
 
     @Override
     public void onInputConnectionLocked() {
+        if (!shouldUseAndroid9And10InputWorkaround()) {
+            return;
+        }
         Pair<InAppWebView, PullToRefreshLayout> pairsView =
                 WebViewManager.persistedWebViewMap.get(persistedId);
         if (pairsView == null) {
@@ -257,17 +260,16 @@ public class FlutterWebView implements PlatformWebView {
         }
         final InAppWebView webView = pairsView.first;
         if (webView != null && webView.inAppBrowserDelegate == null && !webView.options.useHybridComposition) {
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
-                // On Android 9/10, locking can keep a stale connection and block first typing.
-                // Keep unlock/reconnect paths only for these versions.
-                return;
-            }
-            webView.lockInputConnection();
+            // On Android 9/10, locking can keep a stale connection and block first typing.
+            // Keep unlock/reconnect paths only for these versions.
         }
     }
 
     @Override
     public void onInputConnectionUnlocked() {
+        if (!shouldUseAndroid9And10InputWorkaround()) {
+            return;
+        }
         Pair<InAppWebView, PullToRefreshLayout> pairsView =
                 WebViewManager.persistedWebViewMap.get(persistedId);
         if (pairsView == null) {
@@ -276,14 +278,15 @@ public class FlutterWebView implements PlatformWebView {
         final InAppWebView webView = pairsView.first;
         if (webView != null && webView.inAppBrowserDelegate == null && !webView.options.useHybridComposition) {
             webView.unlockInputConnection();
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
-                webView.reconnectInputConnectionAfterUnlock("platformView:inputUnlocked");
-            }
+            webView.reconnectInputConnectionAfterUnlock("platformView:inputUnlocked");
         }
     }
 
     @Override
     public void onFlutterViewAttached(@NonNull View flutterView) {
+        if (!shouldUseAndroid9And10InputWorkaround()) {
+            return;
+        }
         Pair<InAppWebView, PullToRefreshLayout> pairsView =
                 WebViewManager.persistedWebViewMap.get(persistedId);
         if (pairsView == null) {
@@ -292,14 +295,15 @@ public class FlutterWebView implements PlatformWebView {
         final InAppWebView webView = pairsView.first;
         if (webView != null && !webView.options.useHybridComposition) {
             webView.setContainerView(flutterView);
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
-                webView.reconnectInputConnectionAfterUnlock("platformView:flutterViewAttached");
-            }
+            webView.reconnectInputConnectionAfterUnlock("platformView:flutterViewAttached");
         }
     }
 
     @Override
     public void onFlutterViewDetached() {
+        if (!shouldUseAndroid9And10InputWorkaround()) {
+            return;
+        }
         Pair<InAppWebView, PullToRefreshLayout> pairsView =
                 WebViewManager.persistedWebViewMap.get(persistedId);
         if (pairsView == null) {
@@ -309,5 +313,10 @@ public class FlutterWebView implements PlatformWebView {
         if (webView != null && !webView.options.useHybridComposition) {
             webView.setContainerView(null);
         }
+    }
+
+    private boolean shouldUseAndroid9And10InputWorkaround() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+                && Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q;
     }
 }

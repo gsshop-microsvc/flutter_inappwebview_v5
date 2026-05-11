@@ -310,7 +310,8 @@ public class InAppWebViewMethodHandler implements MethodChannel.MethodCallHandle
       case "resume":
         if (webView != null) {
           webView.onResume();
-          if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+                  && Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q
                   && webView instanceof InAppWebView
                   && ((InAppWebView) webView).hasCachedInputConnection()) {
             ((InAppWebView) webView).reconnectInputConnectionAfterUnlock("method:resume");
@@ -484,7 +485,9 @@ public class InAppWebViewMethodHandler implements MethodChannel.MethodCallHandle
         }
         break;
       case "diagnoseInputConnection":
-        if (webView instanceof InAppWebView) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+                && Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q
+                && webView instanceof InAppWebView) {
           ((InAppWebView) webView).diagnoseInputConnection(result);
         } else {
           result.success(null);
