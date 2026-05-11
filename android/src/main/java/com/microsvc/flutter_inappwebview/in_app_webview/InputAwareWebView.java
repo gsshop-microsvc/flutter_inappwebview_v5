@@ -310,6 +310,20 @@ public class InputAwareWebView extends WebView {
     return imm.hideSoftInputFromWindow(targetView.getWindowToken(), 0);
   }
 
+  public void refreshInputConnectionTarget() {
+    if (!shouldReconnectInputConnectionWorkaround()) {
+      return;
+    }
+    if (!isAttachedToWindow()) {
+      return;
+    }
+    if (containerView == null) {
+      return;
+    }
+    View targetView = getCurrentReconnectTargetView();
+    setInputConnectionTarget(targetView);
+  }
+
   public void recoverInputConnectionAfterScreenUnlock(String reason) {
     if (!shouldReconnectInputConnectionWorkaround()) {
       return;

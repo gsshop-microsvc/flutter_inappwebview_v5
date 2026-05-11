@@ -1276,6 +1276,10 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   public boolean onTouchEvent(MotionEvent ev) {
     lastTouch = new Point((int) ev.getX(), (int) ev.getY());
 
+    if (ev.getActionMasked() == MotionEvent.ACTION_DOWN) {
+      refreshInputTargetBeforeEditableTouch();
+    }
+
     ViewParent parent = getParent();
     if (parent instanceof PullToRefreshLayout) {
       PullToRefreshLayout pullToRefreshLayout = (PullToRefreshLayout) parent;
@@ -1839,6 +1843,20 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
                 });
       }
     }, EDITABLE_TOUCH_RECONNECT_DELAY_MS);
+  }
+
+  private void refreshInputTargetBeforeEditableTouch() {
+    if (!shouldReconnectInputConnectionWorkaround() || options == null || options.useHybridComposition) {
+      return;
+    }
+    if (!isAttachedToWindow()) {
+      return;
+    }
+    if (plugin != null && plugin.flutterView != null && plugin.flutterView != containerView) {
+      setContainerView(plugin.flutterView);
+    } else {
+      refreshInputConnectionTarget();
+    }
   }
 
   private Map<String, Object> parseEditableState(String jsValue) {
