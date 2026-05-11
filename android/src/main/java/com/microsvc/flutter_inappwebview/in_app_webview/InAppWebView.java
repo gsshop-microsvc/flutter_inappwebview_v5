@@ -106,6 +106,8 @@ import static com.microsvc.flutter_inappwebview.types.PreferredContentModeOption
 final public class InAppWebView extends InputAwareWebView implements InAppWebViewInterface {
 
   static final String LOG_TAG = "InAppWebView";
+  private static final long EDITABLE_TOUCH_RECONNECT_DELAY_MS = 160L;
+  private static final long EDITABLE_TOUCH_RECONNECT_THROTTLE_MS = 700L;
 
   @Nullable
   public InAppWebViewFlutterPlugin plugin;
@@ -149,6 +151,7 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   public Map<String, WebMessageChannel> webMessageChannels = new HashMap<>();
   public List<WebMessageListener> webMessageListeners = new ArrayList<>();
   private boolean lastWindowFocusState = false;
+  private long lastEditableTouchReconnectMs = 0L;
   private long suppressAutoInputReconnectUntilMs = 0L;
 
   public InAppWebView(Context context) {
@@ -1281,6 +1284,10 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
       }
     }
 
+    if (ev.getActionMasked() == MotionEvent.ACTION_UP) {
+      maybeReconnectInputAfterEditableTouch();
+    }
+
     return super.onTouchEvent(ev);
   }
 
@@ -1771,6 +1778,67 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
                 }
               }
             });
+  }
+
+  private void maybeReconnectInputAfterEditableTouch() {
+    if (!shouldReconnectInputConnectionWorkaround() || options == null || options.useHybridComposition) {
+      return;
+    }
+    if (!isAttachedToWindow()) {
+      return;
+    }
+    if (!getSettings().getJavaScriptEnabled() || Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+      return;
+    }
+
+    postDelayed(new Runnable() {
+      @Override
+      public void run() {
+        if (!isAttachedToWindow()) {
+          return;
+        }
+        evaluateJavascript(
+                "(function(){try{"
+                        + "var el=document.activeElement;"
+                        + "if(!el){return {editable:false,tag:null,type:null,readOnly:null,disabled:null,docHasFocus:document.hasFocus()};}"
+                        + "var tag=(el.tagName||'').toLowerCase();"
+                        + "var type=(el.type||'').toLowerCase();"
+                        + "var editable=!!(el.isContentEditable||tag==='textarea'||(tag==='input'&&!/^(button|checkbox|color|file|hidden|image|radio|range|reset|submit)$/i.test(type)));"
+                        + "return {editable:editable,tag:tag,type:type,readOnly:!!el.readOnly,disabled:!!el.disabled,docHasFocus:document.hasFocus()};"
+                        + "}catch(e){return {editable:null,error:String(e)};}})();",
+                new ValueCallback<String>() {
+                  @Override
+                  public void onReceiveValue(String value) {
+                    Map<String, Object> state = parseEditableState(value);
+                    boolean editable = toBoolean(state.get("editable"));
+                    boolean readOnly = toBoolean(state.get("readOnly"));
+                    boolean disabled = toBoolean(state.get("disabled"));
+                    if (!editable || readOnly || disabled) {
+                      return;
+                    }
+
+                    InputMethodManager imm =
+                            (InputMethodManager) getContext().getSystemService(INPUT_METHOD_SERVICE);
+                    boolean acceptingText = imm != null && imm.isAcceptingText();
+                    boolean activeForWebView = imm != null && imm.isActive(InAppWebView.this);
+                    boolean activeForContainer = imm != null && containerView != null && imm.isActive(containerView);
+                    if (acceptingText && (activeForWebView || activeForContainer)) {
+                      return;
+                    }
+
+                    long now = SystemClock.uptimeMillis();
+                    if (now - lastEditableTouchReconnectMs < EDITABLE_TOUCH_RECONNECT_THROTTLE_MS) {
+                      return;
+                    }
+                    lastEditableTouchReconnectMs = now;
+                    reconnectInputConnectionDelayed(
+                            "webView:editableTouchStaleInput",
+                            true,
+                            0L);
+                  }
+                });
+      }
+    }, EDITABLE_TOUCH_RECONNECT_DELAY_MS);
   }
 
   private Map<String, Object> parseEditableState(String jsValue) {
