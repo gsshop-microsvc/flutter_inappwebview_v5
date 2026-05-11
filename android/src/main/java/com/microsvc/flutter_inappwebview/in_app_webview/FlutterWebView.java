@@ -137,8 +137,10 @@ public class FlutterWebView implements PlatformWebView {
     public View getView() {
         Pair<InAppWebView, PullToRefreshLayout> pairsView
                 = WebViewManager.persistedWebViewMap.get(persistedId);
-        
-        System.out.println("[keykat] get View persistedId: " + persistedId);
+
+        if (pairsView == null) {
+            return null;
+        }
 
         InAppWebView webView = pairsView.first;
         PullToRefreshLayout pullToRefreshLayout = pairsView.second;
@@ -150,9 +152,13 @@ public class FlutterWebView implements PlatformWebView {
         Pair<InAppWebView, PullToRefreshLayout> pairsView
                 = WebViewManager.persistedWebViewMap.get(persistedId);
 
+        if (pairsView == null) {
+            return;
+        }
+
         InAppWebView webView = pairsView.first;
 
-        if (WebViewManager.persistedWebViewInitialLoadedMap.get(persistedId)) {
+        if (Boolean.TRUE.equals(WebViewManager.persistedWebViewInitialLoadedMap.get(persistedId))) {
             return;
         }
 
@@ -194,17 +200,27 @@ public class FlutterWebView implements PlatformWebView {
         Pair<InAppWebView, PullToRefreshLayout> pairsView
                 = WebViewManager.persistedWebViewMap.get(persistedId);
 
-        final InAppWebView webView = pairsView.first;
-        final PullToRefreshLayout pullToRefreshLayout = pairsView.second;
         MethodChannel channel = WebViewManager.persistedMethodChannel.get(persistedId);
         MethodChannel subChannel = WebViewManager.persistedSubMethodChannel.get(persistedId);
 
-        channel.setMethodCallHandler(null);
-        subChannel.setMethodCallHandler(null);
+        if (channel != null) {
+            channel.setMethodCallHandler(null);
+        }
+        if (subChannel != null) {
+            subChannel.setMethodCallHandler(null);
+        }
         if (methodCallDelegate != null) {
             methodCallDelegate.dispose();
             methodCallDelegate = null;
         }
+        if (pairsView == null) {
+            cleanupPersistedState(persistedId);
+            this.persistedId = null;
+            return;
+        }
+
+        final InAppWebView webView = pairsView.first;
+        final PullToRefreshLayout pullToRefreshLayout = pairsView.second;
         if (webView != null) {
             webView.removeJavascriptInterface(JavaScriptBridgeJS.JAVASCRIPT_BRIDGE_NAME);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && WebViewFeature.isFeatureSupported(WebViewFeature.WEB_VIEW_RENDERER_CLIENT_BASIC_USAGE)) {
@@ -235,12 +251,16 @@ public class FlutterWebView implements PlatformWebView {
             webView.loadUrl("about:blank");
         }
 
+        cleanupPersistedState(persistedId);
+
+        this.persistedId = null;
+    }
+
+    private void cleanupPersistedState(Integer persistedId) {
         WebViewManager.persistedWebViewMap.put(persistedId, null);
         WebViewManager.persistedWebViewInitialLoadedMap.put(persistedId, false);
         WebViewManager.persistedMethodChannel.put(persistedId, null);
         WebViewManager.persistedSubMethodChannel.put(persistedId, null);
-        
-        persistedId = null;
     }
 
     @Override
