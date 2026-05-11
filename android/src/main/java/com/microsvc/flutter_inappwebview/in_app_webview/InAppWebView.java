@@ -148,7 +148,6 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
 
   public Map<String, WebMessageChannel> webMessageChannels = new HashMap<>();
   public List<WebMessageListener> webMessageListeners = new ArrayList<>();
-  private boolean firstInputWarmupTriggered = false;
   private boolean lastWindowFocusState = false;
   private long suppressAutoInputReconnectUntilMs = 0L;
 
@@ -1274,16 +1273,6 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   public boolean onTouchEvent(MotionEvent ev) {
     lastTouch = new Point((int) ev.getX(), (int) ev.getY());
 
-    if (shouldReconnectInputConnectionWorkaround()
-            && !options.useHybridComposition
-            && !isCreateWindowWebView()
-            && ev.getActionMasked() == MotionEvent.ACTION_DOWN
-            && !firstInputWarmupTriggered
-            && !hasCachedInputConnection()) {
-      firstInputWarmupTriggered = true;
-      reconnectInputConnectionDelayed("webView:firstInputOneShotWarmup", false, 80L);
-    }
-
     ViewParent parent = getParent();
     if (parent instanceof PullToRefreshLayout) {
       PullToRefreshLayout pullToRefreshLayout = (PullToRefreshLayout) parent;
@@ -1331,7 +1320,7 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
     InputConnection connection = super.onCreateInputConnection(outAttrs);
     if (connection == null && !options.useHybridComposition && containerView != null) {
-      if (shouldReconnectInputConnectionWorkaround() && isCreateWindowWebView()) {
+      if (shouldReconnectInputConnectionWorkaround()) {
         return null;
       }
       // workaround to hide the Keyboard when the user click outside
@@ -1353,10 +1342,6 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
                       128);
     }
     return connection;
-  }
-
-  private boolean isCreateWindowWebView() {
-    return windowId != null && windowId != -1;
   }
 
   @Override
@@ -1756,9 +1741,6 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
 
   private void maybeReconnectInputOnFocusRestore(final String reason) {
     if (!shouldReconnectInputConnectionWorkaround()) {
-      return;
-    }
-    if (isCreateWindowWebView()) {
       return;
     }
     if (SystemClock.uptimeMillis() < suppressAutoInputReconnectUntilMs) {
