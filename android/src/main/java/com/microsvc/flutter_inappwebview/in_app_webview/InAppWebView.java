@@ -149,6 +149,7 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   public Map<String, WebMessageChannel> webMessageChannels = new HashMap<>();
   public List<WebMessageListener> webMessageListeners = new ArrayList<>();
   private boolean lastWindowFocusState = false;
+  private boolean firstInputConnectionRecoveryTriggered = false;
   private long suppressAutoInputReconnectUntilMs = 0L;
 
   public InAppWebView(Context context) {
@@ -1319,6 +1320,17 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   @Override
   public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
     InputConnection connection = super.onCreateInputConnection(outAttrs);
+    if (connection != null
+            && shouldReconnectInputConnectionWorkaround()
+            && !options.useHybridComposition
+            && !firstInputConnectionRecoveryTriggered
+            && !hasCachedInputConnection()) {
+      firstInputConnectionRecoveryTriggered = true;
+      reconnectInputConnectionDelayed(
+              "webView:firstRealInputConnection",
+              true,
+              getDefaultAutoReconnectInitialDelayMs());
+    }
     if (connection == null && !options.useHybridComposition && containerView != null) {
       if (shouldReconnectInputConnectionWorkaround()) {
         return null;
@@ -1733,6 +1745,9 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
       return;
     }
     lastWindowFocusState = hasWindowFocus;
+    if (!hasWindowFocus) {
+      firstInputConnectionRecoveryTriggered = false;
+    }
     if (!hasWindowFocus || !shouldReconnectInputConnectionWorkaround()) {
       return;
     }
