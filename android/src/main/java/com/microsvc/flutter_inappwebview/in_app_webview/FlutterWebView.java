@@ -260,8 +260,7 @@ public class FlutterWebView implements PlatformWebView {
         }
         final InAppWebView webView = pairsView.first;
         if (webView != null && webView.inAppBrowserDelegate == null && !webView.options.useHybridComposition) {
-            // On Android 9/10, locking can keep a stale connection and block first typing.
-            // Keep unlock/reconnect paths only for these versions.
+            webView.lockInputConnection();
         }
     }
 
