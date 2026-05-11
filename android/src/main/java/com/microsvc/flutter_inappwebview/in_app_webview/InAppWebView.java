@@ -1280,7 +1280,10 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
             && !firstInputWarmupTriggered
             && !hasCachedInputConnection()) {
       firstInputWarmupTriggered = true;
-      reconnectInputConnectionDelayed("webView:firstInputOneShotWarmup", false, 80L);
+      reconnectInputConnectionDelayed(
+              "webView:firstInputOneShotWarmup",
+              isCreateWindowWebView(),
+              80L);
     }
 
     ViewParent parent = getParent();
