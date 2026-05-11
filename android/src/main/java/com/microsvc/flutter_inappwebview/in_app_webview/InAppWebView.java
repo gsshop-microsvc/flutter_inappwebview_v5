@@ -1769,7 +1769,7 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
       return;
     }
     if (!getSettings().getJavaScriptEnabled() || Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-      recoverInputConnectionAfterScreenUnlockInternal(reason + ":no-js-check");
+      reconnectInputConnectionDelayed(reason + ":no-js-check", true, getDefaultAutoReconnectInitialDelayMs());
       return;
     }
     evaluateJavascript(
@@ -1789,7 +1789,7 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
                 boolean readOnly = toBoolean(state.get("readOnly"));
                 boolean disabled = toBoolean(state.get("disabled"));
                 if (editable && !readOnly && !disabled) {
-                  recoverInputConnectionAfterScreenUnlockInternal(reason + ":editable");
+                  reconnectInputConnectionDelayed(reason + ":editable", true, getDefaultAutoReconnectInitialDelayMs());
                 }
               }
             });
@@ -1829,43 +1829,6 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
 
   public boolean hideInputConnectionBeforeScreenLock() {
     return super.hideInputConnectionBeforeScreenLock();
-  }
-
-  private void recoverInputConnectionAfterScreenUnlockInternal(final String reason) {
-    suppressAutoInputReconnectUntilMs = SystemClock.uptimeMillis() + 700L;
-    if (!shouldReconnectInputConnectionWorkaround()) {
-      return;
-    }
-    if (!isAttachedToWindow()) {
-      return;
-    }
-    if (!getSettings().getJavaScriptEnabled() || Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-      super.recoverInputConnectionAfterScreenUnlock(reason + ":no-js-check");
-      return;
-    }
-    evaluateJavascript(
-            "(function(){try{"
-                    + "var el=document.activeElement;"
-                    + "if(!el){return {editable:false,readOnly:null,disabled:null,docHasFocus:document.hasFocus()};}"
-                    + "var tag=(el.tagName||'').toLowerCase();"
-                    + "var type=(el.type||'').toLowerCase();"
-                    + "var editable=!!(el.isContentEditable||tag==='textarea'||(tag==='input'&&!/^(button|checkbox|color|file|hidden|image|radio|range|reset|submit)$/i.test(type)));"
-                    + "var shouldFocus=editable&&!el.readOnly&&!el.disabled;"
-                    + "if(shouldFocus){try{el.blur();setTimeout(function(){try{el.focus();}catch(e){}},50);}catch(e){}}"
-                    + "return {editable:editable,readOnly:!!el.readOnly,disabled:!!el.disabled,docHasFocus:document.hasFocus(),focusReset:shouldFocus};"
-                    + "}catch(e){return {editable:null,error:String(e)};}})();",
-            new ValueCallback<String>() {
-              @Override
-              public void onReceiveValue(String value) {
-                Map<String, Object> state = parseEditableState(value);
-                boolean editable = toBoolean(state.get("editable"));
-                boolean readOnly = toBoolean(state.get("readOnly"));
-                boolean disabled = toBoolean(state.get("disabled"));
-                if (editable && !readOnly && !disabled) {
-                  InAppWebView.this.recoverInputConnectionAfterScreenUnlock(reason + ":editable");
-                }
-              }
-            });
   }
 
   public void recoverInputConnectionAfterScreenUnlock(final MethodChannel.Result result) {
