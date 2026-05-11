@@ -1330,6 +1330,17 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
   public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
     InputConnection connection = super.onCreateInputConnection(outAttrs);
     if (connection == null && !options.useHybridComposition && containerView != null) {
+      if (shouldReconnectInputConnectionWorkaround() && isCreateWindowWebView()) {
+        long now = SystemClock.uptimeMillis();
+        if (now >= suppressAutoInputReconnectUntilMs) {
+          suppressAutoInputReconnectUntilMs = now + 700L;
+          reconnectInputConnectionDelayed(
+                  "webView:createWindowNullInputConnection",
+                  true,
+                  getDefaultAutoReconnectInitialDelayMs());
+        }
+        return null;
+      }
       // workaround to hide the Keyboard when the user click outside
       // on something not focusable such as input or a textarea.
       containerView
@@ -1349,6 +1360,10 @@ final public class InAppWebView extends InputAwareWebView implements InAppWebVie
                       128);
     }
     return connection;
+  }
+
+  private boolean isCreateWindowWebView() {
+    return windowId != null && windowId != -1;
   }
 
   @Override
